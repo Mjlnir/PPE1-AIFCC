@@ -2,6 +2,10 @@
 	include("header.php");
 ?>
 
+
+    <link rel="stylesheet" type="text/css" href="./public/css/signIn.css">
+</head>
+<body>
 <!--Formulaire de connexion-->
 <form action="index.php?action=signInVerif" method="post" class="signIn">
     <div class="form-group">
@@ -45,40 +49,6 @@
     </div>
     <button type="submit" class="btn btn-primary">S'inscrire</button>
 </form>
-
-<!--Script JQuery-->
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('a').click(function() {
-            $('.signIn').hide();
-            $('.signUp').show();
-        });
-
-        $('.signUp').submit(function(e) {
-            var telRegex = /^(0[1-68])(?:[ _.-]?(\d{2})){4}$/
-            var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/i;
-            var pwdRegex = /^[a-z0-9_-]{6,18}$/;
-            e.preventDefault();
-
-            if (!emailRegex.test($('#email').val())) {
-                $('#email').removeClass('form-control').addClass('error');
-            } else {
-                $('#email').removeClass('error').addClass("form-control");
-            }
-            if (!telRegex.test($('#phoneNumber').val())) {
-                $('#phoneNumber').removeClass('form-control').addClass('error');
-            } else {
-                $('#phoneNumber').removeClass('error').addClass("form-control");
-            }
-            if (!pwdRegex.test($('.pwd').val())) {
-                $('.pwd').removeClass('form-control').addClass('error');
-            } else {
-                $('.pwd').removeClass('error').addClass("form-control");
-            }
-        });
-    });
-
-</script>
 
 <?php
 	include("footer.php");
