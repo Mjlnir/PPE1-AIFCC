@@ -49,6 +49,9 @@
     </div>
     <button type="submit" class="btn btn-primary">S'inscrire</button>
 </form>
+    
+<!--Script Jquery-->
+<script src="./public/js/signIn.js" type="text/javascript"></script>
 
 <?php
 	include("footer.php");

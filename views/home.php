@@ -1,6 +1,11 @@
 <?php
 	include("header.php");
 ?>
+
+    <link rel="stylesheet" type="text/css" href="./public/css/home.css">
+</head>
+<body>
+    
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   <ul class="navbar-nav">
     <li class="nav-item active">
@@ -17,6 +22,7 @@
     </li>
   </ul>
 </nav>
+    
 <?php
 	include("footer.php");
 ?>
