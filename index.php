@@ -6,32 +6,33 @@
     {
           switch ($_GET['action']) 
           {
-                  case "sigUpVerif" :
-                    /*if()
-                    {
-                        
-                    }*/
-                  break;
-                  case "signIn" :
-                        include("views/signIn.php");
-                  break;
-                  case "signInVerif":
-                    if(fctLogin($_POST['pseudo'], $_POST['pwd']))
+              case "sigUpVerif" :
+                /*if()
+                {
+
+                }*/
+              break;
+              case "signIn" :
+                    include("views/signIn.php");
+              break;
+              case "signInVerif":
+                  /*if(fctLogin($_POST['pseudo'], $_POST['pwd']))
                     {
                         $_SESSION['user'] = fctGetUser($_POST['pseudo']);
                         include("views/home.php");
                     }
                     else
                     {
-                          
-                    }
-                  break;
-                  case "Accueil" :
-                        include("vues/Accueil.php");
-                  break;
-                  case "sigUp" :
-                        include("vues/signUp.php");
-                  break;
+                        include("vues/signUp.php");  
+                    }*/
+                  include("views/navbar.php");
+              break;
+              case "sigUp" :
+                  include("views/signUp.php");
+              break;
+              case "logOut":
+                  include("views/signIn.php");
+              break;
           }
     }
     else

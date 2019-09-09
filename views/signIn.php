@@ -2,8 +2,8 @@
 	include("header.php");
 ?>
 
-
     <link rel="stylesheet" type="text/css" href="./public/css/signIn.css">
+    <script src="./public/js/signIn.js" type="text/javascript"></script>
 </head>
 <body>
 <!--Formulaire de connexion-->
@@ -50,9 +50,6 @@
     <button type="submit" class="btn btn-primary">S'inscrire</button>
 </form>
     
-<!--Script Jquery-->
-<script src="./public/js/signIn.js" type="text/javascript"></script>
-
 <?php
 	include("footer.php");
 ?>
