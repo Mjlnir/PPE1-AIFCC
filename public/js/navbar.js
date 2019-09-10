@@ -1,6 +1,12 @@
 $(document).ready(function () {
-    $('.navbar-nav a').on('click', function () {
-        $('.navbar-nav').find('li.active').removeClass('active');
-        $(this).parent('li').addClass('active');
-    });
+    var url = document.location.href;
+    var actionName = url.substring(url.lastIndexOf("=") + 1, url.length);
+    //$('li').each(function(){
+       if($('li').Attr('id') = actionName){
+            $('li').addClass('active');
+          } 
+        else{
+            $('li').removeClass('active');
+        }
+    //});
 });

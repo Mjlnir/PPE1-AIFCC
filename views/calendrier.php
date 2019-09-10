@@ -4,9 +4,10 @@
 
 </head>
 <body>
-    <div>
-        <p>Calendrier</p>
-    </div>
+    <?php
+	   include("navbar.php");
+    ?>
+    <p>Calendrier</p>
 <?php
 	include("footer.php");
 ?>

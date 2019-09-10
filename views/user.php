@@ -4,9 +4,10 @@
 
 </head>
 <body>
-    <div>
-        <p>Mon compte</p>
-    </div>
+    <?php
+	   include("navbar.php");
+    ?>
+    <p>Mon compte</p>
 <?php
 	include("footer.php");
 ?>

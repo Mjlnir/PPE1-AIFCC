@@ -25,13 +25,22 @@
                     {
                         include("vues/signUp.php");  
                     }*/
-                  include("views/navbar.php");
+                  include("views/home.php");
               break;
               case "sigUp" :
                   include("views/signUp.php");
               break;
               case "logOut":
                   include("views/signIn.php");
+              break;
+              case "home":
+                  include("views/home.php");
+              break;
+              case "calendrier":
+                  include("views/calendrier.php");
+              break;
+              case "user":
+                  include("views/user.php");
               break;
           }
     }

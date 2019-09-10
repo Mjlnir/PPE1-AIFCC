@@ -7,4 +7,5 @@
     <link rel="stylesheet" type="text/css" href="./public/bootstrap-4.3.1-dist/css/bootstrap.min.css">
     
     <script type="text/javascript" src="./public/js/jquery.js"></script>
+    <script type="text/javascript" src="./public/js/navbar.js"></script>
     <title>M2L</title>
