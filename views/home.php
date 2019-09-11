@@ -4,10 +4,10 @@
     <link rel="stylesheet" type="text/css" href="./public/css/home.css">
 </head>
 <body class="d-flex flex-column">
-    <div id="page-content">
-        <?php
+    <?php
         include("navbar.php");
-        ?>
+    ?>
+    <div id="page-content">
         <div class="center">
             <p>Bienvenue sur le site de la Maison des Ligues
             <br>Ici vous pourrez consulter le planning des réservations des salles informatisées ou non.

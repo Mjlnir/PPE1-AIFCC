@@ -4,10 +4,10 @@
 
 </head>
 <body class="d-flex flex-column">
-    <div id="page-content">
-        <?php
+    <?php
         include("navbar.php");
-        ?>
+    ?>
+    <div id="page-content">
         <p>Mon compte</p>
 <?php
 	include("footer.php");
