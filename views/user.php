@@ -3,11 +3,12 @@
 ?>
 
 </head>
-<body>
-    <?php
-	   include("navbar.php");
-    ?>
-    <p>Mon compte</p>
+<body class="d-flex flex-column">
+    <div id="page-content">
+        <?php
+        include("navbar.php");
+        ?>
+        <p>Mon compte</p>
 <?php
 	include("footer.php");
 ?>
