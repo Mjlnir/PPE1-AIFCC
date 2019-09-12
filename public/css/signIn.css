@@ -1,5 +1,5 @@
 form {
-    width: 500px;
+    width: 706px;
     border: 1px solid black;
     padding: 10px;
     border-radius: 20px;
@@ -32,4 +32,14 @@ form {
   border-color: red;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
+}
+
+.inline{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+img{
+    width: 300px;
+    height: 300px;
 }
