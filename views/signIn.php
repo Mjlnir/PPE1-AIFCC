@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label for="pwd">Mot de Passe</label>
-                <input type="password" class="form-control" name="pwd" class="pwd" placeholder="exemple: 1234">
+                <input type="password" class="form-control pwd" name="pwd"placeholder="exemple: 1234">
                 <small id="emailHelp" class="form-text text-muted">Nous ne donnerons jamais votre mot de passe à qui que ce soit.</small>
             </div>
         

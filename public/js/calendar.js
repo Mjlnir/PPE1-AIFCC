@@ -35,11 +35,39 @@ $(document).ready(function () {
             $('#myModal').show();
         });
     });
-    
-    $('.closeMdl').click(function(){
+
+    $('.closeMdl').click(function () {
         $('#myModal').hide();
     });
-    $('.saveMdl').click(function(){
+    $('.saveMdl').click(function () {
         $('#myModal').hide();
     });
+
+    $("#dtBox").DateTimePicker({
+        mode: "time", // date, time or datetime
+        timeSeparator: ":",
+        timeFormat: "HH:mm",
+        minuteInterval: 5,
+        roundOffMinutes: true,
+        showHeader: true,
+        titleContentTime: "Sélectionnez l'heure",
+        buttonsToDisplay: ["HeaderCloseButton", "SetButton", "ClearButton"],
+        setButtonContent: "Sélectionner",
+        clearButtonContent: "Annuler",
+        incrementButtonContent: "+",
+        decrementButtonContent: "-",
+        setValueInTextboxOnEveryClick: false,
+        readonlyInputs: false,
+        animationDuration: 400,
+        touchHoldInterval: 300, // in Milliseconds
+        captureTouchHold: false, // capture Touch Hold Event
+        mouseHoldInterval: 50, // in Milliseconds
+        captureMouseHold: false, // capture Mouse Hold Event
+        isPopup: true,
+        parentElement: "body",
+        isInline: false,
+        inputElement: null,
+        language: "fr"
+    });
+
 });

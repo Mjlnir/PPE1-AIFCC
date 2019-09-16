@@ -16,7 +16,7 @@
                     include("views/signIn.php");
               break;
               case "signInVerif":
-                  /*if(fctLogin($_POST['pseudo'], $_POST['pwd']))
+                  if(fctLogin($_POST['pseudo'], $_POST['pwd']))
                     {
                         $_SESSION['user'] = fctGetUser($_POST['pseudo']);
                         include("views/home.php");
@@ -24,10 +24,13 @@
                     else
                     {
                         include("vues/signUp.php");  
-                    }*/
+                    }
                   include("views/home.php");
               break;
-              case "sigUp" :
+              case "reserver":
+                  echo $_POST['startTime']." ".$_POST['endTime']." ".$_POST['typeSalle'];
+              break;
+              case "signUp" :
                   include("views/signUp.php");
               break;
               case "logOut":
