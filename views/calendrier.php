@@ -45,15 +45,23 @@
                             <input type="time" name="endTime" class="form-control" readonly>
                             <div id="dtBox"></div>
                             <label for="sel1">Type de salle:</label>
+                            <?php
+                                $arrSalleTypeNom = fctGetSalle_Type_Nom();
+                                foreach($arrExpression as $arrSalleTypeNom){
+                                    echo $arrExpression[]
+                                }
+                            ?>
                             <select class="form-control typeSalle" name="typeSalle">
                                 <option>Banalisé 18 places</option>
                                 <option>Informatique 18 places</option>
                                 <option>Informatique 30 places</option>
                             </select>
                             <select class="form-control b18" name="nomSalle">
-                                <option>Banalisé 18 places</option>
-                                <option>Informatique 18 places</option>
-                                <option>Informatique 30 places</option>
+                                <option>C1</option>
+                                <option>C1</option>
+                                <option>C3</option>
+                                <option>C4</option>
+                                <option>C5</option>
                             </select>
                             <input id="date" type="hidden" name="date" value="">
                         </div>
