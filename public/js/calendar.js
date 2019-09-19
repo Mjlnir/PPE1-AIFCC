@@ -29,10 +29,12 @@ $(document).ready(function () {
     calendar.render();
     $('.fc-day').not('.fc-other-month').click(function () {
         $('#myModal').show();
+        $('#date').attr("value",$(this).attr('data-date'));
     });
     $('.fc-today-button, .fc-prev-button, .fc-next-button, .fc-dayGridMonth-button, .fc-timeGridWeek-button, .fc-timeGridDay-button').click(function () {
         $('.fc-day').not('.fc-other-month').click(function () {
             $('#myModal').show();
+            $('#date').attr("value",$(this).attr('data-date'));
         });
     });
 

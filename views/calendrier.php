@@ -45,11 +45,17 @@
                             <input type="time" name="endTime" class="form-control" readonly>
                             <div id="dtBox"></div>
                             <label for="sel1">Type de salle:</label>
-                            <select class="form-control" name="typeSalle">
-                                <option>Bannalisé 18 places</option>
+                            <select class="form-control typeSalle" name="typeSalle">
+                                <option>Banalisé 18 places</option>
                                 <option>Informatique 18 places</option>
                                 <option>Informatique 30 places</option>
                             </select>
+                            <select class="form-control b18" name="nomSalle">
+                                <option>Banalisé 18 places</option>
+                                <option>Informatique 18 places</option>
+                                <option>Informatique 30 places</option>
+                            </select>
+                            <input id="date" type="hidden" name="date" value="">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger saveMdl" data-dismiss="modal">Réserver</button>

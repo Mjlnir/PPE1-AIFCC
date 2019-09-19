@@ -29,7 +29,9 @@
                   //include("views/home.php");
               break;
               case "reserver":
-                  echo $_POST['startTime']." ".$_POST['endTime']." ".$_POST['typeSalle'];
+                  $test = fctVerifReservation($_POST['startTime'],$_POST['endTime'],$_POST['typeSalle'],$_POST['date']);
+                  echo $test[0]."_".$test[1];
+                  //echo $_POST['startTime'],$_POST['endTime'],$_POST['typeSalle'],$_POST['date'];
               break;
               case "signUp" :
                   include("views/signUp.php");

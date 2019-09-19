@@ -1,7 +1,5 @@
 <?php
-/********************************************************
-*** FONCTIONS TECHNIQUES ********************************
-********************************************************/
+//FONCTIONS TECHNIQUES
 
 function DBLog(){
     try  
@@ -64,14 +62,7 @@ function fctEstAdmin($pseudo)
         
         while ($row = $query->fetch())
         {
-            if($row[0] == 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return $row[0] == 1;
         }
     }
     catch (PDOException $e)
@@ -103,31 +94,40 @@ function fctGetUser($pseudo)
     }
 }
 
-/********************************************************
-*** FONCTIONS METIER ************************************
-********************************************************/
-
-function onglet($action, $titre)
-{
-    if(!isset($_GET['action']))
-    {
-        $_GET['action'] = "accueil";
-    }
-    if($_GET['action'] == $action)
-    {
-        echo "<li class='current'><a href='index.php?action=".$action."'>".$titre."</a></li>";
-    }
-    else
-    {
-        echo "<li><a href='index.php?action=".$action."'>".$titre."</a></li>";
+//FONCTIONS METIER
+function fctRerserver($startTime, $endTime, $typeSalle, $date){
+    if(!isset($startTime) && !isset($endTime) && !isset($typeSalle) && !isset($date)){
+        $row[0] = 1;
+        return $row;
     }
 }
 
-function modifUser($nom, $prenom, $mail, $tel)
-{
-    if(!preg_match("/^[0-9]{10}$/", $tel))
+function fctVerifReservation($startTime, $endTime, $typeSalle, $date){
+    if($startTime == null || $endTime == null || $typeSalle == null){
+        return -999;
+    }
+    
+    $dtStartTime = Date($date." ".$startTime.":00");
+    $dtEndTime = Date($date." ".$endTime.":00");
+    
+    try
     {
-        return "Numéro téléphone non valide. \"ex: 0123456789\"";    
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "EXEC PRD_VERIF_RESERVATION :pseudo";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":pseudo", $_SESSION['pseudo']);
+        $query->execute();
+        
+        $row = $query->fetch();
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
     }
 }
 ?>
