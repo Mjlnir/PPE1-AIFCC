@@ -94,6 +94,27 @@ function fctGetUser($pseudo)
     }
 }
 
+function fctGetSalle_Type_Nom(){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "EXEC PRD_GET_Salle_Type_Nom";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->execute();
+        
+        $row = $query->fetch();
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+
 //FONCTIONS METIER
 function fctRerserver($startTime, $endTime, $typeSalle, $date){
     if(!isset($startTime) && !isset($endTime) && !isset($typeSalle) && !isset($date)){
