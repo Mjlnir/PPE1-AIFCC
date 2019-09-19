@@ -23,9 +23,10 @@
                     }
                     else
                     {
-                        include("vues/signUp.php");  
+                        header("Location: index.php?action=signIn");
+                        //include("vues/signIn.php");  
                     }
-                  include("views/home.php");
+                  //include("views/home.php");
               break;
               case "reserver":
                   echo $_POST['startTime']." ".$_POST['endTime']." ".$_POST['typeSalle'];
