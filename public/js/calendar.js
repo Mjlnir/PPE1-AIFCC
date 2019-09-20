@@ -71,5 +71,4 @@ $(document).ready(function () {
         inputElement: null,
         language: "fr"
     });
-
 });

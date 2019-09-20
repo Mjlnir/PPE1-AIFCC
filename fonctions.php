@@ -94,19 +94,19 @@ function fctGetUser($pseudo)
     }
 }
 
-function fctGetSalle_Type_Nom(){
+function fctGetType_Salle(){
     try
     {
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "EXEC PRD_GET_Salle_Type_Nom";
+        $sql = "EXEC PRD_GET_TYPE_NOM_SALLE";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
         $query->execute();
         
-        $row = $query->fetch();
+        $row = $query->fetchAll();
         return $row;
     }
     catch (PDOException $e)

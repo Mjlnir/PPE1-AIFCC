@@ -40,29 +40,24 @@
                     <form action="index.php?action=reserver" method="post">
                         <div class="form-group">
                             <label for="startTime">Heure de début :</label>
-                            <input type="time" name="startTime" class="form-control" readonly>
+                            <input type="time" id="startTime" name="startTime" class="form-control" readonly>
                             <label for="endTime">Heure de fin :</label>
-                            <input type="time" name="endTime" class="form-control" readonly>
+                            <input type="time" id="endTime" name="endTime" class="form-control" readonly>
                             <div id="dtBox"></div>
-                            <label for="sel1">Type de salle:</label>
-                            <?php
-                                $arrSalleTypeNom = fctGetSalle_Type_Nom();
-                                foreach($arrExpression as $arrSalleTypeNom){
-                                    echo $arrExpression[]
-                                }
-                            ?>
+                            <label>Type de salle:</label>
                             <select class="form-control typeSalle" name="typeSalle">
-                                <option>Banalisé 18 places</option>
-                                <option>Informatique 18 places</option>
-                                <option>Informatique 30 places</option>
-                            </select>
-                            <select class="form-control b18" name="nomSalle">
-                                <option>C1</option>
-                                <option>C1</option>
-                                <option>C3</option>
-                                <option>C4</option>
-                                <option>C5</option>
-                            </select>
+                                <?php
+                                    $arrSalleTypeNom = fctGetType_Salle();
+                                    print_r($arrSalleTypeNom);
+                                    foreach($arrSalleTypeNom as $arrExpression){
+                                        if($temp != $arrExpression['nomTypeSalle']){
+                                            $temp = $arrExpression['nomTypeSalle'];
+                                            echo "<option>".$arrExpression['nomTypeSalle']."</option>";
+                                        }
+                                    }
+                                    echo "</select>";
+                                ?>
+                                <label>Nom de la salle:</label>
                             <input id="date" type="hidden" name="date" value="">
                         </div>
                         <div class="modal-footer">
