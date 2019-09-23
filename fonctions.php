@@ -100,7 +100,7 @@ function fctGetType_Salle(){
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "EXEC PRD_GET_TYPE_NOM_SALLE";
+        $sql = "EXEC PRD_GET_NOM_SALLE";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -116,6 +116,37 @@ function fctGetType_Salle(){
 }
 
 //FONCTIONS METIER
+function fctGetReservation(){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "EXEC PRD_GET_RESERVATION";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->execute();
+        
+        $row = $query->fetchAll();
+        $iCpt = 0;
+        foreach($result as $row)
+        {
+         $data[] = array(
+          'id'   => $iCpt,
+          'title'   => $row["title"],
+          'start'   => $row["start"],
+          'end'   => $row["end"]
+         );
+            $iCpt++;
+        }
+        return json_encode($data);
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
 function fctRerserver($startTime, $endTime, $typeSalle, $date){
     if(!isset($startTime) && !isset($endTime) && !isset($typeSalle) && !isset($date)){
         $row[0] = 1;

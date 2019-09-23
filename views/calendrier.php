@@ -11,6 +11,7 @@
 <script src='./public/fullCalendar/packages/core/locales/fr.js'></script>
 <script src='./public/fullCalendar/packages/daygrid/main.js'></script>
 <script src='./public/fullCalendar/packages/timegrid/main.js'></script>
+<script src='./public/js/moment.min.js'></script>
 <script src='./public/js/calendar.js'></script>
 
 <script src='./public/dateTimePicker/src/DateTimePicker.js'></script>
@@ -48,16 +49,27 @@
                             <select class="form-control typeSalle" name="typeSalle">
                                 <?php
                                     $arrSalleTypeNom = fctGetType_Salle();
-                                    print_r($arrSalleTypeNom);
+                                    $temp = null;
                                     foreach($arrSalleTypeNom as $arrExpression){
                                         if($temp != $arrExpression['nomTypeSalle']){
                                             $temp = $arrExpression['nomTypeSalle'];
-                                            echo "<option>".$arrExpression['nomTypeSalle']."</option>";
+                                            echo "<option value=\"".substr($arrExpression['nomSalle'],0,2)."\">".$arrExpression['nomTypeSalle']."</option>";
                                         }
                                     }
                                     echo "</select>";
+                                    echo "<label>Nom de la salle:</label>";
+                                    $temp = null;
+                                    foreach($arrSalleTypeNom as $arrExpression){
+                                        if($temp != substr($arrExpression['nomSalle'],0,2)){
+                                            $temp = substr($arrExpression['nomSalle'],0,2);
+                                            echo "<select class=\"form-control nomSalle ".substr($arrExpression['nomSalle'],0,2)."\" name=\"nomSalle\">";
+                                        }
+                                        echo "<option>".$arrExpression['nomSalle']."</option>";
+                                        if(substr($arrExpression['nomSalle'],-1) == "5"){
+                                            echo "</select>";
+                                        }
+                                    }
                                 ?>
-                                <label>Nom de la salle:</label>
                             <input id="date" type="hidden" name="date" value="">
                         </div>
                         <div class="modal-footer">

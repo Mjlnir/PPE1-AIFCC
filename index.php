@@ -4,124 +4,60 @@
 
     if(isset($_GET['action'])) 
     {
-          switch ($_GET['action']) 
-          {
-              case "sigUpVerif" :
+        switch ($_GET['action'])
+        {
+            case "sigUpVerif" :
                 /*if()
                 {
 
                 }*/
-              break;
-              case "signIn" :
-                    include("views/signIn.php");
-              break;
-              case "signInVerif":
-                  if(fctLogin($_POST['pseudo'], $_POST['pwd']))
-                    {
-                        $_SESSION['user'] = fctGetUser($_POST['pseudo']);
-                        include("views/home.php");
-                    }
-                    else
-                    {
-                        header("Location: index.php?action=signIn");
-                        //include("vues/signIn.php");  
-                    }
-                  //include("views/home.php");
-              break;
+                break;
+            case "signIn" :
+                include("views/signIn.php");
+                break;
+            case "signInVerif":
+                if(fctLogin($_POST['pseudo'], $_POST['pwd']))
+                {
+                    $_SESSION['user'] = fctGetUser($_POST['pseudo']);
+                    include("views/home.php");
+                }
+                else
+                {
+                    header("Location: index.php?action=signIn");
+                }
+                break;
               case "reserver":
-                  $test = fctVerifReservation($_POST['startTime'],$_POST['endTime'],$_POST['typeSalle'],$_POST['date']);
-                  echo $test[0]."_".$test[1];
-                  //echo $_POST['startTime'],$_POST['endTime'],$_POST['typeSalle'],$_POST['date'];
-              break;
+                break;
               case "signUp" :
-                  include("views/signUp.php");
-              break;
+                include("views/signUp.php");
+                break;
               case "logOut":
-                  include("views/signIn.php");
-              break;
+                include("views/signIn.php");
+                break;
               case "home":
-                  include("views/home.php");
-              break;
+                include("views/home.php");
+                break;
               case "calendrier":
-                  include("views/calendrier.php");
-              break;
+                include("views/calendrier.php");
+                break;
               case "user":
-                  include("views/user.php");
-              break;
+                include("views/user.php");
+                break;
+              case "getReservation":
+                echo fctGetReservation();
+                break;    
           }
     }
     else
     {
         header('Location: index.php?action=signIn');
     }
-
-    /*if(!isset($_GET['action']))
+    if(isset($_POST['action']))
     {
-        $_GET['action'] = 'logout';
+        switch($_POST['action']){
+            case "getReservation":
+                echo fctGetReservation();
+                break;       
+        }
     }
-
-    switch($_GET['action'])
-    {
-        case 'login':
-            if(login($_POST['pseudo'], $_POST['mdp']))
-            {
-                if(estAdmin($_POST['pseudo']))
-                {
-                    $_SESSION['admin'] = true;
-                }
-                else
-                {
-                    $_SESSION['admin'] = false;
-                }
-                $_SESSION['pseudo'] = $_POST['pseudo'];
-                $_GET['action'] = 'compte';
-                include("views/logedIn.php");
-            }
-            else
-            {
-                $alert = true;
-                include("views/logedOut.php");
-            }
-        break;
-        case 'modifInfoUser':
-            if(!isset($_POST['nom']) || !isset($_POST['prenom']) || !isset($_POST['mail']) || !isset($_POST['telephone']))
-            {
-               $message = modifUser($_POST['nom'],$_POST['prenom'],$_POST['mail'],$_POST['telephone']);
-               if($message != 'OK')
-               {
-                $alert = true;
-               }
-               include("views/logedIn.php");
-            }
-            else
-            {
-                $alert = true;
-                $message = "Information incorrect.";
-                include("views/logedIn.php");
-            }
-            break;
-
-
-        case 'logout':
-            unset($_SESSION['pseudo']);
-            unset($_SESSION['admin']);
-            include("views/logedOut.php");
-        break;
-        case 'compte':
-            $_GET['action'] = 'compte';
-            include("views/logedIn.php");
-        break;
-        case 'calendrier':
-            $_GET['action'] = 'calendrier';
-            include("views/calendrier.php");
-        break;
-        case 'salles':
-            $_GET['action'] = 'salles';
-            include("views/salles.php");
-        break;
-        case 'reservation':
-            $_GET['action'] = 'reservation';
-            include("views/reservation.php");
-        break;
-    }*/
 ?>
