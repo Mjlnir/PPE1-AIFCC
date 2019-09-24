@@ -2,16 +2,15 @@
 	include("header.php");
 ?>
 <link rel="stylesheet" type="text/css" href="./public/css/calendrier.css">
-<link href='./public/fullCalendar/packages/core/main.css' rel='stylesheet' />
-<link href='./public/fullCalendar/packages/daygrid/main.css' rel='stylesheet' />
-<link href='./public/fullCalendar/packages/timegrid/main.css' rel='stylesheet' />
-<link href='./public/dateTimePicker/src/DateTimePicker.css' rel='stylesheet' />
+<link rel="stylesheet" type="text/css" rel="stylesheet" type="text/css" href='./public/fullCalendar/packages/core/main.css'/>
+<link rel="stylesheet" type="text/css" href='./public/fullCalendar/packages/daygrid/main.css'/>
+<link rel="stylesheet" type="text/css" href='./public/dateTimePicker/src/DateTimePicker.css'/>
 
-<script src='./public/fullCalendar/packages/core/main.js'></script>
+<script src='./public/fullCalendar/packages/core/main.min.js'></script>
 <script src='./public/fullCalendar/packages/core/locales/fr.js'></script>
-<script src='./public/fullCalendar/packages/daygrid/main.js'></script>
-<script src='./public/fullCalendar/packages/timegrid/main.js'></script>
-<script src='./public/js/moment.min.js'></script>
+<script src='./public/fullCalendar/packages/daygrid/main.min.js'></script>
+<script src='./public/fullCalendar/packages/moment/main.min.js'></script>
+<script src='./public/fullCalendar/packages/interaction/main.min.js'></script>
 <script src='./public/js/calendar.js'></script>
 
 <script src='./public/dateTimePicker/src/DateTimePicker.js'></script>
@@ -26,16 +25,15 @@
     <div id="page-content">
         <div id="calendar"></div>
     </div>
-    <div class="modal" id="myModal">
+    <!-- Modal Create Reservation -->
+    <div class="modal" id="createReservation">
         <div class="modal-dialog">
             <div class="modal-content">
-
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Réserver une salle</h4>
                     <button type="button" class="close closeMdl" data-dismiss="modal">&times;</button>
                 </div>
-
                 <!-- Modal body -->
                 <div class="modal-body">
                     <form action="index.php?action=reserver" method="post">
@@ -70,7 +68,7 @@
                                         }
                                     }
                                 ?>
-                            <input id="date" type="hidden" name="date" value="">
+                                <input id="date" type="hidden" name="date" value="">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger saveMdl" data-dismiss="modal">Réserver</button>
@@ -85,6 +83,25 @@
             </div>
         </div>
     </div>
-    <?php
-        include("footer.php");
-    ?>
+    <!-- Modal Read Reservation -->
+    <div class="modal" id="readReservation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Description de la réservation</h4>
+                    <button type="button" class="close closeMdl" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body" id="readReservationModalBody">
+                    <span id="startTimeRead">Heure de début : </span>
+                    <span id="endTimeRead">Heure de fin : </span>
+                    <span id="salleRead">Nom de la salle: </span>
+                    <span id="ligueRead">Nom de la ligue: </span>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+    include("footer.php");
+?>

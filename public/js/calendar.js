@@ -1,44 +1,55 @@
 $(document).ready(function () {
-    var mEvents;
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         locale: 'fr',
-        plugins: ['dayGrid'],
+        plugins: ['dayGrid', 'interaction', 'moment'],
         defaultView: 'dayGridMonth',
+        defaultDate: '2019-09-15',
         header: {
             left: 'title',
             right: 'prev,next today'
         },
-        eventSources: [
-               {
-                   url: '<?php echo fctGetReservation(); ?>',
-                   type: 'POST',
-                   id:id,
-                   title:title,
-                   start:new Date(start),
-                   end:new Date(end),// use the `url` property
-                }                    
-            ]
+        events: "index.php?action=getReservation",
+        eventRender: function (event, element, view) {
+            if (event.allDay === 'true') {
+                event.allDay = true;
+            } else {
+                event.allDay = false;
+            }
+        },
+        eventClick: function (info) {
+            $('#readReservation').show();
+            $('#startTimeRead').append();
+            $('#endTimeRead').append(info.event.end);
+            var titleSplit = info.event.title.split(" ");
+            $('#salleRead').append(titleSplit[0]);
+            $('#ligueRead').append(titleSplit[1]);
+        },
+        editable: true,
+        selectable: false,
+        droppable: false
     });
 
     calendar.render();
 
     $('.fc-day').not('.fc-other-month').click(function () {
-        $('#myModal').show();
+        $('#createReservation').show();
         $('#date').attr("value", $(this).attr('data-date'));
     });
     $('.fc-today-button, .fc-prev-button, .fc-next-button, .fc-dayGridMonth-button, .fc-timeGridWeek-button, .fc-timeGridDay-button').click(function () {
         $('.fc-day').not('.fc-other-month').click(function () {
-            $('#myModal').show();
+            $('#createReservation').show();
             $('#date').attr("value", $(this).attr('data-date'));
         });
     });
 
     $('.closeMdl').click(function () {
-        $('#myModal').hide();
+        $('#createReservation').hide();
+        $('#readReservation').hide();
     });
+
     $('.saveMdl').click(function () {
-        $('#myModal').hide();
+        $('#createReservation').hide();
     });
 
     $("#dtBox").DateTimePicker({

@@ -37,7 +37,9 @@ function fctLogin($login, $mdp)
         $query->execute();
         
         $row = $query->fetch();
-
+        
+        $query -> closeCursor();
+        
         return $row[0] == 1;
     }
     catch (PDOException $e)
@@ -86,6 +88,9 @@ function fctGetUser($pseudo)
         $query->execute();
         
         $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
         return $row;
     }
     catch (PDOException $e)
@@ -107,6 +112,9 @@ function fctGetType_Salle(){
         $query->execute();
         
         $row = $query->fetchAll();
+        
+        $query -> closeCursor();
+        
         return $row;
     }
     catch (PDOException $e)
@@ -130,16 +138,19 @@ function fctGetReservation(){
         
         $row = $query->fetchAll();
         $iCpt = 0;
-        foreach($result as $row)
+        foreach($row as $result)
         {
          $data[] = array(
-          'id'   => $iCpt,
-          'title'   => $row["title"],
-          'start'   => $row["start"],
-          'end'   => $row["end"]
+          'id'      => $iCpt,
+          'title'   => $result["title"],
+          'start'   => $result["start"],
+          'end'     => $result["end"]
          );
             $iCpt++;
         }
+        
+        $query -> closeCursor();
+        
         return json_encode($data);
     }
     catch (PDOException $e)
@@ -175,6 +186,9 @@ function fctVerifReservation($startTime, $endTime, $typeSalle, $date){
         $query->execute();
         
         $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
         return $row;
     }
     catch (PDOException $e)

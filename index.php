@@ -44,20 +44,13 @@
                 include("views/user.php");
                 break;
               case "getReservation":
-                echo fctGetReservation();
+                $json = fctGetReservation();
+                echo $json;
                 break;    
           }
     }
     else
     {
         header('Location: index.php?action=signIn');
-    }
-    if(isset($_POST['action']))
-    {
-        switch($_POST['action']){
-            case "getReservation":
-                echo fctGetReservation();
-                break;       
-        }
     }
 ?>
