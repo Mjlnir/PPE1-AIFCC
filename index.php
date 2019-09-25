@@ -44,8 +44,7 @@
                 include("views/user.php");
                 break;
               case "getReservation":
-                $json = fctGetReservation();
-                echo $json;
+                echo fctGetReservation();
                 break;    
           }
     }

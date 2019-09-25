@@ -4,7 +4,7 @@
 function DBLog(){
     try  
     {
-        $conn = new PDO("sqlsrv:Server=localhost,1433;Database=M2L", "M2L", "MPM2L");
+        $conn = new PDO("sqlsrv:Server=localhost,1433;Database=M2L", "M2L", "M2L");
         if($conn)
         {
             return $conn;
