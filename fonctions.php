@@ -84,10 +84,10 @@ function fctGetUser($pseudo)
         
         // call the stored procedure
         $query = $conn->prepare($sql);
-        $query->bindParam(":pseudo", $_SESSION['pseudo']);
+        $query->bindParam(":pseudo", $pseudo);
         $query->execute();
         
-        $row = $query->fetch();
+        $row = $query->fetch(PDO::FETCH_ASSOC);
         
         $query -> closeCursor();
         

@@ -18,6 +18,7 @@
             case "signInVerif":
                 if(fctLogin($_POST['pseudo'], $_POST['pwd']))
                 {
+                    unset($_SESSION['user']);
                     $_SESSION['user'] = fctGetUser($_POST['pseudo']);
                     include("views/home.php");
                 }
@@ -32,6 +33,7 @@
                 include("views/signUp.php");
                 break;
               case "logOut":
+                unset($_SESSION['user']);
                 include("views/signIn.php");
                 break;
               case "home":

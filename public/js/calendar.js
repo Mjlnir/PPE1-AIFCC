@@ -2,12 +2,26 @@ $(document).ready(function () {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         locale: 'fr',
-        plugins: ['dayGrid', 'interaction', 'moment'],
+        plugins: ['dayGrid', 'timeGrid', 'interaction', 'moment'],
         defaultView: 'dayGridMonth',
         defaultDate: '2019-09-15',
         header: {
             left: 'title',
-            right: 'prev,next today'
+            right: 'prev,next today dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+        },
+        navLinks: false, // can click day/week names to navigate views
+        selectable: true,
+        selectHelper: false,
+        editable: false,
+        droppable: false,
+        /*select: function (info) {
+            alert(start.dateStr);
+            //$('#createReservation').show();
+            //$('#date').attr("value", start);
+        },*/
+        dateClick: function (info) {
+            $('#createReservation').show();
+            $('#startTime').val(info.dateStr);
         },
         events: "index.php?action=getReservation",
         eventRender: function (event, element, view) {
@@ -19,32 +33,19 @@ $(document).ready(function () {
         },
         eventClick: function (info) {
             $('#readReservation').show();
-            $('#startTimeRead').append();
-            $('#endTimeRead').append(info.event.end);
+            $('#startTimeRead').html("Heure de début: " + moment(info.event.start).format("HH:mm"));
+            $('#endTimeRead').html("Heure de fin: " + moment(info.event.end).format("HH:mm"));
             var titleSplit = info.event.title.split(" ");
-            $('#salleRead').append(titleSplit[0]);
-            $('#ligueRead').append(titleSplit[1]);
-        },
-        editable: true,
-        selectable: false,
-        droppable: false
+            $('#salleRead').html("Nom de la salle: " + titleSplit[0]);
+            $('#ligueRead').html("Nom de la ligue: " + titleSplit[1]);
+        }
     });
 
     calendar.render();
 
-    $('.fc-day').not('.fc-other-month').click(function () {
-        $('#createReservation').show();
-        $('#date').attr("value", $(this).attr('data-date'));
-    });
-    $('.fc-today-button, .fc-prev-button, .fc-next-button, .fc-dayGridMonth-button, .fc-timeGridWeek-button, .fc-timeGridDay-button').click(function () {
-        $('.fc-day').not('.fc-other-month').click(function () {
-            $('#createReservation').show();
-            $('#date').attr("value", $(this).attr('data-date'));
-        });
-    });
-
     $('.closeMdl').click(function () {
         $('#createReservation').hide();
+        $('#createReservation').find('input').val('');
         $('#readReservation').hide();
     });
 
@@ -52,31 +53,14 @@ $(document).ready(function () {
         $('#createReservation').hide();
     });
 
-    $("#dtBox").DateTimePicker({
-        mode: "time", // date, time or datetime
-        timeSeparator: ":",
-        timeFormat: "HH:mm",
-        minuteInterval: 5,
-        roundOffMinutes: true,
-        showHeader: true,
-        titleContentTime: "Sélectionnez l'heure",
-        buttonsToDisplay: ["HeaderCloseButton", "SetButton", "ClearButton"],
-        setButtonContent: "Sélectionner",
-        clearButtonContent: "Annuler",
-        incrementButtonContent: "+",
-        decrementButtonContent: "-",
-        setValueInTextboxOnEveryClick: false,
-        readonlyInputs: false,
-        animationDuration: 400,
-        touchHoldInterval: 300, // in Milliseconds
-        captureTouchHold: false, // capture Touch Hold Event
-        mouseHoldInterval: 50, // in Milliseconds
-        captureMouseHold: false, // capture Mouse Hold Event
-        isPopup: true,
-        parentElement: "body",
-        isInline: false,
-        inputElement: null,
-        language: "fr"
+    $.datetimepicker.setLocale('fr');
+    $('#startTime').datetimepicker();
+    $('#endTime').datetimepicker({
+        datepicker: true,
+        allowTimes: [
+            '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
+            '15:00', '16:00', '17:00', '18:00'
+ ]
     });
 
     $('.I1').hide();

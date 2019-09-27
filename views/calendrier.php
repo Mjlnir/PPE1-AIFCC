@@ -2,20 +2,22 @@
 	include("header.php");
 ?>
 <link rel="stylesheet" type="text/css" href="./public/css/calendrier.css">
-<link rel="stylesheet" type="text/css" rel="stylesheet" type="text/css" href='./public/fullCalendar/packages/core/main.css'/>
-<link rel="stylesheet" type="text/css" href='./public/fullCalendar/packages/daygrid/main.css'/>
-<link rel="stylesheet" type="text/css" href='./public/dateTimePicker/src/DateTimePicker.css'/>
+<link rel="stylesheet" type="text/css" href='./public/fullCalendar/packages/core/main.css' />
+<link rel="stylesheet" type="text/css" href='./public/fullCalendar/packages/daygrid/main.css' />
+<link rel="stylesheet" type="text/css" href='./public/fullCalendar/packages/timegrid/main.css' />
+<link rel="stylesheet" type="text/css" href='./public/datetimepicker-master/build/jquery.datetimepicker.min.css' />
 
 <script src='./public/fullCalendar/packages/core/main.min.js'></script>
 <script src='./public/fullCalendar/packages/core/locales/fr.js'></script>
 <script src='./public/fullCalendar/packages/daygrid/main.min.js'></script>
-<script src='./public/fullCalendar/packages/moment/main.min.js'></script>
+<script src='./public/fullCalendar/packages/timegrid/main.min.js'></script>
 <script src='./public/fullCalendar/packages/interaction/main.min.js'></script>
+<script src='./public/js/moment-with-locales.min.js'></script>
 <script src='./public/js/calendar.js'></script>
 
-<script src='./public/dateTimePicker/src/DateTimePicker.js'></script>
-<script src='./public/dateTimePicker/src/i18n/DateTimePicker-i18n.js'></script>
-<script src='./public/dateTimePicker/src/i18n/DateTimePicker-i18n-fr.js'></script>
+<script src='./public/datetimepicker-master/build/jquery.datetimepicker.full.min.js'></script>
+<!--<script src='./public/dateTimePicker/src/i18n/DateTimePicker-i18n.js'></script>
+<script src='./public/dateTimePicker/src/i18n/DateTimePicker-i18n-fr.js'></script>-->
 </head>
 
 <body class="d-flex flex-column">
@@ -24,7 +26,9 @@
     ?>
     <div id="page-content">
         <div id="calendar"></div>
+        <!--<div id='dtBox'></div>-->
     </div>
+
     <!-- Modal Create Reservation -->
     <div class="modal" id="createReservation">
         <div class="modal-dialog">
@@ -38,11 +42,10 @@
                 <div class="modal-body">
                     <form action="index.php?action=reserver" method="post">
                         <div class="form-group">
-                            <label for="startTime">Heure de début :</label>
-                            <input type="time" id="startTime" name="startTime" class="form-control" readonly>
-                            <label for="endTime">Heure de fin :</label>
-                            <input type="time" id="endTime" name="endTime" class="form-control" readonly>
-                            <div id="dtBox"></div>
+                            <label for="startTime">Date et heure de début :</label>
+                            <input type="text" id="startTime" name="startTime" class="form-control">
+                            <label for="endTime">Date et heure de fin :</label>
+                            <input type="text" id="endTime" name="endTime" class="form-control">
                             <label>Type de salle:</label>
                             <select class="form-control typeSalle" name="typeSalle">
                                 <?php
@@ -83,6 +86,9 @@
             </div>
         </div>
     </div>
+
+
+
     <!-- Modal Read Reservation -->
     <div class="modal" id="readReservation">
         <div class="modal-dialog">
@@ -102,6 +108,6 @@
             </div>
         </div>
     </div>
-<?php
+    <?php
     include("footer.php");
 ?>
