@@ -1,6 +1,7 @@
-form {
-    width: 706px;
-    border: 1px solid black;
+.signIn {
+    /*display: inline-block;
+    border: 1px solid black;*/
+    width: 75%;
     padding: 10px;
     border-radius: 20px;
 
@@ -8,6 +9,23 @@ form {
     transform: translateY(-50%);
     margin-left: auto;
     margin-right: auto;
+}
+
+.signUp {
+    /*display: inline-block;
+    border: 1px solid black;*/
+    width: 75%;
+    padding: 10px;
+    border-radius: 20px;
+
+    margin-top: 50vh;
+    transform: translateY(-50%);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.control-label{
+    width: 200px;
 }
 
 .error {

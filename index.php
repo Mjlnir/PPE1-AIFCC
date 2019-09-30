@@ -6,17 +6,17 @@
     {
         switch ($_GET['action'])
         {
-            case "sigUpVerif" :
-                /*if()
+            case "signUpVerif" :
+                if(fctSignUp($_POST['prenom'], $_POST['nom'], $_POST['mail'], $_POST['tel'], $_POST['mdp'], $_POST['confmdp']))
                 {
-
-                }*/
+                    header("Location: index.php?action=signIn");
+                }
                 break;
             case "signIn" :
                 include("views/signIn.php");
                 break;
             case "signInVerif":
-                if(fctLogin($_POST['pseudo'], $_POST['pwd']))
+                if(fctSignIn($_POST['pseudo'], $_POST['pwd']))
                 {
                     unset($_SESSION['user']);
                     $_SESSION['user'] = fctGetUser($_POST['pseudo']);

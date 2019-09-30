@@ -21,19 +21,50 @@ function DBLog(){
     } 
 }
 
-function fctLogin($login, $mdp)
+function fctSignIn($login, $mdp)
 {
     try
     {
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "EXEC PRD_LOGIN :pseudo,:mdp";
+        $sql = "EXEC PRD_SIGNIN :pseudo,:mdp";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
         $query->bindParam(":pseudo", $login);
         $query->bindParam(":mdp", $mdp);
+        $query->execute();
+        
+        $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
+        return $row[0] == 1;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+
+function fctSignUp($prenom, $nom, $mail, $tel, $mdp, $confMdp)
+{
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "EXEC PRD_SIGNUP :pseudo,:mdp";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":prenom", $prenom);
+        $query->bindParam(":nom", $nom);
+        $query->bindParam(":mail", $mail);
+        $query->bindParam(":tel", $tel);
+        $query->bindParam(":mdp", $mdp);
+        $query->bindParam(":confMdp", $confMdp);
         $query->execute();
         
         $row = $query->fetch();
@@ -99,13 +130,13 @@ function fctGetUser($pseudo)
     }
 }
 
-function fctGetType_Salle(){
+function fctGet_Salles(){
     try
     {
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "EXEC PRD_GET_NOM_SALLE";
+        $sql = "EXEC PRD_GET_SALLES";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
