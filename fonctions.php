@@ -48,14 +48,14 @@ function fctSignIn($login, $mdp)
     }
 }
 
-function fctSignUp($prenom, $nom, $mail, $tel, $mdp, $confMdp)
+function fctSignUp($prenom, $nom, $mail, $tel, $mdp)
 {
     try
     {
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "EXEC PRD_SIGNUP :pseudo,:mdp";
+        $sql = "EXEC PRD_SIGNUP :prenom, :nom, :mail, :tel, :mdp";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -64,7 +64,6 @@ function fctSignUp($prenom, $nom, $mail, $tel, $mdp, $confMdp)
         $query->bindParam(":mail", $mail);
         $query->bindParam(":tel", $tel);
         $query->bindParam(":mdp", $mdp);
-        $query->bindParam(":confMdp", $confMdp);
         $query->execute();
         
         $row = $query->fetch();
@@ -90,7 +89,7 @@ function fctEstAdmin($pseudo)
         
         // call the stored procedure
         $query = $conn->prepare($sql);
-        $query->bindParam(":pseudo", $_POST['pseudo']);
+        $query->bindParam(":pseudo", $pseudo);
         $query->execute();
         
         while ($row = $query->fetch())

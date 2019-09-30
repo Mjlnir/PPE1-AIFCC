@@ -26,14 +26,14 @@
         </div>
         <div class="form-group row">
             <div class="offset-sm-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Sign in</button>
+                <button type="submit" class="btn btn-primary">Se connecter</button>
                 <a href="#" id=aSignIn>Pas encore de compte ?</a>
             </div>
         </div>
     </form>
 
     <!--Formulaire d'inscription-->
-    <form action="index.php?action=signUpVerif" method="post" class="signUp" style="display: none">
+    <form action="index.php?action=signUp" method="post" class="signUp" style="display: none">
         <small><a href="#" id="aSignUp"><span class="octicon octicon-chevron-left"></span> Connexion</a></small>
         <h2>Inscription</h2>
         <div class="form-group row">
@@ -63,13 +63,13 @@
         <div class="form-group row">
             <label for="pwd" class="control-label col-sm-2 col-form-label">Mot de passe:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="signUpPwd" placeholder="exemple: 1234" name="mdp">
+                <input type="password" class="form-control" id="signUpPwd" placeholder="1234" name="mdp">
             </div>
         </div>
         <div class="form-group row">
             <label for="pwd" class="control-label col-sm-2 col-form-label">Confirmation mot de passe:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="exemple: 1234" name="confmdp" id="confpwd">
+                <input type="password" class="form-control" placeholder="1234" name="confmdp" id="confpwd">
             </div>
         </div>
         <div class="form-group row">
