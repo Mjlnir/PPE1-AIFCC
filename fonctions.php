@@ -70,7 +70,7 @@ function fctSignUp($prenom, $nom, $mail, $tel, $mdp)
         
         $query -> closeCursor();
         
-        return $row[0] == 1;
+        return $row ;//== 1;
     }
     catch (PDOException $e)
     {

@@ -8,6 +8,7 @@
 
 <body>
     <!--Formulaire de connexion-->
+
     <form action="index.php?action=signInVerif" method="post" class="signIn">
         <div class="alert alert-danger alert-dismissible fade show" id="signUpError">
             L'utilisateur existe déjà.
