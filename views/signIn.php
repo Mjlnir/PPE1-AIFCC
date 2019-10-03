@@ -10,18 +10,28 @@
     <!--Formulaire de connexion-->
 
     <form action="index.php?action=signInVerif" method="post" class="signIn">
-        <div class="alert alert-danger alert-dismissible fade show" id="signUpError">
-            L'utilisateur existe déjà.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="alert alert-success alert-dismissible fade show" id="signUpSuccess">
-            Le compte a bien été crée.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+        <?php
+            if(isset($_SESSION['signUpSuccess'])){
+                if($_SESSION['signUpSuccess'] == 1 && $_SESSION['signUpSuccess'] != ""){
+                    echo "<div class=\"alert alert-success alert-dismissible fade show\" id=\"signUpSuccess\">
+                            Le compte a bien été crée.
+                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                <span aria-hidden=\"true\">&times;</span>
+                            </button>
+                        </div>";
+                }
+                else
+                {
+                    echo "<div class=\"alert alert-danger alert-dismissible fade show\" id=\"signUpError\">
+                            L'utilisateur existe déjà.
+                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                <span aria-hidden=\"true\">&times;</span>
+                            </button>
+                        </div>";
+                }
+                unset($_SESSION['signUpSuccess']);
+            }
+        ?>
         <h2>Connexion</h2>
         <div class="form-group row">
             <label for="pseudo" class="control-label col-sm-2 col-form-label">Pseudonyme:</label>
@@ -82,7 +92,7 @@
         <div class="form-group row">
             <label for="pwd" class="control-label col-sm-2 col-form-label">Confirmation mot de passe:</label>
             <div class="col-sm-10">
-                <input type="password" class="form-control" placeholder="1234" name="confmdp" id="confpwd">
+                <input type="password" class="form-control" placeholder="1234" id="confpwd">
             </div>
         </div>
         <div class="form-group row">

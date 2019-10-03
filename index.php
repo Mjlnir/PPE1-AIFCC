@@ -7,16 +7,16 @@
         switch ($_GET['action'])
         {
             case "signUp" :
-                $azeaz =  fctSignUp($_POST['prenom'], $_POST['nom'], $_POST['mail'], $_POST['tel'], $_POST['mdp']);
-                echo $azeaz;
-                /*if(fctSignUp($_POST['prenom'], $_POST['nom'], $_POST['mail'], $_POST['tel'], $_POST['mdp']))
+                if(fctSignUp($_POST['prenom'], $_POST['nom'], $_POST['mail'], $_POST['tel'], $_POST['mdp']))
                 {
-                    header("Location: index.php?action=signIn&success=1");
+                    $_SESSION['signUpSuccess'] = 1;
+                    include("views/signIn.php");
                 }
                 else
                 {
-                    header("Location: index.php?action=signIn&success=0");
-                }*/
+                    $_SESSION['signUpSuccess'] = 0;
+                    include("views/signIn.php");
+                }
                 break;
             case "signIn" :
                 include("views/signIn.php");

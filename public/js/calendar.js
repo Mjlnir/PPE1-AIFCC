@@ -4,7 +4,7 @@ $(document).ready(function () {
         locale: 'fr',
         plugins: ['dayGrid', 'timeGrid', 'interaction', 'moment'],
         defaultView: 'dayGridMonth',
-        defaultDate: '2019-09-15',
+        defaultDate: moment().format("YYYY-MM-DD"),
         header: {
             left: 'title',
             right: 'prev,next today dayGridMonth,timeGridWeek,timeGridDay,listWeek'
@@ -14,14 +14,8 @@ $(document).ready(function () {
         selectHelper: false,
         editable: false,
         droppable: false,
-        /*select: function (info) {
-            alert(start.dateStr);
-            //$('#createReservation').show();
-            //$('#date').attr("value", start);
-        },*/
         dateClick: function (info) {
             $('#createReservation').show();
-            $('#startTime').val(info.dateStr);
         },
         events: "index.php?action=getReservation",
         eventRender: function (event, element, view) {
@@ -42,6 +36,10 @@ $(document).ready(function () {
     });
 
     calendar.render();
+    
+    $('#startTime').change(function(){
+        alert('OK');
+    });
 
     $('.closeMdl').click(function () {
         $('#createReservation').hide();
@@ -54,13 +52,20 @@ $(document).ready(function () {
     });
 
     $.datetimepicker.setLocale('fr');
-    $('#startTime').datetimepicker();
+    $('#startTime').datetimepicker({
+        datepicker: false,
+        allowTimes: [
+            '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
+            '15:00', '16:00', '17:00', '18:00'
+        ]
+    });
+    
     $('#endTime').datetimepicker({
         datepicker: true,
         allowTimes: [
             '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
             '15:00', '16:00', '17:00', '18:00'
- ]
+        ]
     });
 
     $('.I1').hide();

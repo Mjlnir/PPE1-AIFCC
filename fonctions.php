@@ -53,6 +53,7 @@ function fctSignUp($prenom, $nom, $mail, $tel, $mdp)
     try
     {
         $conn = DBLog();
+        $outputReturn;
 
         // execute the stored procedure
         $sql = "EXEC PRD_SIGNUP :prenom, :nom, :mail, :tel, :mdp";
@@ -70,7 +71,7 @@ function fctSignUp($prenom, $nom, $mail, $tel, $mdp)
         
         $query -> closeCursor();
         
-        return $row ;//== 1;
+        return $row[0] == 1;
     }
     catch (PDOException $e)
     {
