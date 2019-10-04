@@ -50,7 +50,10 @@
                 break;
               case "getReservation":
                 echo fctGetReservation();
-                break;    
+                break;
+            case "estReservable":
+                print_r(fctGet_Salles_Libres($_POST['dateFuturReservation']));
+                break;
           }
     }
     else

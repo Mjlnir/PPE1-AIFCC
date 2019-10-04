@@ -22,7 +22,7 @@ $(document).ready(function () {
         var sEmailregex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/i;
         var sPwdRegex = /^[a-zA-Z0-9_-]{6,18}$/;
 
-        //Si l'un des booléens est faux, on stop le submit est on test les inputs
+        //Si l'un des booléens est faux, on stop le submit et on test les inputs
         if (!bltelRegex || !blEmailregex || !blPwdRegex ||
             !blPrenomNotNull || !blNomNotNull || !blConfPwdEgal) {
 

@@ -154,6 +154,40 @@ function fctGet_Salles(){
     }
 }
 
+function fctGet_Salles_Libres($date){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "EXEC PRD_GET_SALLES_LIBRES :date";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":date", $date);
+        $query->execute();
+        
+        $row = $query->fetchAll();
+        
+        $iCpt = 0;
+        foreach($row as $result)
+        {
+         $data[] = array(
+          'id'      => $iCpt,
+          'nomSalle'   => $result["nomSalle"]
+         );
+            $iCpt++;
+        }
+        $query -> closeCursor();
+        
+        return json_encode($data);
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+
 //FONCTIONS METIER
 function fctGetReservation(){
     try

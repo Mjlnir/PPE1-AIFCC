@@ -16,6 +16,7 @@ $(document).ready(function () {
         droppable: false,
         dateClick: function (info) {
             $('#createReservation').show();
+            $('#startTime').val(info.dateStr);
         },
         events: "index.php?action=getReservation",
         eventRender: function (event, element, view) {
@@ -36,9 +37,21 @@ $(document).ready(function () {
     });
 
     calendar.render();
-    
-    $('#startTime').change(function(){
-        alert('OK');
+
+    $('#startTime').change(function () {
+        $.ajax({
+            url: "index.php?action=estReservable",
+            type: "POST",
+            data: {
+                dateFuturReservation: $(this).val()
+            }
+        }).done(function (data) {
+            if (data != null) {
+                for (var i in data) {
+                    console.log(data[i]);
+                }
+            }
+        });
     });
 
     $('.closeMdl').click(function () {
@@ -59,7 +72,7 @@ $(document).ready(function () {
             '15:00', '16:00', '17:00', '18:00'
         ]
     });
-    
+
     $('#endTime').datetimepicker({
         datepicker: true,
         allowTimes: [
