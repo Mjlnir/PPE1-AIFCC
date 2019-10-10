@@ -34,6 +34,7 @@
                 }
                 break;
               case "reserver":
+                echo fctRerserver();
                 break;
               case "logOut":
                 unset($_SESSION['user']);
@@ -51,8 +52,9 @@
               case "getReservation":
                 echo fctGetReservation();
                 break;
-            case "estReservable":
-                print_r(fctGet_Salles_Libres($_POST['dateFuturReservation']));
+              case "estReservable":
+                echo fctGet_Salles_Reserve($_POST['dateDebutFuturReservation'],
+                                           $_POST['dateFinFuturReservation']);
                 break;
           }
     }

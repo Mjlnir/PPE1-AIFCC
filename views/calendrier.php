@@ -61,7 +61,7 @@
                                             $temp = substr($arrExpression['nomSalle'],0,2);
                                             echo "<select class=\"form-control nomSalle ".substr($arrExpression['nomSalle'],0,2)."\" name=\"nomSalle\">";
                                         }
-                                        echo "<option>".$arrExpression['nomSalle']."</option>";
+                                        echo "<option id=\"".$arrExpression['nomSalle']."\">".$arrExpression['nomSalle']."</option>";
                                         if(substr($arrExpression['nomSalle'],-1) == "5"){
                                             echo "</select>";
                                         }

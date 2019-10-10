@@ -154,17 +154,18 @@ function fctGet_Salles(){
     }
 }
 
-function fctGet_Salles_Libres($date){
+function fctGet_Salles_Reserve($datedebut, $datefin){
     try
     {
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "EXEC PRD_GET_SALLES_LIBRES :date";
+        $sql = "EXEC PRD_GET_SALLES_RESERVE :datedebut, :datefin";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
-        $query->bindParam(":date", $date);
+        $query->bindParam(":datedebut", $datedebut);
+        $query->bindParam(":datefin", $datefin);
         $query->execute();
         
         $row = $query->fetchAll();
@@ -172,11 +173,8 @@ function fctGet_Salles_Libres($date){
         $iCpt = 0;
         foreach($row as $result)
         {
-         $data[] = array(
-          'id'      => $iCpt,
-          'nomSalle'   => $result["nomSalle"]
-         );
-            $iCpt++;
+         $data[] =$result["nomSalle"];
+         $iCpt++;
         }
         $query -> closeCursor();
         

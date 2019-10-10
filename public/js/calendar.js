@@ -38,17 +38,20 @@ $(document).ready(function () {
 
     calendar.render();
 
-    $('#startTime').change(function () {
+    $('#endTime').change(function () {
         $.ajax({
             url: "index.php?action=estReservable",
             type: "POST",
             data: {
-                dateFuturReservation: $(this).val()
-            }
+                dateDebutFuturReservation: $('#startTime').val(),
+                dateFinFuturReservation: $(this).val()
+            },
+            dataType: "json"
         }).done(function (data) {
+            console.log(data);
             if (data != null) {
-                for (var i in data) {
-                    console.log(data[i]);
+                for (iCpt = 0; iCpt < data.length; iCpt++) {
+                    $('#' + data[iCpt]).attr('disabled','');
                 }
             }
         });
@@ -56,12 +59,26 @@ $(document).ready(function () {
 
     $('.closeMdl').click(function () {
         $('#createReservation').hide();
-        $('#createReservation').find('input').val('');
+        //$('#createReservation').find('input').val('');
         $('#readReservation').hide();
     });
 
     $('.saveMdl').click(function () {
-        $('#createReservation').hide();
+        $.ajax({
+            url: "index.php?action=reserve",
+            type: "POST",
+            data: {
+                startTime = $('#startTime').val(), 
+                endTime = , 
+                typeSalle = , 
+                date
+            },
+            dataType: "json"
+        }).done(function (data) {
+            if (data != null) {
+                $('#createReservation').hide();
+            }
+        });
     });
 
     $.datetimepicker.setLocale('fr');
