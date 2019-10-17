@@ -25,16 +25,18 @@
                 if(fctSignIn($_POST['pseudo'], $_POST['pwd']))
                 {
                     unset($_SESSION['user']);
+                    unset($_SESSION['ligue']);
+                    
                     $_SESSION['user'] = fctGetUser($_POST['pseudo']);
+                    if($_SESSION['user']['idTypeUtilisateur'] == 0){
+                        $_SESSION['ligue'] = fctGetLigue($_SESSION['user']['idUtilisateur']);
+                    }
                     include("views/home.php");
                 }
                 else
                 {
                     header("Location: index.php?action=signIn");
                 }
-                break;
-              case "reserver":
-                echo fctRerserver();
                 break;
               case "logOut":
                 unset($_SESSION['user']);
@@ -55,6 +57,15 @@
               case "estReservable":
                 echo fctGet_Salles_Reserve($_POST['dateDebutFuturReservation'],
                                            $_POST['dateFinFuturReservation']);
+                break;
+              case "reserver":
+                echo fctRerserver($_POST['startTime'],
+                                  $_POST['endTime'],
+                                  $_POST['nomSalle'],
+                                  $_POST['idLigue']);
+                break;
+            case "modifSalles":
+                include("areas/admin/views/modifSalles.php");
                 break;
           }
     }

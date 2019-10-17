@@ -1,6 +1,4 @@
 <?php
-//FONCTIONS TECHNIQUES
-
 function DBLog(){
     try  
     {
@@ -130,6 +128,57 @@ function fctGetUser($pseudo)
     }
 }
 
+function fctGetLigue($idUtilisateur)
+{
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "EXEC PRD_GET_LIGUE :idUtilisateur";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":idUtilisateur", $idUtilisateur);
+        $query->execute();
+        
+        $row = $query->fetch(PDO::FETCH_ASSOC);
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+
+function fctGetLigues()
+{
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "EXEC PRD_GET_LIGUES";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->execute();
+        
+        $row = $query->fetchAll();
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+
 function fctGet_Salles(){
     try
     {
@@ -186,7 +235,6 @@ function fctGet_Salles_Reserve($datedebut, $datefin){
     }
 }
 
-//FONCTIONS METIER
 function fctGetReservation(){
     try
     {
@@ -221,10 +269,32 @@ function fctGetReservation(){
         die("Error occurred:" . $e->getMessage());
     }
 }
-function fctRerserver($startTime, $endTime, $typeSalle, $date){
-    if(!isset($startTime) && !isset($endTime) && !isset($typeSalle) && !isset($date)){
-        $row[0] = 1;
+function fctRerserver($startTime, $endTime, $nomSalle, $idLigue){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "EXEC PRD_RESERVER :startTime, :startTime, :nomSalle, :idUser, :idLigue";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":startTime", $startTime);
+        $query->bindParam(":endtime", $endTime);
+        $query->bindParam(":nomSalle", $nomSalle);
+        $query->bindParam(":idUser", $_SESSIONS['user']['idUtilisateur']);
+        $query->bindParam(":idLigue", $idLigue);
+        $query->execute();
+        
+        $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
         return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
     }
 }
 

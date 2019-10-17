@@ -42,36 +42,47 @@
                                 <input type="text" id="startTime" name="startTime" class="form-control">
                                 <label for="endTime">Date et heure de fin :</label>
                                 <input type="text" id="endTime" name="endTime" class="form-control">
-                                <label>Type de salle:</label>
-                                <select class="form-control typeSalle" name="typeSalle">
-                                    <?php
-                                    $arrSalleTypeNom = fctGet_Salles();
+                                <small id="dateError" class="form-text" hidden>Erreur entre les dates.</small>
+                                <label>Type de salle :</label>
+                                <?php
+                                    $arrSalles = fctGet_Salles();
+                                    $arrNomLigues = fctGetLigues();
                                     $temp = null;
-                                    foreach($arrSalleTypeNom as $arrExpression){
-                                        if($temp != $arrExpression['nomTypeSalle']){
-                                            $temp = $arrExpression['nomTypeSalle'];
-                                            echo "<option value=\"".substr($arrExpression['nomSalle'],0,2)."\">".$arrExpression['nomTypeSalle']."</option>";
+                                
+                                    echo "<select class=\"form-control typeSalle\" name=\"typeSalle\">";
+                                    foreach($arrSalles as $arrSalle){
+                                        if($temp != $arrSalle['nomTypeSalle']){
+                                            $temp = $arrSalle['nomTypeSalle'];
+                                            echo "<option value=\"".substr($arrSalle['nomSalle'],0,2)."\">".$arrSalle['nomTypeSalle']."</option>";
                                         }
                                     }
                                     echo "</select>";
-                                    echo "<label>Nom de la salle:</label>";
+                                
+                                    echo "<label>Nom de la salle :</label>";
                                     $temp = null;
-                                    foreach($arrSalleTypeNom as $arrExpression){
-                                        if($temp != substr($arrExpression['nomSalle'],0,2)){
-                                            $temp = substr($arrExpression['nomSalle'],0,2);
-                                            echo "<select class=\"form-control nomSalle ".substr($arrExpression['nomSalle'],0,2)."\" name=\"nomSalle\">";
+                                    foreach($arrSalles as $arrSalle){
+                                        if($temp != substr($arrSalle['nomSalle'],0,2)){
+                                            $temp = substr($arrSalle['nomSalle'],0,2);
+                                            echo "<select class=\"form-control nomSalle ".substr($arrSalle['nomSalle'],0,2)."\" id=\"nomSalle\">";
                                         }
-                                        echo "<option id=\"".$arrExpression['nomSalle']."\">".$arrExpression['nomSalle']."</option>";
-                                        if(substr($arrExpression['nomSalle'],-1) == "5"){
+                                        echo "<option id=\"".$arrSalle['nomSalle']."\">".$arrSalle['nomSalle']."</option>";
+                                        if(substr($arrSalle['nomSalle'],-1) == "5"){
                                             echo "</select>";
                                         }
                                     }
+                                
+                                    if($_SESSION['user']['idTypeUtilisateur'] == 1){
+                                        echo "<label>Nom de la Ligue :</label>";
+                                        echo "<select class=\"form-control\" name=\"nomLigue\" id=\"nomLigue\">";
+                                        foreach($arrNomLigues as $arrNomLigue){
+                                            echo "<option value=\"".$arrNomLigue['idLigue']."\">".$arrNomLigue['nomLigue']."</option>";
+                                        }
+                                        echo "</select>";
+                                    }
                                 ?>
-                                    <input id="date" type="hidden" name="date" value="">
-                                </select>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-danger saveMdl" data-dismiss="modal">Réserver</button>
+                                <button type="submit" class="btn btn-danger" id="saveMdl" data-dismiss="modal">Réserver</button>
                             </div>
                         </form>
                     </div>

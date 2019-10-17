@@ -51,7 +51,7 @@ $(document).ready(function () {
             console.log(data);
             if (data != null) {
                 for (iCpt = 0; iCpt < data.length; iCpt++) {
-                    $('#' + data[iCpt]).attr('disabled','');
+                    $('#' + data[iCpt]).attr('disabled', '');
                 }
             }
         });
@@ -59,19 +59,19 @@ $(document).ready(function () {
 
     $('.closeMdl').click(function () {
         $('#createReservation').hide();
-        //$('#createReservation').find('input').val('');
+        $('#createReservation').find('input').val('');
         $('#readReservation').hide();
     });
 
-    $('.saveMdl').click(function () {
+    $('#saveMdl').click(function () {
         $.ajax({
-            url: "index.php?action=reserve",
+            url: "index.php?action=reserver",
             type: "POST",
             data: {
-                startTime = $('#startTime').val(), 
-                endTime = , 
-                typeSalle = , 
-                date
+                startTime: $('#startTime').val(),
+                endTime: $('#endTime').val(),
+                nomSalle: $("#nomSalle option:selected").text(),
+                idLigue: $('#nomLigue').children(":selected").attr("id")
             },
             dataType: "json"
         }).done(function (data) {
@@ -120,4 +120,19 @@ $(document).ready(function () {
                 break;
         }
     });
+
+    $('#endTime').change(function () {
+        var startTime = new Date($('#startTime').val()).getTime();
+        var endTime = new Date($('#endTime').val()).getTime();
+        if (endTime < startTime) {
+            $('#endTime').addClass('error');
+            $('#dateError').removeAttr("hidden");
+            $('#saveMdl').attr('disabled', '');
+        } else {
+            $('#endTime').removeClass('error');
+            $('#dateError').attr('hidden', '');
+            $('#saveMdl').removeAttr('disabled');
+        }
+    });
+
 });
