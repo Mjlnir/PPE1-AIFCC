@@ -65,7 +65,10 @@
                                   $_POST['idLigue']);
                 break;
             case "modifSalles":
-                include("areas/admin/views/modifSalles.php");
+                include("views/admin/modifSalles.php");
+                break;
+            case "modifLigues":
+                include("views/admin/modifLigues.php");
                 break;
           }
     }

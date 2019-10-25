@@ -50,10 +50,13 @@
                                     $temp = null;
                                 
                                     echo "<select class=\"form-control typeSalle\" name=\"typeSalle\">";
-                                    foreach($arrSalles as $arrSalle){
-                                        if($temp != $arrSalle['nomTypeSalle']){
-                                            $temp = $arrSalle['nomTypeSalle'];
-                                            echo "<option value=\"".substr($arrSalle['nomSalle'],0,2)."\">".$arrSalle['nomTypeSalle']."</option>";
+                                    foreach($arrSalles as $Salle){
+                                        if($temp != $Salle['typeSalle'].$Salle['nbPersonneMax']){
+                                            $temp = $Salle['typeSalle'].$Salle['nbPersonneMax'];
+                                            echo "<option value=\"".substr($Salle['typeSalle'],0,1).
+                                                substr($Salle['nbPersonneMax'],0,1)."\">";
+                                            echo $Salle['typeSalle']." ".$Salle['nbPersonneMax']." places";
+                                            echo "</option>";
                                         }
                                     }
                                     echo "</select>";

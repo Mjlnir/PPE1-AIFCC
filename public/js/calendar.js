@@ -99,23 +99,23 @@ $(document).ready(function () {
     });
 
     $('.I1').hide();
-    $('.I3').hide();
+    $('.B3').hide();
     $('.typeSalle').click(function () {
         var typeSalleChoosen = $(this).children("option:selected").val();
         switch (typeSalleChoosen) {
             case 'I1':
                 $('.I1').show();
-                $('.I3').hide();
+                $('.B3').hide();
                 $('.B1').hide();
                 break;
-            case 'I3':
+            case 'B3':
                 $('.I1').hide();
-                $('.I3').show();
+                $('.B3').show();
                 $('.B1').hide();
                 break;
             case 'B1':
                 $('.I1').hide();
-                $('.I3').hide();
+                $('.B3').hide();
                 $('.B1').show();
                 break;
         }

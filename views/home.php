@@ -13,6 +13,7 @@
             <br>Ici vous pourrez consulter le planning des réservations des salles informatisées ou non.
             <br>Réserver une salles pour vos activitée et modifier les informations de votre compte.</p>
         </div>
+    </div>
 <?php
 	include("footer.php");
 ?>

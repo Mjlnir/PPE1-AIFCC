@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="./public/bootstrap-4.3.1-dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="./public/css/general.css">
-    <!--<link rel="stylesheet" type="text/css" href="./public/css/octicons.css">-->
+    <link rel="stylesheet" type="text/css" href="./public/css/footer.css">
     <link rel="stylesheet" type="text/css" href="./public/css/font-awesome.min.css">
     
     <script src="./public/js/jquery.js"></script>

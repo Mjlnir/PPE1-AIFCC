@@ -329,4 +329,29 @@ function fctVerifReservation($startTime, $endTime, $typeSalle, $date){
         die("Error occurred:" . $e->getMessage());
     }
 }
+
+function fctGet_Utilisateur($idUtilisateur){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "EXEC PRD_GET_UTILISATEUR :idUtilisateur";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":idUtilisateur", $idUtilisateur);
+        $query->execute();
+        
+        $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
 ?>

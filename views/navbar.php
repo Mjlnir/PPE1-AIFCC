@@ -9,6 +9,9 @@
                echo "<li class=\"nav-item\" id=\"modifSalles\">
                         <a class=\"nav-link\" href=\"index.php?action=modifSalles\">Salles</a>
                     </li>";
+                echo "<li class=\"nav-item\" id=\"modifLigues\">
+                        <a class=\"nav-link\" href=\"index.php?action=modifLigues\">Ligues</a>
+                    </li>";
             }
         ?>
         <li class="nav-item dropdown ml-auto">
