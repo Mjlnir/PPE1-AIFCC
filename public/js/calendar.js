@@ -2,12 +2,12 @@ $(document).ready(function () {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         locale: 'fr',
-        plugins: ['dayGrid', 'timeGrid', 'interaction', 'moment'],
+        plugins: ['dayGrid', 'interaction', 'moment'],
         defaultView: 'dayGridMonth',
         defaultDate: moment().format("YYYY-MM-DD"),
         header: {
             left: 'title',
-            right: 'prev,next today dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+            right: 'prev,next today'// dayGridMonth'
         },
         navLinks: false, // can click day/week names to navigate views
         selectable: true,

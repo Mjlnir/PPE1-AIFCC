@@ -1,6 +1,7 @@
 <?php
 	include("views/header.php");
 ?>
+<link rel="stylesheet" type="text/css" href="./public/css/modifSalle.css">
 </head>
 
 <body class="d-flex flex-column">
@@ -8,7 +9,7 @@
         include("views/navbar.php");
     ?>
     <div id="page-content">
-        <div>
+        <div class="scroll">
             <table class="table">
                 <thead>
                     <tr>

@@ -9,19 +9,18 @@
         include("views/navbar.php");
     ?>
     <div id="page-content">
-        <div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nom</th>
-                        <th scope="col">Utilisateur</th>
-                        <th scope="col">Modifier</th>
-                        <th scope="col">Supprimer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
+        <table class="table scroll">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Utilisateur</th>
+                    <th scope="col">Modifier</th>
+                    <th scope="col">Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
                     $arrLigues = fctGetLigues();
                     $iCpt = 1;
                     foreach($arrLigues as $ligue){
@@ -36,9 +35,8 @@
                         $iCpt++;
                     }
                 ?>
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </div>
     <?php
     include("views/footer.php");
