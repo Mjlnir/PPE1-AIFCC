@@ -10,25 +10,23 @@
         include("views/navbar.php");
     ?>
     <div id="page-content">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Places</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Modifier</th>
-                    <th scope="col">Supprimer</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
+        <div class="scroll">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Places</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Modifier</th>
+                        <th scope="col">Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
                     $arrSalles = fctGet_Salles();
                     $iCpt = 1;
                     foreach($arrSalles as $salle){
-                        if($iCpt==15){
-                            break;
-                        }
                         echo "<tr>";
                         echo "<th scope=\"row\">".$iCpt."</th>";
                         echo "<td>".$salle['nomSalle']."</td>";
@@ -46,8 +44,9 @@
                         $iCpt++;
                     }
                 ?>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
         <!-- Modal Modif Reservation -->
         <div class="modal" id="modifSalle">
             <div class="modal-dialog">
@@ -61,7 +60,7 @@
                     <div class="modal-body">
                         <form action="index.php?action=reserver" method="post">
                             <div class="form-group">
-                                
+
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-danger" id="saveMdl" data-dismiss="modal">Réserver</button>
@@ -84,7 +83,7 @@
                     <div class="modal-body">
                         <form action="index.php?action=reserver" method="post">
                             <div class="form-group">
-                                
+
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-danger" id="saveMdl" data-dismiss="modal">Réserver</button>

@@ -1,3 +1,15 @@
-.table{
+html{
+    overflow: hidden;
+}
+#page-content{
     text-align: center;
+}
+.scroll{
+    width: 100%;
+    height: 750px;
+    overflow-y: auto;
+}
+.table{
+    width: 100%;
+    overflow: hidden;
 }
