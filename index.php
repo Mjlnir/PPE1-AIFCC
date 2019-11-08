@@ -70,6 +70,15 @@
             case "modifLigues":
                 include("views/admin/modifLigues.php");
                 break;
+            case "activeSalle":
+                fctActiveSalle($_POST['idSalle']);
+                break;
+            case "InformatiseeSalle":
+                fctInformatiseeSalle($_POST['idSalle']);
+                break;
+            case "getSalle":
+                include("views/admin/afficherSalle.php");
+                break;
           }
     }
     else

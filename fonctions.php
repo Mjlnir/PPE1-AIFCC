@@ -222,7 +222,7 @@ function fctGet_Salles_Reserve($datedebut, $datefin){
         $iCpt = 0;
         foreach($row as $result)
         {
-         $data[] =$result["nomSalle"];
+         $data[] = $result["nomSalle"];
          $iCpt++;
         }
         $query -> closeCursor();
@@ -341,6 +341,55 @@ function fctGet_Utilisateur($idUtilisateur){
         // call the stored procedure
         $query = $conn->prepare($sql);
         $query->bindParam(":idUtilisateur", $idUtilisateur);
+        $query->execute();
+        
+        $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+
+function fctActiveSalle($idSalle){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "EXEC PRD_ACTIVE_SALLE :idSalle";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":idSalle", $idSalle);
+        $query->execute();
+        
+        $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+function fctInformatiseeSalle($idSalle){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "EXEC PRD_Informatisee_SALLE :idSalle";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":idSalle", $idSalle);
         $query->execute();
         
         $row = $query->fetch();
