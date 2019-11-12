@@ -19,7 +19,6 @@
                         <th scope="col">Places</th>
                         <th scope="col">Informatisée</th>
                         <th scope="col">Active</th>
-                        <th scope="col">Modifier</th>
                     </tr>
                 </thead>
                 <tbody id="tbSalle">
@@ -46,15 +45,15 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-success" id="btnUpdateMdl" data-dismiss="modal">Modifier</button>
-                                <button class="btn btn-danger" id="btnCancelMdl" data-dismiss="modal">Annuler</button>
+                                <button class="btn btn-danger btnCancelMdl" data-dismiss="modal">Annuler</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Modal Delete Reservation -->
-        <div class="modal" id="nbSalleMdl">
+        <!-- Modal nbPlaceMax Reservation -->
+        <div class="modal" id="nbSalleMaxMdl">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- Modal Header -->
@@ -64,14 +63,12 @@
                     </div>
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <form action="index.php?action=nbPlaceSalle" method="post">
-                            <label>Changer le nombre de place de la salle ?</label>
-                            <input type="number" id="nbPlace" name="nbPlace" class="form-control">
-                            <div class="modal-footer">
-                                <button class="btn btn-danger" id="btnNbPlaceMdl" data-dismiss="modal">Changer</button>
-                                <button class="btn btn-danger" id="btnCancelMdl" data-dismiss="modal">Annuler</button>
-                            </div>
-                        </form>
+                        <label>Changer le nombre de place de la salle ?</label>
+                        <input type="number" id="nbPlace" name="nbPlace" class="form-control">
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" id="btnNbPlaceMaxMdl" data-dismiss="modal">Changer</button>
+                            <button class="btn btn-danger btnCancelMdl" data-dismiss="modal">Annuler</button>
+                        </div>
                     </div>
                 </div>
             </div>

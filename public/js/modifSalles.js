@@ -1,8 +1,6 @@
 $(document).ready(function () {
-    var idSalle;
-
-    $('.closeMdl, #btnCancelMdl').click(function () {
-        $('#nbSalleMdl').hide();
+    $(document).on('click', '.closeMdl, .btnCancelMdl', function(){
+        $('#nbSalleMaxMdl').hide();
         $('#modifSalleMdl').hide();
     });
 
@@ -35,7 +33,22 @@ $(document).ready(function () {
     });
     /*Changer Nb place Salle*/
     $(document).on('click', '.btnNbPlaceSalle', function () {
-        $('#nbSalleMdl').show();
+        $('#nbSalleMaxMdl').show();
         $('#nbPlace').val($(this).find('a').text());
+    });
+    
+    $(document).on('click','.btnNbPlaceMaxMdl', function(){
+        $('#nbSalleMaxMdl').hide();
+//        $.ajax({
+//            url: "index.php?action=nbPlaceMaxSalle",
+//            type: "POST",
+//            data: {
+//                idSalle: $('.btnNbPlaceSalle').attr('id'),
+//                nbPlaceMax: $('#nbPlace').val()
+//            },
+//            dataType: "html"
+//        }).done(function (data) {
+//            $('#tbSalle').load('index.php?action=getSalle');
+//        });
     });
 });

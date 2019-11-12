@@ -79,6 +79,9 @@
             case "getSalle":
                 include("views/admin/afficherSalle.php");
                 break;
+            case 'nbPlaceMaxSalle':
+                fctNbPlaceMaxSalle($_POST['idSalle'],$_POST['']);
+                break;
           }
     }
     else

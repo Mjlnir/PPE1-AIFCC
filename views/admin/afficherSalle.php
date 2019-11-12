@@ -24,8 +24,6 @@
                 echo "octicon-check\">";
             }
             echo "</span></a></td>";
-
-            echo "<td class=\"btnModifSalle\" id=\"".$salle['idSalle']."\"><a href=\"#\"><span class=\"octicon octicon-tools\"></span></a></td>";
         echo "</tr>";
         $iCpt++;
     }
