@@ -28,31 +28,28 @@
                 </tbody>
             </table>
         </div>
-        <!-- Modal Modif Reservation -->
-        <div class="modal" id="modifSalleMdl">
+        <!-- Modal Nom -->
+        <div class="modal" id="nomMdl">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- Modal Header -->
                     <div class="modal-header">
-                        <h4 class="modal-title">Modifier une salle</h4>
+                        <h4 class="modal-title">Nom de la salle</h4>
                         <button type="button" class="close closeMdl" data-dismiss="modal">&times;</button>
                     </div>
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <form action="index.php?action=reserver" method="post">
-                            <div class="form-group">
-                                <label></label>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-success" id="btnUpdateMdl" data-dismiss="modal">Modifier</button>
-                                <button class="btn btn-danger btnCancelMdl" data-dismiss="modal">Annuler</button>
-                            </div>
-                        </form>
+                        <label>Changer le nom de la salle ?</label>
+                        <input type="text" id="nomSalle" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" id="btnNomMdl" data-dismiss="modal">Changer</button>
+                        <button class="btn btn-danger btnCancelMdl" data-dismiss="modal">Annuler</button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Modal nbPlaceMax Reservation -->
+        <!-- Modal nbPlaceMax -->
         <div class="modal" id="nbSalleMaxMdl">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -64,11 +61,11 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <label>Changer le nombre de place de la salle ?</label>
-                        <input type="number" id="nbPlace" name="nbPlace" class="form-control">
-                        <div class="modal-footer">
-                            <button class="btn btn-danger" id="btnNbPlaceMaxMdl" data-dismiss="modal">Changer</button>
-                            <button class="btn btn-danger btnCancelMdl" data-dismiss="modal">Annuler</button>
-                        </div>
+                        <input type="number" id="nbPlace" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" id="btnNbPlaceMaxMdl" data-dismiss="modal">Changer</button>
+                        <button class="btn btn-danger btnCancelMdl" data-dismiss="modal">Annuler</button>
                     </div>
                 </div>
             </div>

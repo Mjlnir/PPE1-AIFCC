@@ -70,17 +70,20 @@
             case "modifLigues":
                 include("views/admin/modifLigues.php");
                 break;
-            case "activeSalle":
+            case "UPD_activeSalle":
                 fctActiveSalle($_POST['idSalle']);
                 break;
-            case "InformatiseeSalle":
+            case "UPD_informatiseeSalle":
                 fctInformatiseeSalle($_POST['idSalle']);
                 break;
             case "getSalle":
                 include("views/admin/afficherSalle.php");
                 break;
-            case 'nbPlaceMaxSalle':
-                fctNbPlaceMaxSalle($_POST['idSalle'],$_POST['']);
+            case "UPD_nbPlaceMaxSalle":
+                fctNbPlaceMaxSalle($_POST['idSalle'],$_POST['nbPlaceMax']);
+                break;
+            case "UPD_nomSalle":
+                fctNomSalle($_POST['idSalle'],$_POST['nomSalle']);
                 break;
           }
     }

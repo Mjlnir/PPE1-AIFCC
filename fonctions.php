@@ -385,7 +385,7 @@ function fctInformatiseeSalle($idSalle){
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "EXEC PRC_UPD_Informatisee_SALLE :idSalle";
+        $sql = "EXEC PRC_UPD_INFORMATISEE_SALLE :idSalle";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -409,12 +409,37 @@ function fctNbPlaceMaxSalle($idSalle, $nbPlaceMax){
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "EXEC PRC_UPD_Informatisee_SALLE :idSalle,:nbPlaceMax";
+        $sql = "EXEC PRC_UPD_NBPLACE_SALLE :idSalle,:nbPlaceMax";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
         $query->bindParam(":idSalle", $idSalle);
         $query->bindParam(":nbPlaceMax", $nbPlaceMax);
+        $query->execute();
+        
+        $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+function fctNomSalle($idSalle, $nomSalle){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "EXEC PRC_UPD_NOM_SALLE :idSalle,:nomSalle";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":idSalle", $idSalle);
+        $query->bindParam(":nomSalle", $nomSalle);
         $query->execute();
         
         $row = $query->fetch();

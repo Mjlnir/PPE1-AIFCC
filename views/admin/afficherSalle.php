@@ -4,10 +4,10 @@
     foreach($arrSalles as $salle){
         echo "<tr>";
             echo "<th scope=\"row\">".$iCpt."</th>";
-            echo "<td class=\"btnNomSalle\" id=\"".$salle['idSalle']."\"><a href=\"#\">".$salle['nomSalle']."</a></td>";
-            echo "<td class=\"btnNbPlaceSalle\" id=\"".$salle['idSalle']."\"><a href=\"#\">".$salle['nbPersonneMax']."</a></td>";
+            echo "<td><a href=\"#\" class=\"btnNomSalle\" id=\"".$salle['idSalle']."\">".$salle['nomSalle']."</a></td>";
+            echo "<td><a href=\"#\" class=\"btnNbPlaceSalle\" id=\"".$salle['idSalle']."\">".$salle['nbPersonneMax']."</a></td>";
 
-            echo "<td class=\"btnTypeSalle\" id=\"".$salle['idSalle']."\"><a href=\"#\"><span class=\"octicon ";
+            echo "<td><a href=\"#\" class=\"btnTypeSalle\" id=\"".$salle['idSalle']."\"><span class=\"octicon ";
             if($salle['idTypeSalle'] == 0){
                echo "octicon-x\">"; 
             }
@@ -16,7 +16,7 @@
             }
             echo "</span></a></td>";
 
-            echo "<td class=\"btnActiveSalle\" id=\"".$salle['idSalle']."\"><a href=\"#\"><span class=\"octicon ";
+            echo "<td><a href=\"#\" class=\"btnActiveSalle\" id=\"".$salle['idSalle']."\"><span class=\"octicon ";
             if($salle['estActive'] == 0){
                echo "octicon-x\">"; 
             }
