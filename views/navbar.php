@@ -25,7 +25,7 @@
     </ul>
     <span class="navbar-brand">
         <?php
-            if($_SESSION['user']['idTypeUtilisateur'] == 1){
+            if($_SESSION['user']['idTypeUtilisateur'] == 0){
                 echo "Administrateur";
             }
             else{

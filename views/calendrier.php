@@ -36,17 +36,18 @@
                     </div>
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <form action="index.php?action=reserver" method="post">
-                            <div class="form-group">
-                                <label for="startTime">Date et heure de début :</label>
-                                <input type="text" id="startTime" name="startTime" class="form-control">
-                                <label for="endTime">Date et heure de fin :</label>
-                                <input type="text" id="endTime" name="endTime" class="form-control">
-                                <small id="dateError" class="form-text" hidden>Erreur entre les dates.</small>
-                                <label>Type de salle :</label>
-                                <?php
+                        <div class="form-group">
+                            <label for="startTime">Date et heure de début :</label>
+                            <input type="text" id="startTime" name="startTime" class="form-control">
+                            <label for="endTime">Date et heure de fin :</label>
+                            <input type="text" id="endTime" name="endTime" class="form-control">
+                            <small id="dateError" class="form-text" hidden>Erreur entre les dates.</small>
+                            <label>Type de salle :</label>
+                            <?php
                                     $arrSalles = fctGet_Salles();
-                                    $arrNomLigues = fctGetLigues();
+                                    if($_SESSION['user']['idTypeUtilisateur'] == 0){
+                                        $arrNomLigues = fctGetLigues();
+                                    }
                                     $temp = null;
                                 
                                     echo "<select class=\"form-control typeSalle\" name=\"typeSalle\">";
@@ -74,7 +75,7 @@
                                         }
                                     }
                                 
-                                    if($_SESSION['user']['idTypeUtilisateur'] == 1){
+                                    if($_SESSION['user']['idTypeUtilisateur'] == 0){
                                         echo "<label>Nom de la Ligue :</label>";
                                         echo "<select class=\"form-control\" name=\"nomLigue\" id=\"nomLigue\">";
                                         foreach($arrNomLigues as $arrNomLigue){
@@ -83,11 +84,10 @@
                                         echo "</select>";
                                     }
                                 ?>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-danger" id="saveMdl" data-dismiss="modal">Réserver</button>
-                            </div>
-                        </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger" id="saveMdl" data-dismiss="modal">Réserver</button>
+                        </div>
                     </div>
 
                     <!-- Modal footer

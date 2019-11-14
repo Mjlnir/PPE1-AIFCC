@@ -275,47 +275,20 @@ function fctRerserver($startTime, $endTime, $nomSalle, $idLigue){
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "EXEC PRC_RESERVER :startTime, :startTime, :nomSalle, :idUser, :idLigue";
+        $sql = "EXEC PRC_RESERVER :endTime, :startTime, :nomSalle, :idUser, :idLigue";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
+        $query->bindParam(":endTime", $endTime);
         $query->bindParam(":startTime", $startTime);
-        $query->bindParam(":endtime", $endTime);
         $query->bindParam(":nomSalle", $nomSalle);
         $query->bindParam(":idUser", $_SESSIONS['user']['idUtilisateur']);
-        $query->bindParam(":idLigue", $idLigue);
-        $query->execute();
-        
-        $row = $query->fetch();
-        
-        $query -> closeCursor();
-        
-        return $row;
-    }
-    catch (PDOException $e)
-    {
-        die("Error occurred:" . $e->getMessage());
-    }
-}
-
-function fctVerifReservation($startTime, $endTime, $typeSalle, $date){
-    if($startTime == null || $endTime == null || $typeSalle == null){
-        return -999;
-    }
-    
-    $dtStartTime = Date($date." ".$startTime.":00");
-    $dtEndTime = Date($date." ".$endTime.":00");
-    
-    try
-    {
-        $conn = DBLog();
-
-        // execute the stored procedure
-        $sql = "EXEC PRC_VERIF_RESERVATION :pseudo";
-        
-        // call the stored procedure
-        $query = $conn->prepare($sql);
-        $query->bindParam(":pseudo", $_SESSION['pseudo']);
+        if($_SESSION['user']['idTypeUtilisateur'] == 1){
+            $query->bindParam(":idLigue", $_SESSIONS['ligue']['idLigue']);
+        }
+        else{
+            $query->bindParam(":idLigue", $idLigue);
+        }
         $query->execute();
         
         $row = $query->fetch();

@@ -28,7 +28,7 @@
                     unset($_SESSION['ligue']);
                     
                     $_SESSION['user'] = fctGetUser($_POST['pseudo']);
-                    if($_SESSION['user']['idTypeUtilisateur'] == 0){
+                    if($_SESSION['user']['idTypeUtilisateur'] == 1){
                         $_SESSION['ligue'] = fctGetLigue($_SESSION['user']['idUtilisateur']);
                     }
                     include("views/home.php");

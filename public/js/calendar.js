@@ -1,13 +1,14 @@
 $(document).ready(function () {
+    moment.locale('en');
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         locale: 'fr',
-        plugins: ['dayGrid', 'interaction', 'moment'],
-        defaultView: 'dayGridMonth',
-        defaultDate: moment().format("YYYY-MM-DD"),
+        plugins: ['dayGrid', 'timeGrid', 'interaction', 'moment'],
+        defaultView: 'timeGridWeek',
+        //defaultDate: moment().format(),
         header: {
             left: 'title',
-            right: 'prev,next today'// dayGridMonth'
+            right: 'prev,next today' // dayGridMonth'
         },
         navLinks: false, // can click day/week names to navigate views
         selectable: true,
@@ -16,7 +17,8 @@ $(document).ready(function () {
         droppable: false,
         dateClick: function (info) {
             $('#createReservation').show();
-            $('#startTime').val(info.dateStr);
+            var $date = moment(info.dateStr).format().replace(/-/g,'/').replace('T',' ').slice(0,-9);
+            $('#startTime').val($date);
         },
         events: "index.php?action=getReservation",
         eventRender: function (event, element, view) {
@@ -28,8 +30,8 @@ $(document).ready(function () {
         },
         eventClick: function (info) {
             $('#readReservation').show();
-            $('#startTimeRead').html("Heure de début: " + moment(info.event.start).format("HH:mm"));
-            $('#endTimeRead').html("Heure de fin: " + moment(info.event.end).format("HH:mm"));
+            $('#startTimeRead').html("Heure de début: " + moment(info.event.start).format("l") + ' ' + moment(info.event.start).format("LT"));
+            $('#endTimeRead').html("Heure de fin: " + moment(info.event.end).format("l") + ' ' + moment(info.event.end).format("LT"));
             var titleSplit = info.event.title.split(" ");
             $('#salleRead').html("Nom de la salle: " + titleSplit[0]);
             $('#ligueRead').html("Nom de la ligue: " + titleSplit[1]);
@@ -39,12 +41,24 @@ $(document).ready(function () {
     calendar.render();
 
     $('#endTime').change(function () {
+        var startTime = moment($('#startTime').val());
+        var endTime = moment($('#endTime').val());
+        if (endTime < startTime) {
+            $('#endTime').addClass('error');
+            $('#dateError').removeAttr("hidden");
+            $('#saveMdl').attr('disabled', '');
+        } else {
+            $('#endTime').removeClass('error');
+            $('#dateError').attr('hidden', '');
+            $('#saveMdl').removeAttr('disabled');
+        }
+//        alert(moment($('#startTime').val()).format().slice(0,-6) + ' ' + moment($(this).val()).format().slice(0,-6));
         $.ajax({
             url: "index.php?action=estReservable",
             type: "POST",
             data: {
-                dateDebutFuturReservation: $('#startTime').val(),
-                dateFinFuturReservation: $(this).val()
+                dateDebutFuturReservation: moment($('#startTime').val()).format().slice(0,-6),
+                dateFinFuturReservation: moment($(this).val()).format().slice(0,-6)
             },
             dataType: "json"
         }).done(function (data) {
@@ -71,17 +85,15 @@ $(document).ready(function () {
                 startTime: $('#startTime').val(),
                 endTime: $('#endTime').val(),
                 nomSalle: $("#nomSalle option:selected").text(),
-                idLigue: $('#nomLigue').children(":selected").attr("id")
+                idLigue: $("#nomLigue option:selected").attr("value")
             },
-            dataType: "json"
+            dataType: "html"
         }).done(function (data) {
-            if (data != null) {
-                $('#createReservation').hide();
-            }
+            $('#createReservation').hide();
         });
     });
 
-    $.datetimepicker.setLocale('fr');
+    //$.datetimepicker.setLocale('fr');
     $('#startTime').datetimepicker({
         datepicker: false,
         allowTimes: [
@@ -120,19 +132,4 @@ $(document).ready(function () {
                 break;
         }
     });
-
-    $('#endTime').change(function () {
-        var startTime = new Date($('#startTime').val()).getTime();
-        var endTime = new Date($('#endTime').val()).getTime();
-        if (endTime < startTime) {
-            $('#endTime').addClass('error');
-            $('#dateError').removeAttr("hidden");
-            $('#saveMdl').attr('disabled', '');
-        } else {
-            $('#endTime').removeClass('error');
-            $('#dateError').attr('hidden', '');
-            $('#saveMdl').removeAttr('disabled');
-        }
-    });
-
 });
