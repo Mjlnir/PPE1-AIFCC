@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    moment.locale('en');
+    moment.locale('fr');
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         locale: 'fr',
@@ -17,7 +17,7 @@ $(document).ready(function () {
         droppable: false,
         dateClick: function (info) {
             $('#createReservation').show();
-            var $date = moment(info.dateStr).format().replace(/-/g,'/').replace('T',' ').slice(0,-9);
+            var $date = moment(info.dateStr).format().replace(/-/g, '/').replace('T', ' ').slice(0, -9);
             $('#startTime').val($date);
         },
         events: "index.php?action=getReservation",
@@ -52,17 +52,20 @@ $(document).ready(function () {
             $('#dateError').attr('hidden', '');
             $('#saveMdl').removeAttr('disabled');
         }
-//        alert(moment($('#startTime').val()).format().slice(0,-6) + ' ' + moment($(this).val()).format().slice(0,-6));
+        $('option').each(function () {
+            if ($(this).attr('disabled') == 'disabled') {
+                $(this).removeAttr('disabled');
+            }
+        });
         $.ajax({
             url: "index.php?action=estReservable",
             type: "POST",
             data: {
-                dateDebutFuturReservation: moment($('#startTime').val()).format().slice(0,-6),
-                dateFinFuturReservation: moment($(this).val()).format().slice(0,-6)
+                dateDebutFuturReservation: moment($('#startTime').val()).format().slice(0, -6),
+                dateFinFuturReservation: moment($(this).val()).format().slice(0, -6)
             },
             dataType: "json"
         }).done(function (data) {
-            console.log(data);
             if (data != null) {
                 for (iCpt = 0; iCpt < data.length; iCpt++) {
                     $('#' + data[iCpt]).attr('disabled', '');
@@ -77,20 +80,25 @@ $(document).ready(function () {
         $('#readReservation').hide();
     });
 
-    $('#saveMdl').click(function () {
+    $(document).on('click', '#saveMdl', function () {
         $.ajax({
             url: "index.php?action=reserver",
+            url: 'test.php',
             type: "POST",
             data: {
-                startTime: $('#startTime').val(),
-                endTime: $('#endTime').val(),
+                startTime: moment($('#startTime').val()).format().slice(0, -6),
+                endTime: moment($('#endTime').val()).format().slice(0, -6),
                 nomSalle: $("#nomSalle option:selected").text(),
                 idLigue: $("#nomLigue option:selected").attr("value")
             },
             dataType: "html"
         }).done(function (data) {
+            if (data == 0) {
+                alert('TAMERE');
+            }
             $('#createReservation').hide();
         });
+        calendar.fullCalendar('refetchEvents');
     });
 
     //$.datetimepicker.setLocale('fr');

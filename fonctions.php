@@ -273,14 +273,10 @@ function fctRerserver($startTime, $endTime, $nomSalle, $idLigue){
     try
     {
         $conn = DBLog();
-
-        // execute the stored procedure
-        $sql = "EXEC PRC_RESERVER :endTime, :startTime, :nomSalle, :idUser, :idLigue";
-        
-        // call the stored procedure
+        $sql = "EXEC PRC_RESERVER :startTime, :endTime, :nomSalle, :idUser; :idLigue";
         $query = $conn->prepare($sql);
-        $query->bindParam(":endTime", $endTime);
         $query->bindParam(":startTime", $startTime);
+        $query->bindParam(":endTime", $endTime);
         $query->bindParam(":nomSalle", $nomSalle);
         $query->bindParam(":idUser", $_SESSIONS['user']['idUtilisateur']);
         if($_SESSION['user']['idTypeUtilisateur'] == 1){
@@ -290,11 +286,8 @@ function fctRerserver($startTime, $endTime, $nomSalle, $idLigue){
             $query->bindParam(":idLigue", $idLigue);
         }
         $query->execute();
-        
         $row = $query->fetch();
-        
         $query -> closeCursor();
-        
         return $row;
     }
     catch (PDOException $e)

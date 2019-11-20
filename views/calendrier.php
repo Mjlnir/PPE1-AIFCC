@@ -77,7 +77,7 @@
                                 
                                     if($_SESSION['user']['idTypeUtilisateur'] == 0){
                                         echo "<label>Nom de la Ligue :</label>";
-                                        echo "<select class=\"form-control\" name=\"nomLigue\" id=\"nomLigue\">";
+                                        echo "<select class=\"form-control\" id=\"nomLigue\">";
                                         foreach($arrNomLigues as $arrNomLigue){
                                             echo "<option value=\"".$arrNomLigue['idLigue']."\">".$arrNomLigue['nomLigue']."</option>";
                                         }
@@ -85,15 +85,12 @@
                                     }
                                 ?>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger" id="saveMdl" data-dismiss="modal">Réserver</button>
-                        </div>
                     </div>
 
-                    <!-- Modal footer
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger saveMdl" data-dismiss="modal">Réserver</button>
-                </div>-->
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" id="saveMdl" data-dismiss="modal">Réserver</button>
+                    </div>
                 </div>
             </div>
         </div>

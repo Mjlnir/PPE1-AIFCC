@@ -59,10 +59,10 @@
                                            $_POST['dateFinFuturReservation']);
                 break;
               case "reserver":
-                echo fctRerserver($_POST['startTime'],
-                                  $_POST['endTime'],
-                                  $_POST['nomSalle'],
-                                  $_POST['idLigue']);
+                fctRerserver($_POST['startTime'],
+                             $_POST['endTime'],
+                             $_POST['nomSalle'],
+                             $_POST['idLigue']);
                 break;
             case "modifSalles":
                 include("views/admin/modifSalles.php");
