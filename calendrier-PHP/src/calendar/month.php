@@ -1,5 +1,5 @@
 <?php
-namespace PPE1;
+namespace PPE1\Calendar;
 
 class Month {
     
@@ -43,6 +43,9 @@ class Month {
         $weeks = intval($end->format('W')) - intval($start->format('W')) + 1;
         if($weeks < 0){
             $weeks = intval($end->format('W'));
+        }
+        if($weeks === 1){
+            $weeks = 6;
         }
         return $weeks;
     }

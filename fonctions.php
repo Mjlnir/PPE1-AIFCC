@@ -2,7 +2,9 @@
 function DBLog(){
     try  
     {
-        $conn = new PDO("sqlsrv:Server=localhost,1433;Database=M2L", "M2L", "M2L");
+        $conn = new PDO("sqlsrv:Server=localhost,1433;Database=M2L", "M2L", "M2L",
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
         if($conn)
         {
             return $conn;
