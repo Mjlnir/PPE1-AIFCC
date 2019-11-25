@@ -81,24 +81,16 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#saveMdl', function () {
-        $.ajax({
-            url: "index.php?action=reserver",
-            url: 'test.php',
-            type: "POST",
-            data: {
-                startTime: moment($('#startTime').val()).format().slice(0, -6),
-                endTime: moment($('#endTime').val()).format().slice(0, -6),
-                nomSalle: $("#nomSalle option:selected").text(),
-                idLigue: $("#nomLigue option:selected").attr("value")
-            },
-            dataType: "html"
-        }).done(function (data) {
-            if (data == 0) {
-                alert('TAMERE');
-            }
+        $.post("index.php?action=reserver", {
+            startTime: moment($('#startTime').val()).format().slice(0, -6),
+            endTime: moment($('#endTime').val()).format().slice(0, -6),
+            nomSalle: $("#nomSalle :selected").text(),
+            idLigue: $("#nomLigue :selected").attr("value")
+        }, function (data) {
+//            alert(data);
             $('#createReservation').hide();
+            calendar.refetchEvents();
         });
-        calendar.fullCalendar('refetchEvents');
     });
 
     //$.datetimepicker.setLocale('fr');

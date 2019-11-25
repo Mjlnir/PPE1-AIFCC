@@ -59,10 +59,22 @@
                                            $_POST['dateFinFuturReservation']);
                 break;
               case "reserver":
-                fctRerserver($_POST['startTime'],
-                             $_POST['endTime'],
-                             $_POST['nomSalle'],
-                             $_POST['idLigue']);
+                if($_SESSION['user']['idTypeUtilisateur'] == 1){
+                    $idLigue = $_SESSION['ligue']['idLigue'];
+                }
+                else{
+                    $idLigue = $_POST['idLigue'];
+                }
+                echo fctRerserver($_POST['startTime'],
+                                  $_POST['endTime'],
+                                  $_POST['nomSalle'],
+                                  $_SESSION['user']['idUtilisateur'],
+                                  $idLigue);
+//                echo $_POST['startTime'].' '.
+//                                  $_POST['endTime'].' '.
+//                                  $_POST['nomSalle'].' '.
+//                                  $_SESSION['user']['idUtilisateur'].' '.
+//                                  $idLigue;
                 break;
             case "modifSalles":
                 include("views/admin/modifSalles.php");

@@ -2,9 +2,9 @@
 function DBLog(){
     try  
     {
-        $conn = new PDO("sqlsrv:Server=localhost,1433;Database=M2L", "M2L", "M2L",
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
+        $conn = new PDO("sqlsrv:Server=localhost,1433;Database=M2L", "M2L", "M2L");
+//        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+//         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
         if($conn)
         {
             return $conn;
@@ -271,26 +271,22 @@ function fctGetReservation(){
         die("Error occurred:" . $e->getMessage());
     }
 }
-function fctRerserver($startTime, $endTime, $nomSalle, $idLigue){
+function fctRerserver($startTime, $endTime, $nomSalle, $idUser, $idLigue){
     try
     {
         $conn = DBLog();
-        $sql = "EXEC PRC_RESERVER :startTime, :endTime, :nomSalle, :idUser; :idLigue";
+        $sql = "EXEC PRC_RESERVER :startTime, :endTime, :nomSalle, :idUser, :idLigue";
         $query = $conn->prepare($sql);
         $query->bindParam(":startTime", $startTime);
         $query->bindParam(":endTime", $endTime);
         $query->bindParam(":nomSalle", $nomSalle);
-        $query->bindParam(":idUser", $_SESSIONS['user']['idUtilisateur']);
-        if($_SESSION['user']['idTypeUtilisateur'] == 1){
-            $query->bindParam(":idLigue", $_SESSIONS['ligue']['idLigue']);
-        }
-        else{
-            $query->bindParam(":idLigue", $idLigue);
-        }
+        $query->bindParam(":idUser", $idUser);
+        $query->bindParam(":idLigue", $idLigue);
         $query->execute();
         $row = $query->fetch();
         $query -> closeCursor();
         return $row;
+//        return $startTime.' '.$endTime.' '.$nomSalle.' '.$idUser.' '.$idLigue;
     }
     catch (PDOException $e)
     {
