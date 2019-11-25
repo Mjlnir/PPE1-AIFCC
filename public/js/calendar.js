@@ -17,8 +17,10 @@ $(document).ready(function () {
         droppable: false,
         dateClick: function (info) {
             $('#createReservation').show();
-            var $date = moment(info.dateStr).format().replace(/-/g, '/').replace('T', ' ').slice(0, -9);
-            $('#startTime').val($date);
+            var dateDebut = moment(info.dateStr).format().replace(/-/g, '/').replace('T', ' ').slice(0, -9);
+            var dateFin = moment(info.dateStr).add(1, 'hours').format().replace(/-/g, '/').replace('T', ' ').slice(0, -9);
+            $('#startTime').val(dateDebut);
+            $('#endTime').val(dateFin);
         },
         events: "index.php?action=getReservation",
         eventRender: function (event, element, view) {
