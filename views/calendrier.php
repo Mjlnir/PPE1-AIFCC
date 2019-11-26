@@ -86,7 +86,6 @@
                                 ?>
                         </div>
                     </div>
-
                     <!-- Modal footer -->
                     <div class="modal-footer">
                         <button class="btn btn-danger" id="saveMdl" data-dismiss="modal">Réserver</button>
@@ -112,6 +111,12 @@
                         <span id="endTimeRead"></span>
                         <span id="salleRead"></span>
                         <span id="ligueRead"></span>
+                        <span id="descriptionRead"></span>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" id="updateMdl" data-dismiss="modal">Modifier</button>
+                        <button class="btn btn-danger" id="deleteMdl" data-dismiss="modal">Supprimer</button>
                     </div>
                 </div>
             </div>

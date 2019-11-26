@@ -69,12 +69,11 @@
                                   $_POST['endTime'],
                                   $_POST['nomSalle'],
                                   $_SESSION['user']['idUtilisateur'],
-                                  $idLigue);
-//                echo $_POST['startTime'].' '.
-//                                  $_POST['endTime'].' '.
-//                                  $_POST['nomSalle'].' '.
-//                                  $_SESSION['user']['idUtilisateur'].' '.
-//                                  $idLigue;
+                                  $idLigue,
+                                  $_POST['description']);
+                break;
+            case "delReservation":
+                echo fctDelRerservation($_POST['idReservation']);
                 break;
             case "modifSalles":
                 include("views/admin/modifSalles.php");

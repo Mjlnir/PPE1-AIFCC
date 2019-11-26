@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    //Variable globale
+    var eventInfoID;
+    
     moment.locale('fr');
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -15,14 +18,23 @@ $(document).ready(function () {
         selectHelper: false,
         editable: false,
         droppable: false,
+        //        businessHours: {
+        //            daysOfWeek: [1, 2, 3, 4, 5],
+        //            startTime: '08:00',
+        //            endTime: '18:00'
+        //        },
+        minTime: '08:00',
+        maxTime: '19:00',
+        hiddenDays: [6, 0],
         dateClick: function (info) {
-            $('#createReservation').show();
+            $('#createReservation ').show();
             var dateDebut = moment(info.dateStr).format().replace(/-/g, '/').replace('T', ' ').slice(0, -9);
             var dateFin = moment(info.dateStr).add(1, 'hours').format().replace(/-/g, '/').replace('T', ' ').slice(0, -9);
             $('#startTime').val(dateDebut);
             $('#endTime').val(dateFin);
         },
         events: "index.php?action=getReservation",
+        allDaySlot: false,
         eventRender: function (event, element, view) {
             if (event.allDay === 'true') {
                 event.allDay = true;
@@ -31,12 +43,20 @@ $(document).ready(function () {
             }
         },
         eventClick: function (info) {
+            eventInfoID = info.event.id;
             $('#readReservation').show();
             $('#startTimeRead').html("Heure de début: " + moment(info.event.start).format("l") + ' ' + moment(info.event.start).format("LT"));
             $('#endTimeRead').html("Heure de fin: " + moment(info.event.end).format("l") + ' ' + moment(info.event.end).format("LT"));
+
             var titleSplit = info.event.title.split(" ");
-            $('#salleRead').html("Nom de la salle: " + titleSplit[0]);
-            $('#ligueRead').html("Nom de la ligue: " + titleSplit[1]);
+            $('#salleRead').html("Nom de la salle: " + info.event.nomSalle);
+            $('#ligueRead').html("Nom de la ligue: " + info.event.nomLigue);
+
+            var description = info.event.descriptionR;
+            if (description == null) {
+                description = 'Aucune';
+            }
+            $('#descriptionRead').html("Description: " + description);
         }
     });
 
@@ -82,20 +102,28 @@ $(document).ready(function () {
         $('#readReservation').hide();
     });
 
-    $(document).on('click', '#saveMdl', function () {
+    $('#saveMdl').click(function () {
         $.post("index.php?action=reserver", {
             startTime: moment($('#startTime').val()).format().slice(0, -6),
             endTime: moment($('#endTime').val()).format().slice(0, -6),
             nomSalle: $("#nomSalle :selected").text(),
-            idLigue: $("#nomLigue :selected").attr("value")
+            idLigue: $("#nomLigue :selected").attr("value"),
+            description: null
         }, function (data) {
-//            alert(data);
             $('#createReservation').hide();
             calendar.refetchEvents();
         });
     });
 
-    //$.datetimepicker.setLocale('fr');
+    $('#deleteMdl').click(function () {
+        $.post("index.php?action=delReservation", {
+            idReservation: eventInfoID
+        }, function (data) {
+            $('#readReservation').hide();
+            calendar.refetchEvents();
+        });
+    });
+
     $('#startTime').datetimepicker({
         datepicker: false,
         allowTimes: [

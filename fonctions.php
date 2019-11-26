@@ -250,43 +250,50 @@ function fctGetReservation(){
         $query->execute();
         
         $row = $query->fetchAll();
-        $iCpt = 0;
-        foreach($row as $result)
-        {
-         $data[] = array(
-          'id'      => $iCpt,
-          'title'   => $result["title"],
-          'start'   => $result["start"],
-          'end'     => $result["end"]
-         );
-            $iCpt++;
-        }
-        
         $query -> closeCursor();
         
-        return json_encode($data);
+        return json_encode($row);
     }
     catch (PDOException $e)
     {
         die("Error occurred:" . $e->getMessage());
     }
 }
-function fctRerserver($startTime, $endTime, $nomSalle, $idUser, $idLigue){
+function fctRerserver($startTime, $endTime, $nomSalle, $idUser, $idLigue, $description){
     try
     {
         $conn = DBLog();
-        $sql = "EXEC PRC_RESERVER :startTime, :endTime, :nomSalle, :idUser, :idLigue";
+        $sql = "EXEC PRC_RESERVER :startTime, :endTime, :nomSalle, :idUser, :idLigue, :description";
         $query = $conn->prepare($sql);
         $query->bindParam(":startTime", $startTime);
         $query->bindParam(":endTime", $endTime);
         $query->bindParam(":nomSalle", $nomSalle);
         $query->bindParam(":idUser", $idUser);
         $query->bindParam(":idLigue", $idLigue);
+        $query->bindParam(":description", $description);
+        $query->execute();
+        $row = $query->fetch();
+        $query -> closeCursor();
+//        return $startTime.' '.$endTime.' '.$nomSalle.' '.$idUser.' '.$idLigue;
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+
+function fctDelRerservation($idReservation){
+    try
+    {
+        $conn = DBLog();
+        $sql = "EXEC PRC_DEL_RESERVATION :idReservation";
+        $query = $conn->prepare($sql);
+        $query->bindParam(":idReservation", $idReservation);
         $query->execute();
         $row = $query->fetch();
         $query -> closeCursor();
         return $row;
-//        return $startTime.' '.$endTime.' '.$nomSalle.' '.$idUser.' '.$idLigue;
     }
     catch (PDOException $e)
     {
