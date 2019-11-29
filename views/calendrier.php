@@ -54,7 +54,7 @@
                                     foreach($arrSalles as $Salle){
                                         if($temp != $Salle['typeSalle'].$Salle['nbPersonneMax']){
                                             $temp = $Salle['typeSalle'].$Salle['nbPersonneMax'];
-                                            echo "<option value=\"".substr($Salle['typeSalle'],0,1).
+                                            echo "<option id=\"".substr($Salle['typeSalle'],0,1).
                                                 substr($Salle['nbPersonneMax'],0,1)."\">";
                                             echo $Salle['typeSalle']." ".$Salle['nbPersonneMax']." places";
                                             echo "</option>";
@@ -79,7 +79,7 @@
                                         echo "<label>Nom de la Ligue :</label>";
                                         echo "<select class=\"form-control\" id=\"nomLigue\">";
                                         foreach($arrNomLigues as $arrNomLigue){
-                                            echo "<option value=\"".$arrNomLigue['idLigue']."\">".$arrNomLigue['nomLigue']."</option>";
+                                            echo "<option id=\"".$arrNomLigue['idLigue']."\">".$arrNomLigue['nomLigue']."</option>";
                                         }
                                         echo "</select>";
                                     }

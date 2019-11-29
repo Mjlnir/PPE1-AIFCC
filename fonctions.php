@@ -250,9 +250,23 @@ function fctGetReservation(){
         $query->execute();
         
         $row = $query->fetchAll();
+        foreach($row as $result)
+        {
+            $data[] = array(
+                'id'      => $result["id"],
+                'title'   => $result["title"],
+                'start'   => $result["start"],
+                'end'     => $result["end"],
+                'extendedProps' => array(
+                    'nomSalle' => $result["nomSalle"],
+                    'nomLigue' => $result['nomLigue'],
+                ),
+                'description' => $result['descriptionR']
+         );
+        }
         $query -> closeCursor();
         
-        return json_encode($row);
+        return json_encode($data);
     }
     catch (PDOException $e)
     {

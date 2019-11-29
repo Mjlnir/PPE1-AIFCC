@@ -1,7 +1,7 @@
 $(document).ready(function () {
     //Variable globale
     var eventInfoID;
-    
+
     moment.locale('fr');
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -18,14 +18,9 @@ $(document).ready(function () {
         selectHelper: false,
         editable: false,
         droppable: false,
-        //        businessHours: {
-        //            daysOfWeek: [1, 2, 3, 4, 5],
-        //            startTime: '08:00',
-        //            endTime: '18:00'
-        //        },
+        weekends: false,
         minTime: '08:00',
         maxTime: '19:00',
-        hiddenDays: [6, 0],
         dateClick: function (info) {
             $('#createReservation ').show();
             var dateDebut = moment(info.dateStr).format().replace(/-/g, '/').replace('T', ' ').slice(0, -9);
@@ -44,19 +39,22 @@ $(document).ready(function () {
         },
         eventClick: function (info) {
             eventInfoID = info.event.id;
-            $('#readReservation').show();
-            $('#startTimeRead').html("Heure de début: " + moment(info.event.start).format("l") + ' ' + moment(info.event.start).format("LT"));
-            $('#endTimeRead').html("Heure de fin: " + moment(info.event.end).format("l") + ' ' + moment(info.event.end).format("LT"));
 
-            var titleSplit = info.event.title.split(" ");
-            $('#salleRead').html("Nom de la salle: " + info.event.nomSalle);
-            $('#ligueRead').html("Nom de la ligue: " + info.event.nomLigue);
+            $('#createReservation ').show();
+            $('#startTime').val(moment(info.event.start).format("l") + ' ' + moment(info.event.start).format("LT"));
+            $('#endTime').val(moment(info.event.end).format("l") + ' ' + moment(info.event.end).format("LT"));
+            
+            $('#nomSalle option').removeAttr("selected");
+            $('.typeSalle option').removeAttr("selected");
+            $('#nomLigue option').removeAttr("selected");
+            $('.nomSalle').hide();
 
-            var description = info.event.descriptionR;
-            if (description == null) {
-                description = 'Aucune';
-            }
-            $('#descriptionRead').html("Description: " + description);
+            var optionIdSalle = $('#' + info.event.extendedProps.nomSalle);
+            optionIdSalle.prop('selected',true);
+            var varTypeSalle = optionIdSalle.parent().attr('class').split(' ')[2];
+            $('.' + varTypeSalle).show();
+            $('#' + varTypeSalle).prop('selected',true);
+            $('#' + info.event.extendedProps.nomLigue).attr("selected", "selected");
         }
     });
 
@@ -106,7 +104,7 @@ $(document).ready(function () {
         $.post("index.php?action=reserver", {
             startTime: moment($('#startTime').val()).format().slice(0, -6),
             endTime: moment($('#endTime').val()).format().slice(0, -6),
-            nomSalle: $("#nomSalle :selected").text(),
+            nomSalle: $("#nomSalle:visible :selected").text(),
             idLigue: $("#nomLigue :selected").attr("value"),
             description: null
         }, function (data) {
@@ -142,8 +140,9 @@ $(document).ready(function () {
 
     $('.I1').hide();
     $('.B3').hide();
-    $('.typeSalle').click(function () {
-        var typeSalleChoosen = $(this).children("option:selected").val();
+    $(document).on('click', '.typeSalle', function () {
+        //    $('.typeSalle').click(function () {
+        var typeSalleChoosen = $(this).children("option:selected").attr('id');
         switch (typeSalleChoosen) {
             case 'I1':
                 $('.I1').show();
