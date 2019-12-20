@@ -45,13 +45,15 @@
                             <label>Type de salle :</label>
                             <?php
                                     $arrSalles = fctGet_Salles();
-                                    if($_SESSION['user']['idTypeUtilisateur'] == 0){
+                            
+                                    if($_SESSION['user']['idTypeUtilisateur'] == 1){
                                         $arrNomLigues = fctGetLigues();
                                     }
                                     $temp = null;
                                 
+                                    
                                     echo "<select class=\"form-control typeSalle\" name=\"typeSalle\">";
-                                    foreach($arrSalles as $Salle){
+                                     foreach($arrSalles as $Salle){
                                         if($temp != $Salle['typeSalle'].$Salle['nbPersonneMax']){
                                             $temp = $Salle['typeSalle'].$Salle['nbPersonneMax'];
                                             echo "<option id=\"".substr($Salle['typeSalle'],0,1).
@@ -75,7 +77,7 @@
                                         }
                                     }
                                 
-                                    if($_SESSION['user']['idTypeUtilisateur'] == 0){
+                                    if($_SESSION['user']['idTypeUtilisateur'] == 1){
                                         echo "<label>Nom de la Ligue :</label>";
                                         echo "<select class=\"form-control\" id=\"nomLigue\">";
                                         foreach($arrNomLigues as $arrNomLigue){

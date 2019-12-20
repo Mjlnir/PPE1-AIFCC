@@ -60,6 +60,7 @@ $(document).ready(function () {
 
     calendar.render();
 
+    //TODO #startTime
     $('#endTime').change(function () {
         var startTime = moment($('#startTime').val());
         var endTime = moment($('#endTime').val());
@@ -102,11 +103,11 @@ $(document).ready(function () {
 
     $('#saveMdl').click(function () {
         $.post("index.php?action=reserver", {
+            idLigue: $("#nomLigue :selected").attr("id"),
             startTime: moment($('#startTime').val()).format().slice(0, -6),
             endTime: moment($('#endTime').val()).format().slice(0, -6),
             nomSalle: $("#nomSalle:visible :selected").text(),
-            idLigue: $("#nomLigue :selected").attr("value"),
-            description: null
+            description: ""
         }, function (data) {
             $('#createReservation').hide();
             calendar.refetchEvents();

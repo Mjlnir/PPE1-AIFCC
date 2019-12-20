@@ -28,7 +28,7 @@
                     unset($_SESSION['ligue']);
                     
                     $_SESSION['user'] = fctGetUser($_POST['pseudo']);
-                    if($_SESSION['user']['idTypeUtilisateur'] == 1){
+                    if($_SESSION['user']['idTypeUtilisateur'] == 2){
                         $_SESSION['ligue'] = fctGetLigue($_SESSION['user']['idUtilisateur']);
                     }
                     include("views/home.php");
@@ -59,7 +59,7 @@
                                            $_POST['dateFinFuturReservation']);
                 break;
               case "reserver":
-                if($_SESSION['user']['idTypeUtilisateur'] == 1){
+                if($_SESSION['user']['idTypeUtilisateur'] == 2){
                     $idLigue = $_SESSION['ligue']['idLigue'];
                 }
                 else{

@@ -2,9 +2,9 @@
 function DBLog(){
     try  
     {
-        $conn = new PDO("mysql:host=localhost;dbname=M2L;charset=utf8", "root", "",
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
+        $conn = new PDO("sqlsrv:Server=localhost,1433;Database=M2L", "M2L", "M2L");
+//        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+//         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
         if($conn)
         {
             return $conn;
@@ -28,18 +28,19 @@ function fctSignIn($login, $mdp)
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_SIGNIN(:login,:mdp)";
+        $sql = "EXEC PRC_SIGNIN :pseudo,:mdp";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
-        $query->bindParam(":login", $login);
+        $query->bindParam(":pseudo", $login);
         $query->bindParam(":mdp", $mdp);
         $query->execute();
-//        $query->debugDumpParams();
-//        return $query;
+        
         $row = $query->fetch();
-        $query->closeCursor();
-        return $row['nbUser'] == 1;
+        
+        $query -> closeCursor();
+        
+        return $row[0] == 1;
     }
     catch (PDOException $e)
     {
@@ -55,7 +56,7 @@ function fctSignUp($prenom, $nom, $mail, $tel, $mdp)
         $outputReturn;
 
         // execute the stored procedure
-        $sql = "CALL PRC_SIGNUP(:prenom, :nom, :mail, :tel, :mdp)";
+        $sql = "EXEC PRC_SIGNUP :prenom, :nom, :mail, :tel, :mdp";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -70,7 +71,7 @@ function fctSignUp($prenom, $nom, $mail, $tel, $mdp)
         
         $query -> closeCursor();
         
-        return $row["_return"] == 1;
+        return $row[0] == 1;
     }
     catch (PDOException $e)
     {
@@ -85,7 +86,7 @@ function fctEstAdmin($pseudo)
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_EST_ADMIN(:pseudo)";
+        $sql = "EXEC PRC_EST_ADMIN :pseudo";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -110,14 +111,14 @@ function fctGetUser($pseudo)
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_GET_USER(:pseudo)";
+        $sql = "EXEC PRC_GET_USER :pseudo";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
         $query->bindParam(":pseudo", $pseudo);
         $query->execute();
         
-        $row = $query->fetch();
+        $row = $query->fetch(PDO::FETCH_ASSOC);
         
         $query -> closeCursor();
         
@@ -136,7 +137,7 @@ function fctGetLigue($idUtilisateur)
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_GET_LIGUE(:idUtilisateur)";
+        $sql = "EXEC PRC_GET_LIGUE :idUtilisateur";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -162,7 +163,7 @@ function fctGetLigues()
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_GET_LIGUES";
+        $sql = "EXEC PRC_GET_LIGUES";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -186,7 +187,7 @@ function fctGet_Salles(){
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_GET_SALLES";
+        $sql = "EXEC PRC_GET_SALLES";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -210,7 +211,7 @@ function fctGet_Salles_Reserve($datedebut, $datefin){
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_GET_SALLES_RESERVE(:datedebut, :datefin)";
+        $sql = "EXEC PRC_GET_SALLES_RESERVE :datedebut, :datefin";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -242,7 +243,7 @@ function fctGetReservation(){
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_GET_RESERVATION";
+        $sql = "EXEC PRC_GET_RESERVATION";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -276,7 +277,7 @@ function fctRerserver($startTime, $endTime, $nomSalle, $idUser, $idLigue, $descr
     try
     {
         $conn = DBLog();
-        $sql = "CALL PRC_RESERVER(:startTime,:endTime,:nomSalle,:idUser,:idLigue,:description)";
+        $sql = "EXEC PRC_RESERVER :startTime, :endTime, :nomSalle, :idUser, :idLigue, :description";
         $query = $conn->prepare($sql);
         $query->bindParam(":startTime", $startTime);
         $query->bindParam(":endTime", $endTime);
@@ -287,8 +288,8 @@ function fctRerserver($startTime, $endTime, $nomSalle, $idUser, $idLigue, $descr
         $query->execute();
         $row = $query->fetch();
         $query -> closeCursor();
+//        return $startTime.' '.$endTime.' '.$nomSalle.' '.$idUser.' '.$idLigue;
         return $row;
-//        return $query->debugDumpParams();
     }
     catch (PDOException $e)
     {
@@ -300,7 +301,7 @@ function fctDelRerservation($idReservation){
     try
     {
         $conn = DBLog();
-        $sql = "CALL PRC_DEL_RESERVATION(:idReservation)";
+        $sql = "EXEC PRC_DEL_RESERVATION :idReservation";
         $query = $conn->prepare($sql);
         $query->bindParam(":idReservation", $idReservation);
         $query->execute();
@@ -320,7 +321,7 @@ function fctGet_Utilisateur($idUtilisateur){
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_GET_UTILISATEUR(:idUtilisateur)";
+        $sql = "EXEC PRC_GET_UTILISATEUR :idUtilisateur";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -345,7 +346,7 @@ function fctActiveSalle($idSalle){
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_UPD_ACTIVE_SALLE(:idSalle)";
+        $sql = "EXEC PRC_UPD_ACTIVE_SALLE :idSalle";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -369,7 +370,7 @@ function fctInformatiseeSalle($idSalle){
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_UPD_INFORMATISEE_SALLE(:idSalle)";
+        $sql = "EXEC PRC_UPD_INFORMATISEE_SALLE :idSalle";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -393,7 +394,7 @@ function fctNbPlaceMaxSalle($idSalle, $nbPlaceMax){
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_UPD_NBPLACE_SALLE(:idSalle,:nbPlaceMax)";
+        $sql = "EXEC PRC_UPD_NBPLACE_SALLE :idSalle,:nbPlaceMax";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -418,7 +419,7 @@ function fctNomSalle($idSalle, $nomSalle){
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_UPD_NOM_SALLE(:idSalle,:nomSalle)";
+        $sql = "EXEC PRC_UPD_NOM_SALLE :idSalle,:nomSalle";
         
         // call the stored procedure
         $query = $conn->prepare($sql);

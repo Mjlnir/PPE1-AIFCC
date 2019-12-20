@@ -8,7 +8,7 @@
             echo "<td><a href=\"#\" class=\"btnNbPlaceSalle\" id=\"".$salle['idSalle']."\">".$salle['nbPersonneMax']."</a></td>";
 
             echo "<td><a href=\"#\" class=\"btnTypeSalle\" id=\"".$salle['idSalle']."\"><span class=\"octicon ";
-            if($salle['idTypeSalle'] == 0){
+            if($salle['idTypeSalle'] == 1){
                echo "octicon-x\">"; 
             }
             else{
