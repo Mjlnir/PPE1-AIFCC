@@ -1,6 +1,7 @@
 $(document).ready(function () {
     //Variable globale
-    var eventInfoID;
+    var eventInfoID; //Permet de passer l'id d'une réservation à un event
+    var eventUpdateClick; //Permet de savoir si l'utilisateur click sur une réservation pour activer la modification et non l'ajout de réservation
 
     moment.locale('fr');
     var calendarEl = document.getElementById('calendar');
@@ -23,6 +24,9 @@ $(document).ready(function () {
         maxTime: '19:00',
         dateClick: function (info) {
             $('#createReservation ').show();
+            $('#CU_title').text('Réserver une salle');
+            $('#saveMdl').html('Réserver');
+            $('#deleteMdl').attr('hidden', true);
             var dateDebut = moment(info.dateStr).format().replace(/-/g, '/').replace('T', ' ').slice(0, -9);
             var dateFin = moment(info.dateStr).add(1, 'hours').format().replace(/-/g, '/').replace('T', ' ').slice(0, -9);
             $('#startTime').val(dateDebut);
@@ -39,21 +43,25 @@ $(document).ready(function () {
         },
         eventClick: function (info) {
             eventInfoID = info.event.id;
+            eventUpdateClick = true;
 
             $('#createReservation ').show();
+            $('#CU_title').text('Modifier une réservation');
+            $('#saveMdl').html('Modifier');
+            $('#deleteMdl').removeAttr('hidden');
             $('#startTime').val(moment(info.event.start).format("l") + ' ' + moment(info.event.start).format("LT"));
             $('#endTime').val(moment(info.event.end).format("l") + ' ' + moment(info.event.end).format("LT"));
-            
+
             $('#nomSalle option').removeAttr("selected");
             $('.typeSalle option').removeAttr("selected");
             $('#nomLigue option').removeAttr("selected");
             $('.nomSalle').hide();
 
             var optionIdSalle = $('#' + info.event.extendedProps.nomSalle);
-            optionIdSalle.prop('selected',true);
+            optionIdSalle.prop('selected', true);
             var varTypeSalle = optionIdSalle.parent().attr('class').split(' ')[2];
             $('.' + varTypeSalle).show();
-            $('#' + varTypeSalle).prop('selected',true);
+            $('#' + varTypeSalle).prop('selected', true);
             $('#' + info.event.extendedProps.nomLigue).attr("selected", "selected");
         }
     });
@@ -102,23 +110,38 @@ $(document).ready(function () {
     });
 
     $('#saveMdl').click(function () {
-        $.post("index.php?action=reserver", {
-            idLigue: $("#nomLigue :selected").attr("id"),
-            startTime: moment($('#startTime').val()).format().slice(0, -6),
-            endTime: moment($('#endTime').val()).format().slice(0, -6),
-            nomSalle: $("#nomSalle:visible :selected").text(),
-            description: ""
-        }, function (data) {
-            $('#createReservation').hide();
-            calendar.refetchEvents();
-        });
+        if (eventUpdateClick) {
+            $.post("index.php?action=updateReservation", {
+                idLigue: $("#nomLigue :selected").attr("id"),
+                startTime: moment($('#startTime').val()).format("YYYY-DD-MM HH:MM:SS"),
+                endTime: moment($('#endTime').val()).format("YYYY-DD-MM HH:MM:SS"),
+                nomSalle: $("#nomSalle:visible :selected").text(),
+                description: "Passer ici",
+                idReservation: eventInfoID
+            }, function () {
+                eventUpdateClick = false;
+                $('#createReservation').hide();
+                calendar.refetchEvents();
+            });
+        } else {
+            $.post("index.php?action=reserver", {
+                idLigue: $("#nomLigue :selected").attr("id"),
+                startTime: moment($('#startTime').val()).format().slice(0, -6),
+                endTime: moment($('#endTime').val()).format().slice(0, -6),
+                nomSalle: $("#nomSalle:visible :selected").text(),
+                description: ""
+            }, function () {
+                $('#createReservation').hide();
+                calendar.refetchEvents();
+            });
+        }
     });
 
     $('#deleteMdl').click(function () {
         $.post("index.php?action=delReservation", {
             idReservation: eventInfoID
         }, function (data) {
-            $('#readReservation').hide();
+            $('#createReservation').hide();
             calendar.refetchEvents();
         });
     });

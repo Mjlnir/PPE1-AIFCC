@@ -72,6 +72,21 @@
                                   $idLigue,
                                   $_POST['description']);
                 break;
+            case "updateReservation":
+                if($_SESSION['user']['idTypeUtilisateur'] == 2){
+                    $idLigue = $_SESSION['ligue']['idLigue'];
+                }
+                else{
+                    $idLigue = $_POST['idLigue'];
+                }
+                echo fctUpdateRerservation($_POST['startTime'],
+                                  $_POST['endTime'],
+                                  $_POST['nomSalle'],
+                                  $_SESSION['user']['idUtilisateur'],
+                                  $idLigue,
+                                  $_POST['description'],
+                                  $_POST['idReservation']);
+                break;
             case "delReservation":
                 echo fctDelRerservation($_POST['idReservation']);
                 break;

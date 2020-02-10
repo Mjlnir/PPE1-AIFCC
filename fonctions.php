@@ -295,6 +295,30 @@ function fctRerserver($startTime, $endTime, $nomSalle, $idUser, $idLigue, $descr
         die("Error occurred:" . $e->getMessage());
     }
 }
+function fctUpdateRerservation($startTime, $endTime, $nomSalle, $idUser, $idLigue, $description, $idReservation){
+    try
+    {
+        $conn = DBLog();
+        $sql = "CALL PRC_UPD_RESERVATION(:startTime,:endTime,:nomSalle,:idUser,:idLigue,:description,:idReservation)";
+        $query = $conn->prepare($sql);
+        $query->bindParam(":startTime", $startTime);
+        $query->bindParam(":endTime", $endTime);
+        $query->bindParam(":nomSalle", $nomSalle);
+        $query->bindParam(":idUser", $idUser);
+        $query->bindParam(":idLigue", $idLigue);
+        $query->bindParam(":description", $description);
+        $query->bindParam(":idReservation", $idReservation);
+        $query->execute();
+        $row = $query->fetch();
+        $query -> closeCursor();
+        return $row;
+//        return $query->debugDumpParams();
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
 
 function fctDelRerservation($idReservation){
     try

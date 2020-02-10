@@ -31,7 +31,7 @@
                 <div class="modal-content">
                     <!-- Modal Header -->
                     <div class="modal-header">
-                        <h4 class="modal-title">Réserver une salle</h4>
+                        <h4 class="modal-title" id="CU_title">Réserver une salle</h4>
                         <button type="button" class="close closeMdl" data-dismiss="modal">&times;</button>
                     </div>
                     <!-- Modal body -->
@@ -91,34 +91,7 @@
                     <!-- Modal footer -->
                     <div class="modal-footer">
                         <button class="btn btn-danger" id="saveMdl" data-dismiss="modal">Réserver</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <!-- Modal Read Reservation -->
-        <div class="modal" id="readReservation">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Description de la réservation</h4>
-                        <button type="button" class="close closeMdl" data-dismiss="modal">&times;</button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="modal-body" id="readReservationModalBody">
-                        <span id="startTimeRead"></span>
-                        <span id="endTimeRead"></span>
-                        <span id="salleRead"></span>
-                        <span id="ligueRead"></span>
-                        <span id="descriptionRead"></span>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button class="btn btn-danger" id="updateMdl" data-dismiss="modal">Modifier</button>
-                        <button class="btn btn-danger" id="deleteMdl" data-dismiss="modal">Supprimer</button>
+                        <button class="btn btn-danger" id="deleteMdl" data-dismiss="modal" hidden>Supprimer</button>
                     </div>
                 </div>
             </div>
