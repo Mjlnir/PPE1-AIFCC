@@ -116,7 +116,7 @@ $(document).ready(function () {
                 startTime: moment($('#startTime').val()).format("YYYY-DD-MM HH:MM:SS"),
                 endTime: moment($('#endTime').val()).format("YYYY-DD-MM HH:MM:SS"),
                 nomSalle: $("#nomSalle:visible :selected").text(),
-                description: "Passer ici",
+                description: "",
                 idReservation: eventInfoID
             }, function () {
                 eventUpdateClick = false;
@@ -138,9 +138,10 @@ $(document).ready(function () {
     });
 
     $('#deleteMdl').click(function () {
+        eventUpdateClick = false;
         $.post("index.php?action=delReservation", {
             idReservation: eventInfoID
-        }, function (data) {
+        }, function () {
             $('#createReservation').hide();
             calendar.refetchEvents();
         });

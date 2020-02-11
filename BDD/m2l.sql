@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 10 fév. 2020 à 19:00
+-- Généré le :  mar. 11 fév. 2020 à 19:18
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.12
 
@@ -33,8 +33,9 @@ END$$
 
 DROP PROCEDURE IF EXISTS `PRC_DEL_RESERVATION`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_DEL_RESERVATION` (IN `_idReservation` INT)  BEGIN
-	DELETE FROM RESERVER
-    WHERE idReservation = _idReservation;
+        DELETE FROM RESERVER
+        WHERE idReservation = _idReservation;
+        SELECT _idReservation as idReservation;
 END$$
 
 DROP PROCEDURE IF EXISTS `PRC_DEL_SALLE`$$
@@ -66,16 +67,27 @@ END$$
 
 DROP PROCEDURE IF EXISTS `PRC_GET_RESERVATION`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_RESERVATION` ()  BEGIN
-	SELECT idReservation as 'id'
-	,CONCAT(nomSalle, ' - ', nomLigue) as 'title'
-	,heureDebut as 'start'
-	,heureFin as 'end'
-	,nomSalle as 'nomSalle'
-	,nomLigue as 'nomLigue'
-	,descriptionR as 'descriptionR'
-	FROM RESERVER JOIN UTILISATEUR ON RESERVER.idUtilisateur = UTILISATEUR.idUtilisateur
-	JOIN LIGUE ON RESERVER.idLigue = LIGUE.idLigue
-	JOIN SALLE ON RESERVER.idSalle = SALLE.idSalle;
+        IF((SELECT COUNT(idReservation) FROM reserver) > 0) THEN
+	    SELECT idReservation as 'id'
+	    ,CONCAT(nomSalle, ' - ', nomLigue) as 'title'
+	    ,heureDebut as 'start'
+	    ,heureFin as 'end'
+	    ,nomSalle as 'nomSalle'
+	    ,nomLigue as 'nomLigue'
+	    ,descriptionR as 'descriptionR'
+	    FROM RESERVER JOIN UTILISATEUR ON RESERVER.idUtilisateur = UTILISATEUR.idUtilisateur
+	    JOIN LIGUE ON RESERVER.idLigue = LIGUE.idLigue
+	    JOIN SALLE ON RESERVER.idSalle = SALLE.idSalle;
+        ELSE
+            SELECT '' as id
+	    ,'' as title
+	    ,'' as start
+	    ,'' as end
+	    ,'' as nomSalle
+	    ,'' as nomLigue
+	    ,'' as descriptionR;
+        END IF;
+
 END$$
 
 DROP PROCEDURE IF EXISTS `PRC_GET_SALLES`$$
@@ -288,10 +300,10 @@ CREATE TABLE IF NOT EXISTS `reserver` (
   `idReservation` int(11) NOT NULL DEFAULT '0',
   `idLigue` int(11) NOT NULL,
   `idSalle` int(11) NOT NULL,
-  `jourReservation` datetime NOT NULL,
+  `jourReservation` varchar(255) NOT NULL,
   `idUtilisateur` int(11) NOT NULL,
-  `heureDebut` datetime NOT NULL,
-  `heureFin` datetime NOT NULL,
+  `heureDebut` varchar(255) NOT NULL,
+  `heureFin` varchar(255) NOT NULL,
   `descriptionR` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idLigue`,`idSalle`,`jourReservation`),
   KEY `RESERVER_SALLE_FK` (`idSalle`),
@@ -303,7 +315,9 @@ CREATE TABLE IF NOT EXISTS `reserver` (
 --
 
 INSERT INTO `reserver` (`idReservation`, `idLigue`, `idSalle`, `jourReservation`, `idUtilisateur`, `heureDebut`, `heureFin`, `descriptionR`) VALUES
-(0, 1, 56, '2020-10-02 19:02:00', 4, '2020-10-02 19:02:00', '2020-10-02 19:02:00', 'Passer ici');
+(2, 1, 56, '2020-02-10 10:00:00', 4, '2020-02-10 10:00:00', '2020-02-10 11:00:00', ''),
+(1, 1, 56, '2020-02-11 10:00:00', 4, '2020-02-11 10:00:00', '2020-02-11 11:00:00', ''),
+(3, 1, 56, '2020-02-12 10:00:00', 4, '2020-02-12 10:00:00', '2020-02-12 11:00:00', '');
 
 -- --------------------------------------------------------
 

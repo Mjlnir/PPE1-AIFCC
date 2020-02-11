@@ -330,7 +330,7 @@ function fctDelRerservation($idReservation){
         $query->execute();
         $row = $query->fetch();
         $query -> closeCursor();
-        return $row;
+        return json_encode($row);
     }
     catch (PDOException $e)
     {
