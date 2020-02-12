@@ -9,14 +9,18 @@
 
 <script src='./public/js/calendar.js'></script>
 
-<script src='./public/fullCalendar/core/main.js'></script>
-<script src='./public/fullCalendar/core/locales/fr.js'></script>
-<script src='./public/fullCalendar/daygrid/main.js'></script>
-<script src='./public/fullCalendar/timegrid/main.js'></script>
-<script src='./public/fullCalendar/interaction/main.js'></script>
-<script src='./public/js/moment-with-locales.js'></script>
+<script type="text/javascript" src='./public/fullCalendar/core/main.js'></script>
+<script type="text/javascript" src='./public/fullCalendar/core/locales/fr.js'></script>
+<script type="text/javascript" src='./public/fullCalendar/daygrid/main.js'></script>
+<script type="text/javascript" src='./public/fullCalendar/timegrid/main.js'></script>
+<script type="text/javascript" src='./public/fullCalendar/interaction/main.js'></script>
+<script type="text/javascript" src='./public/js/moment-with-locales.js'></script>
 <!--<script src='./public/fullCalendar/moment/main.js'></script>-->
-<script src='./public/datetimepicker-master/build/jquery.datetimepicker.full.js'></script>
+<script type="text/javascript" src='./public/datetimepicker-master/build/jquery.datetimepicker.full.js'></script>
+<script type="text/javascript">
+    var userLigue_id = '<?php echo $_SESSION['ligue']['idLigue'];?>';
+
+</script>
 </head>
 
 <body class="d-flex flex-column">
@@ -45,10 +49,8 @@
                             <label>Type de salle :</label>
                             <?php
                                     $arrSalles = fctGet_Salles();
+                                    $arrNomLigues = fctGetLigues();
                             
-                                    if($_SESSION['user']['idTypeUtilisateur'] == 1){
-                                        $arrNomLigues = fctGetLigues();
-                                    }
                                     $temp = null;
                                 
                                     
@@ -76,15 +78,15 @@
                                             echo "</select>";
                                         }
                                     }
-                                
-                                    if($_SESSION['user']['idTypeUtilisateur'] == 1){
-                                        echo "<label>Nom de la Ligue :</label>";
-                                        echo "<select class=\"form-control\" id=\"nomLigue\">";
-                                        foreach($arrNomLigues as $arrNomLigue){
-                                            echo "<option id=\"".$arrNomLigue['idLigue']."\">".$arrNomLigue['nomLigue']."</option>";
+                            
+                                    echo "<label class=\"ligueTab\">Nom de la Ligue :</label>";
+                                    echo "<select class=\"form-control ligueTab\" id=\"nomLigue\">";
+                                    foreach($arrNomLigues as $arrNomLigue){
+                                        if($arrNomLigue['idLigue'] != 0){
+                                            echo "<option class=\"ligueTab\" id=\"".$arrNomLigue['idLigue']."\">".$arrNomLigue['nomLigue']."</option>";
                                         }
-                                        echo "</select>";
                                     }
+                                    echo "</select>";
                                 ?>
                         </div>
                     </div>
@@ -92,6 +94,7 @@
                     <div class="modal-footer">
                         <button class="btn btn-danger" id="saveMdl" data-dismiss="modal">Réserver</button>
                         <button class="btn btn-danger" id="deleteMdl" data-dismiss="modal" hidden>Supprimer</button>
+                        <button class="btn btn-danger closeMdl" data-dismiss="modal">Annuler</button>
                     </div>
                 </div>
             </div>

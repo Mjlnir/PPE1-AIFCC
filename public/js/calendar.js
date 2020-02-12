@@ -4,8 +4,8 @@ $(document).ready(function () {
     var eventUpdateClick; //Permet de savoir si l'utilisateur click sur une réservation pour activer la modification et non l'ajout de réservation
 
     moment.locale('fr');
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+//    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
         locale: 'fr',
         plugins: ['dayGrid', 'timeGrid', 'interaction', 'moment'],
         defaultView: 'timeGridWeek',
@@ -23,9 +23,14 @@ $(document).ready(function () {
         minTime: '08:00',
         maxTime: '19:00',
         dateClick: function (info) {
+            if (userLigue_id != 0) {
+                $(".ligueTab").attr('hidden', '');
+            }
+
             $('#createReservation ').show();
             $('#CU_title').text('Réserver une salle');
             $('#saveMdl').html('Réserver');
+            $('#saveMdl').removeAttr('hidden');
             $('#deleteMdl').attr('hidden', true);
             var dateDebut = moment(info.dateStr).format().replace(/-/g, '/').replace('T', ' ').slice(0, -9);
             var dateFin = moment(info.dateStr).add(1, 'hours').format().replace(/-/g, '/').replace('T', ' ').slice(0, -9);
@@ -45,16 +50,26 @@ $(document).ready(function () {
             eventInfoID = info.event.id;
             eventUpdateClick = true;
 
-            $('#createReservation ').show();
+            $('#createReservation').show();
             $('#CU_title').text('Modifier une réservation');
-            $('#saveMdl').html('Modifier');
+
             $('#deleteMdl').removeAttr('hidden');
+            $('#saveMdl').removeAttr('hidden');
+
             $('#startTime').val(moment(info.event.start).format("l") + ' ' + moment(info.event.start).format("LT"));
             $('#endTime').val(moment(info.event.end).format("l") + ' ' + moment(info.event.end).format("LT"));
 
-            $('#nomSalle option').removeAttr("selected");
-            $('.typeSalle option').removeAttr("selected");
-            $('#nomLigue option').removeAttr("selected");
+            $('#nomSalle option').each(function () {
+                $(this).removeAttr("selected");
+            });
+            $('.typeSalle option').each(function () {
+                $(this).removeAttr("selected");
+            });
+            $('#nomLigue option').each(function () {
+                if($(this).is(':selected')){
+                    $(this).removeAttr("selected");
+                   }
+            });
             $('.nomSalle').hide();
 
             var optionIdSalle = $('#' + info.event.extendedProps.nomSalle);
@@ -62,7 +77,20 @@ $(document).ready(function () {
             var varTypeSalle = optionIdSalle.parent().attr('class').split(' ')[2];
             $('.' + varTypeSalle).show();
             $('#' + varTypeSalle).prop('selected', true);
-            $('#' + info.event.extendedProps.nomLigue).attr("selected", "selected");
+            $('#nomLigue option').each(function () {
+                if ($(this).val() == info.event.extendedProps.nomLigue) {
+                    $(this).attr("selected", "true");
+                }
+            });
+
+            //TODO20200212: problème le statement, au bout d'un moment les boutons s'affichent alors qu'il ne devraient pas
+            alert(userLigue_id.toString() + " " + $("#nomLigue option:selected").attr("id") + " " + info.event.extendedProps.nomLigue);
+            if (userLigue_id.toString() == $("#nomLigue option:selected").attr("id").toString() || userLigue_id == 0) {
+                $('#saveMdl').html('Modifier');
+            } else {
+                $('#saveMdl').attr('hidden', true);
+                $('#deleteMdl').attr('hidden', true);
+            }
         }
     });
 
@@ -106,23 +134,27 @@ $(document).ready(function () {
     $('.closeMdl').click(function () {
         $('#createReservation').hide();
         $('#createReservation').find('input').val('');
-        $('#readReservation').hide();
+        if (eventUpdateClick) {
+            eventUpdateClick = false;
+        }
     });
 
     $('#saveMdl').click(function () {
         if (eventUpdateClick) {
-            $.post("index.php?action=updateReservation", {
-                idLigue: $("#nomLigue :selected").attr("id"),
-                startTime: moment($('#startTime').val()).format("YYYY-DD-MM HH:MM:SS"),
-                endTime: moment($('#endTime').val()).format("YYYY-DD-MM HH:MM:SS"),
-                nomSalle: $("#nomSalle:visible :selected").text(),
-                description: "",
-                idReservation: eventInfoID
-            }, function () {
-                eventUpdateClick = false;
-                $('#createReservation').hide();
-                calendar.refetchEvents();
-            });
+            if (userLigue_id == $("#nomLigue :selected").attr("id")) {
+                $.post("index.php?action=updateReservation", {
+                    idLigue: $("#nomLigue :selected").attr("id"),
+                    startTime: moment($('#startTime').val()).format("YYYY-DD-MM HH:MM:SS"),
+                    endTime: moment($('#endTime').val()).format("YYYY-DD-MM HH:MM:SS"),
+                    nomSalle: $("#nomSalle:visible :selected").text(),
+                    description: "",
+                    idReservation: eventInfoID
+                }, function () {
+                    eventUpdateClick = false;
+                    $('#createReservation').hide();
+                    calendar.refetchEvents();
+                });
+            }
         } else {
             $.post("index.php?action=reserver", {
                 idLigue: $("#nomLigue :selected").attr("id"),
@@ -165,8 +197,7 @@ $(document).ready(function () {
 
     $('.I1').hide();
     $('.B3').hide();
-    $(document).on('click', '.typeSalle', function () {
-        //    $('.typeSalle').click(function () {
+    $(document).click('.typeSalle', function () {
         var typeSalleChoosen = $(this).children("option:selected").attr('id');
         switch (typeSalleChoosen) {
             case 'I1':

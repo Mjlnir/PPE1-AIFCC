@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 11 fév. 2020 à 19:18
+-- Généré le :  mer. 12 fév. 2020 à 18:23
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.12
 
@@ -265,6 +265,7 @@ CREATE TABLE IF NOT EXISTS `appartenir` (
 --
 
 INSERT INTO `appartenir` (`idUtilisateur`, `idLigue`, `dateDebut`, `dateFin`) VALUES
+(3, 0, '2020-02-12', NULL),
 (4, 1, '2019-10-17', '2050-12-31'),
 (7, 2, '2019-10-17', '2050-12-31');
 
@@ -279,13 +280,14 @@ CREATE TABLE IF NOT EXISTS `ligue` (
   `idLigue` int(11) NOT NULL AUTO_INCREMENT,
   `nomLigue` varchar(50) NOT NULL,
   PRIMARY KEY (`idLigue`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `ligue`
 --
 
 INSERT INTO `ligue` (`idLigue`, `nomLigue`) VALUES
+(0, 'ADMIN'),
 (1, 'DeBeaufs'),
 (2, 'DePorts');
 
@@ -315,9 +317,9 @@ CREATE TABLE IF NOT EXISTS `reserver` (
 --
 
 INSERT INTO `reserver` (`idReservation`, `idLigue`, `idSalle`, `jourReservation`, `idUtilisateur`, `heureDebut`, `heureFin`, `descriptionR`) VALUES
-(2, 1, 56, '2020-02-10 10:00:00', 4, '2020-02-10 10:00:00', '2020-02-10 11:00:00', ''),
-(1, 1, 56, '2020-02-11 10:00:00', 4, '2020-02-11 10:00:00', '2020-02-11 11:00:00', ''),
-(3, 1, 56, '2020-02-12 10:00:00', 4, '2020-02-12 10:00:00', '2020-02-12 11:00:00', '');
+(0, 1, 56, '2020-02-11 10:00:00', 3, '2020-02-11 10:00:00', '2020-02-11 11:00:00', ''),
+(2, 1, 56, '2020-02-13 10:00:00', 3, '2020-02-13 10:00:00', '2020-02-13 11:00:00', ''),
+(1, 2, 56, '2020-02-12 10:00:00', 3, '2020-02-12 10:00:00', '2020-02-12 11:00:00', '');
 
 -- --------------------------------------------------------
 
