@@ -94,20 +94,32 @@
             case "modifLigues":
                 include("views/admin/modifLigues.php");
                 break;
+            case "getSalles":
+                include("views/admin/afficherSalles.php");
+                break;
+            case "getLigues":
+                include("views/admin/afficherLigues.php");
+                break;
             case "UPD_activeSalle":
                 fctActiveSalle($_POST['idSalle']);
                 break;
             case "UPD_informatiseeSalle":
                 fctInformatiseeSalle($_POST['idSalle']);
                 break;
-            case "getSalle":
-                include("views/admin/afficherSalle.php");
-                break;
             case "UPD_nbPlaceMaxSalle":
                 fctNbPlaceMaxSalle($_POST['idSalle'],$_POST['nbPlaceMax']);
                 break;
             case "UPD_nomSalle":
                 fctNomSalle($_POST['idSalle'],$_POST['nomSalle']);
+                break;
+            case "UPD_activeLigue":
+                fctActiveLigue($_POST['idLigue']);
+                break;
+            case "UPD_nomLigue":
+                fctNomLigue($_POST['idLigue'],$_POST['nomLigue']);
+                break;
+            case "UPD_nomUserLigue":
+                fctNomUserLigue($_POST['idLigue'],$_POST['idUserLigue']);
                 break;
           }
     }

@@ -30,8 +30,6 @@ $(document).ready(function () {
             $('#createReservation ').show();
             $('#CU_title').text('Réserver une salle');
             $('#saveMdl').html('Réserver');
-            $('#saveMdl').removeAttr('hidden');
-            $('#deleteMdl').attr('hidden', true);
             var dateDebut = moment(info.dateStr).format().replace(/-/g, '/').replace('T', ' ').slice(0, -9);
             var dateFin = moment(info.dateStr).add(1, 'hours').format().replace(/-/g, '/').replace('T', ' ').slice(0, -9);
             $('#startTime').val(dateDebut);

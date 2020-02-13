@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 12 fév. 2020 à 18:23
--- Version du serveur :  8.0.18
--- Version de PHP :  7.3.12
+-- Hôte : 127.0.0.1
+-- Généré le :  jeu. 13 fév. 2020 à 16:11
+-- Version du serveur :  10.1.38-MariaDB
+-- Version de PHP :  7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -26,46 +26,40 @@ DELIMITER $$
 --
 -- Procédures
 --
-DROP PROCEDURE IF EXISTS `PRC_ADD_SALLE`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_ADD_SALLE` (`nbPersonneMax` INT, `nomSalle` VARCHAR(50), `estActive` BIT, `idTypeSalle` INT)  BEGIN
 	INSERT INTO SALLE(nbPersonneMax,nomSalle,estActive,idTypeSalle) VALUES(nbPersonneMax,nomSalle,estActive,idTypeSalle);
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_DEL_RESERVATION`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_DEL_RESERVATION` (IN `_idReservation` INT)  BEGIN
         DELETE FROM RESERVER
         WHERE idReservation = _idReservation;
         SELECT _idReservation as idReservation;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_DEL_SALLE`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_DEL_SALLE` (`idSalle` INT)  BEGIN
 	DELETE FROM SALLE
 	WHERE idSalle = idSalle;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_EST_ADMIN`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_EST_ADMIN` (`pseudo` VARCHAR(10))  BEGIN
 	SELECT idTypeUtilisateur FROM UTILISATEUR WHERE loginUtilisateur = pseudo;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_GET_LIGUE`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_LIGUE` (`id_utilisateur` INT)  BEGIN
-	SELECT LIGUE.idLigue, LIGUE.nomLigue FROM LIGUE
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_LIGUE` (IN `id_utilisateur` INT)  BEGIN
+	SELECT LIGUE.idLigue, LIGUE.nomLigue, LIGUE.estActive FROM LIGUE
 	INNER JOIN APPARTENIR ON APPARTENIR.idLigue = LIGUE.idLigue
 	WHERE idUtilisateur = id_utilisateur;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_GET_LIGUES`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_LIGUES` ()  BEGIN
 	SELECT LIGUE.idLigue
 		, nomLigue 
+        , estActive
         , APPARTENIR.idUtilisateur
         FROM LIGUE
         LEFT JOIN APPARTENIR ON APPARTENIR.idLigue =  LIGUE.idLigue;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_GET_RESERVATION`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_RESERVATION` ()  BEGIN
         IF((SELECT COUNT(idReservation) FROM reserver) > 0) THEN
 	    SELECT idReservation as 'id'
@@ -90,7 +84,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_RESERVATION` ()  BEGIN
 
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_GET_SALLES`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_SALLES` ()  BEGIN
 	SELECT typeSalle, nbPersonneMax, nomSalle, typesalle.idTypeSalle, salle.idSalle, salle.estActive
 	FROM typesalle
@@ -98,7 +91,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_SALLES` ()  BEGIN
 	ORDER BY nomSalle;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_GET_SALLES_RESERVE`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_SALLES_RESERVE` (`dateDebut` DATETIME, `dateFin` DATETIME)  BEGIN
 	SELECT nomSalle
 	FROM SALLE 
@@ -127,25 +119,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_SALLES_RESERVE` (`dateDebut
 	);
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_GET_USER`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_USER` (`pseudo` VARCHAR(10))  BEGIN
-	SELECT * FROM UTILISATEUR WHERE loginUtilisateur = pseudo;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_USERS` ()  BEGIN
+	SELECT *
+	FROM UTILISATEUR;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_GET_UTILISATEUR`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_UTILISATEUR` (IN `_idUtilisateur` INT)  BEGIN
-	SELECT nomUtilisateur
-		, nomUtilisateur
-		, mailUtilisateur
-		, telephoneUtilisateur
-		, loginUtilisateur
-		, TYPEUTILISATEUR.typeUtilisateur
-	FROM UTILISATEUR
-	INNER JOIN TYPEUTILISATEUR ON TYPEUTILISATEUR.idTypeUtilisateur = UTILISATEUR.idTypeUtilisateur
-	WHERE idUtilisateur = _idUtilisateur;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_USER_BY_ID` (IN `_idUtilisateur` INT)  NO SQL
+BEGIN
+	SELECT * FROM UTILISATEUR WHERE idUtilisateur = _idUtilisateur;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_RESERVER`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_USER_BY_LOGIN` (IN `_loginUtilisateur` VARCHAR(10))  BEGIN
+	SELECT * FROM UTILISATEUR WHERE loginUtilisateur = _loginUtilisateur;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_RESERVER` (IN `_heureDebut` DATETIME, IN `_heureFin` DATETIME, IN `_nomSalle` VARCHAR(10) CHARSET utf8, IN `_idUser` INT, IN `_idLigue` INT, IN `_description` VARCHAR(255) CHARSET utf8)  BEGIN
 	DECLARE _idSalle, _idReservation INT;
 	SELECT idSalle INTO _idSalle FROM salle WHERE nomSalle = _nomSalle;
@@ -170,12 +157,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_RESERVER` (IN `_heureDebut` DAT
                          );
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_SIGNIN`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_SIGNIN` (IN `pseudo` VARCHAR(10) CHARSET utf8, IN `mdp` VARCHAR(255) CHARSET utf8)  BEGIN
 	SELECT COUNT(*) as nbUser FROM UTILISATEUR WHERE loginUtilisateur = pseudo AND passwordUtilisateur = mdp;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_SIGNUP`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_SIGNUP` (IN `prenom` VARCHAR(50), IN `nom` VARCHAR(50), IN `mail` VARCHAR(50), IN `tel` VARCHAR(50), IN `mdp` VARCHAR(255))  BEGIN
 	DECLARE _return int;
 	DECLARE _CountUser int;
@@ -191,7 +176,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_SIGNUP` (IN `prenom` VARCHAR(50
 	SELECT _return;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_UPD_ACTIVE_SALLE`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_UPD_ACTIVE_LIGUE` (IN `_idLigue` INT)  NO SQL
+BEGIN
+	DECLARE _estActive BIT;
+	SELECT estActive INTO _estActive FROM ligue WHERE idLigue = _idLigue;
+
+	UPDATE ligue
+	SET estActive = NOT _estActive
+	WHERE idLigue = _idLigue;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_UPD_ACTIVE_SALLE` (IN `_idSalle` INT)  BEGIN
 	DECLARE _estActive BIT;
 	SELECT estActive INTO _estActive FROM salle WHERE idSalle = _idSalle;
@@ -201,7 +195,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_UPD_ACTIVE_SALLE` (IN `_idSalle
 	WHERE idSalle = _idSalle;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_UPD_INFORMATISEE_SALLE`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_UPD_INFORMATISEE_SALLE` (IN `_idSalle` INT)  BEGIN
 	DECLARE _idTypeSalle INT;
 	SELECT idTypeSalle INTO _idTypeSalle FROM SALLE WHERE idSalle = _idSalle;
@@ -216,21 +209,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_UPD_INFORMATISEE_SALLE` (IN `_i
 	WHERE idSalle = _idSalle;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_UPD_NBPLACE_SALLE`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_UPD_NBPLACE_SALLE` (IN `_idSalle` INT, IN `_nbPersonneMax` INT)  BEGIN
 	UPDATE SALLE
 	SET nbPersonneMax = _nbPersonneMax
 	WHERE idSalle = _idSalle;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_UPD_NOM_SALLE`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_UPD_NOM_LIGUE` (IN `_idLigue` INT, IN `_nomLigue` VARCHAR(50) CHARSET utf8)  NO SQL
+BEGIN
+	UPDATE LIGUE
+	SET nomLigue = _nomLigue
+	WHERE idLigue = _idLigue;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_UPD_NOM_SALLE` (IN `_idSalle` INT, IN `_nomSalle` VARCHAR(50) CHARSET utf8)  BEGIN
 	UPDATE SALLE
 	SET nomSalle = _nomSalle
 	WHERE idSalle = _idSalle;
 END$$
 
-DROP PROCEDURE IF EXISTS `PRC_UPD_RESERVATION`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_UPD_RESERVATION` (IN `_heureDebut` DATETIME, IN `_heureFin` DATETIME, IN `_nomSalle` VARCHAR(10) CHARSET utf8, IN `_idUser` INT, IN `_idLigue` INT, IN `_description` VARCHAR(255) CHARSET utf8, IN `_idReservation` INT)  NO SQL
 UPDATE reserver
 SET idLigue = _idLigue,
@@ -242,6 +239,11 @@ heureFin = _heureFin,
 descriptionR = _description
 WHERE idReservation = _idReservation$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_UPD_USER_LIGUE` (IN `_idLigue` INT, IN `_idUserLigue` INT)  NO SQL
+UPDATE appartenir
+SET idUtilisateur = _idUserLigue
+WHERE idLigue = _idLigue$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -250,14 +252,11 @@ DELIMITER ;
 -- Structure de la table `appartenir`
 --
 
-DROP TABLE IF EXISTS `appartenir`;
-CREATE TABLE IF NOT EXISTS `appartenir` (
+CREATE TABLE `appartenir` (
   `idUtilisateur` int(11) NOT NULL,
   `idLigue` int(11) NOT NULL,
   `dateDebut` date NOT NULL,
-  `dateFin` date DEFAULT NULL,
-  PRIMARY KEY (`idUtilisateur`,`idLigue`,`dateDebut`),
-  KEY `APPARTENIR_LIGUE_FK` (`idLigue`)
+  `dateFin` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -275,21 +274,20 @@ INSERT INTO `appartenir` (`idUtilisateur`, `idLigue`, `dateDebut`, `dateFin`) VA
 -- Structure de la table `ligue`
 --
 
-DROP TABLE IF EXISTS `ligue`;
-CREATE TABLE IF NOT EXISTS `ligue` (
-  `idLigue` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ligue` (
+  `idLigue` int(11) NOT NULL,
   `nomLigue` varchar(50) NOT NULL,
-  PRIMARY KEY (`idLigue`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `estActive` bit(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `ligue`
 --
 
-INSERT INTO `ligue` (`idLigue`, `nomLigue`) VALUES
-(0, 'ADMIN'),
-(1, 'DeBeaufs'),
-(2, 'DePorts');
+INSERT INTO `ligue` (`idLigue`, `nomLigue`, `estActive`) VALUES
+(0, 'ADMIN', b'1'),
+(1, 'DeBeaufs', b'1'),
+(2, 'DePorts', b'1');
 
 -- --------------------------------------------------------
 
@@ -297,8 +295,7 @@ INSERT INTO `ligue` (`idLigue`, `nomLigue`) VALUES
 -- Structure de la table `reserver`
 --
 
-DROP TABLE IF EXISTS `reserver`;
-CREATE TABLE IF NOT EXISTS `reserver` (
+CREATE TABLE `reserver` (
   `idReservation` int(11) NOT NULL DEFAULT '0',
   `idLigue` int(11) NOT NULL,
   `idSalle` int(11) NOT NULL,
@@ -306,10 +303,7 @@ CREATE TABLE IF NOT EXISTS `reserver` (
   `idUtilisateur` int(11) NOT NULL,
   `heureDebut` varchar(255) NOT NULL,
   `heureFin` varchar(255) NOT NULL,
-  `descriptionR` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`idLigue`,`idSalle`,`jourReservation`),
-  KEY `RESERVER_SALLE_FK` (`idSalle`),
-  KEY `RESERVER_UTILISATEUR_FK` (`idUtilisateur`)
+  `descriptionR` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -327,16 +321,13 @@ INSERT INTO `reserver` (`idReservation`, `idLigue`, `idSalle`, `jourReservation`
 -- Structure de la table `salle`
 --
 
-DROP TABLE IF EXISTS `salle`;
-CREATE TABLE IF NOT EXISTS `salle` (
-  `idSalle` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `salle` (
+  `idSalle` int(11) NOT NULL,
   `nbPersonneMax` int(11) NOT NULL,
   `nomSalle` varchar(50) NOT NULL,
   `estActive` bit(1) NOT NULL,
-  `idTypeSalle` int(11) NOT NULL,
-  PRIMARY KEY (`idSalle`),
-  KEY `SALLE_TYPESALLE_FK` (`idTypeSalle`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+  `idTypeSalle` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `salle`
@@ -356,8 +347,8 @@ INSERT INTO `salle` (`idSalle`, `nbPersonneMax`, `nomSalle`, `estActive`, `idTyp
 (56, 18, 'B181', b'1', 1),
 (57, 18, 'B182', b'1', 1),
 (58, 18, 'B183', b'1', 1),
-(59, 18, 'B184', b'1', 1),
-(60, 18, 'B185', b'1', 1);
+(59, 18, 'B185', b'1', 1),
+(60, 18, 'B184', b'1', 1);
 
 -- --------------------------------------------------------
 
@@ -365,12 +356,10 @@ INSERT INTO `salle` (`idSalle`, `nbPersonneMax`, `nomSalle`, `estActive`, `idTyp
 -- Structure de la table `typesalle`
 --
 
-DROP TABLE IF EXISTS `typesalle`;
-CREATE TABLE IF NOT EXISTS `typesalle` (
-  `idTypeSalle` int(11) NOT NULL AUTO_INCREMENT,
-  `typeSalle` varchar(50) NOT NULL,
-  PRIMARY KEY (`idTypeSalle`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+CREATE TABLE `typesalle` (
+  `idTypeSalle` int(11) NOT NULL,
+  `typeSalle` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `typesalle`
@@ -386,12 +375,10 @@ INSERT INTO `typesalle` (`idTypeSalle`, `typeSalle`) VALUES
 -- Structure de la table `typeutilisateur`
 --
 
-DROP TABLE IF EXISTS `typeutilisateur`;
-CREATE TABLE IF NOT EXISTS `typeutilisateur` (
-  `idTypeUtilisateur` int(11) NOT NULL AUTO_INCREMENT,
-  `typeUtilisateur` varchar(10) NOT NULL,
-  PRIMARY KEY (`idTypeUtilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+CREATE TABLE `typeutilisateur` (
+  `idTypeUtilisateur` int(11) NOT NULL,
+  `typeUtilisateur` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `typeutilisateur`
@@ -407,19 +394,16 @@ INSERT INTO `typeutilisateur` (`idTypeUtilisateur`, `typeUtilisateur`) VALUES
 -- Structure de la table `utilisateur`
 --
 
-DROP TABLE IF EXISTS `utilisateur`;
-CREATE TABLE IF NOT EXISTS `utilisateur` (
-  `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `utilisateur` (
+  `idUtilisateur` int(11) NOT NULL,
   `nomUtilisateur` varchar(50) NOT NULL,
   `prenomUtilisateur` varchar(50) NOT NULL,
   `mailUtilisateur` varchar(50) NOT NULL,
   `telephoneUtilisateur` varchar(10) NOT NULL,
   `loginUtilisateur` varchar(8) NOT NULL,
   `passwordUtilisateur` varchar(255) NOT NULL,
-  `idTypeUtilisateur` int(11) NOT NULL,
-  PRIMARY KEY (`idUtilisateur`),
-  KEY `UTILISATEUR_TYPEUTILISATEUR_FK` (`idTypeUtilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  `idTypeUtilisateur` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `utilisateur`
@@ -429,6 +413,91 @@ INSERT INTO `utilisateur` (`idUtilisateur`, `nomUtilisateur`, `prenomUtilisateur
 (3, 'trudelle', 'florian', 'ftrudell@aifcc.caen', '0666666666', 'ftrudell', 'root', 1),
 (4, 'bezos', 'jeff', 'jb@az.co', '0666666666', 'jbezos', 'root', 2),
 (7, 'KerHerve', 'Mathieu', 'm.k@makeu.com', '0102030405', 'mkerherv', '123456', 2);
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `appartenir`
+--
+ALTER TABLE `appartenir`
+  ADD PRIMARY KEY (`idUtilisateur`,`idLigue`,`dateDebut`),
+  ADD KEY `APPARTENIR_LIGUE_FK` (`idLigue`);
+
+--
+-- Index pour la table `ligue`
+--
+ALTER TABLE `ligue`
+  ADD PRIMARY KEY (`idLigue`);
+
+--
+-- Index pour la table `reserver`
+--
+ALTER TABLE `reserver`
+  ADD PRIMARY KEY (`idLigue`,`idSalle`,`jourReservation`),
+  ADD KEY `RESERVER_SALLE_FK` (`idSalle`),
+  ADD KEY `RESERVER_UTILISATEUR_FK` (`idUtilisateur`);
+
+--
+-- Index pour la table `salle`
+--
+ALTER TABLE `salle`
+  ADD PRIMARY KEY (`idSalle`),
+  ADD KEY `SALLE_TYPESALLE_FK` (`idTypeSalle`);
+
+--
+-- Index pour la table `typesalle`
+--
+ALTER TABLE `typesalle`
+  ADD PRIMARY KEY (`idTypeSalle`);
+
+--
+-- Index pour la table `typeutilisateur`
+--
+ALTER TABLE `typeutilisateur`
+  ADD PRIMARY KEY (`idTypeUtilisateur`);
+
+--
+-- Index pour la table `utilisateur`
+--
+ALTER TABLE `utilisateur`
+  ADD PRIMARY KEY (`idUtilisateur`),
+  ADD KEY `UTILISATEUR_TYPEUTILISATEUR_FK` (`idTypeUtilisateur`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `ligue`
+--
+ALTER TABLE `ligue`
+  MODIFY `idLigue` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pour la table `salle`
+--
+ALTER TABLE `salle`
+  MODIFY `idSalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
+--
+-- AUTO_INCREMENT pour la table `typesalle`
+--
+ALTER TABLE `typesalle`
+  MODIFY `idTypeSalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `typeutilisateur`
+--
+ALTER TABLE `typeutilisateur`
+  MODIFY `idTypeUtilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `utilisateur`
+--
+ALTER TABLE `utilisateur`
+  MODIFY `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Contraintes pour les tables déchargées

@@ -19,7 +19,6 @@
 <script type="text/javascript" src='./public/datetimepicker-master/build/jquery.datetimepicker.full.js'></script>
 <script type="text/javascript">
     var userLigue_id = '<?php echo $_SESSION['ligue']['idLigue'];?>';
-
 </script>
 </head>
 

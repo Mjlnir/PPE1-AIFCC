@@ -4,27 +4,23 @@
         <li class="nav-item" id="calendrier">
             <a class="nav-link" href="index.php?action=calendrier">Calendrier</a>
         </li>
-        <?php
-            if(!isset($_SESSION['ligue'])){
-               echo "<li class=\"nav-item\" id=\"modifSalles\">
-                        <a class=\"nav-link\" href=\"index.php?action=modifSalles\">Salles</a>
-                    </li>";
-                echo "<li class=\"nav-item\" id=\"modifLigues\">
-                        <a class=\"nav-link\" href=\"index.php?action=modifLigues\">Ligues</a>
-                    </li>";
-            }
-        ?>
-        <li class="nav-item dropdown ml-auto">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><?php echo $_SESSION['user']['loginUtilisateur']; ?></a>
-            <div class="dropdown-menu dropdown-menu-right">
-                <a href="index.php?action=user" class="dropdown-item">Paramètres</a>
-                <div class="dropdown-divider"></div>
-                <a href="index.php?action=logOut" class="dropdown-item">Déconnexion</a>
-            </div>
+        <li class="nav-item" id="modifSalles">
+            <a class="nav-link" href="index.php?action=modifSalles">Salles</a>
+        </li>
+        <li class="nav-item" id="modifLigues">
+            <a class="nav-link" href="index.php?action=modifLigues">Ligues</a>
+        </li>
+        <li class="nav-item" id="user">
+            <a href="index.php?action=user" class="nav-link">Paramètres</a>
+        </li>
+        <li class="nav-item" id="logOut">
+            <a href="index.php?action=logOut" class="nav-link">Déconnexion</a>
         </li>
     </ul>
     <span class="navbar-brand">
         <?php
+            echo $_SESSION['user']['loginUtilisateur'];
+            echo " | ";
             if($_SESSION['user']['idTypeUtilisateur'] == 1){
                 echo "Administrateur";
             }

@@ -3,6 +3,9 @@
 ?>
 <link rel="stylesheet" type="text/css" href="./public/css/modifSalle.css">
 <script src='./public/js/modifSalles.js'></script>
+<script type="text/javascript">
+    var userLigue_id = '<?php echo $_SESSION['ligue']['idLigue'];?>';
+</script>
 </head>
 
 <body class="d-flex flex-column">
@@ -15,7 +18,7 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Nom</th>
+                        <th scope="col">Salle</th>
                         <th scope="col">Places</th>
                         <th scope="col">Informatisée</th>
                         <th scope="col">Active</th>
@@ -23,7 +26,7 @@
                 </thead>
                 <tbody id="tbSalle">
                     <?php
-                        include("views/admin/afficherSalle.php");
+                        include("views/admin/afficherSalles.php");
                     ?>
                 </tbody>
             </table>

@@ -20,9 +20,7 @@ function DBLog(){
         echo 'Échec lors de la connexion : ' . $e->getMessage();
     } 
 }
-
-function fctSignIn($login, $mdp)
-{
+function fctSignIn($login, $mdp){
     try
     {
         $conn = DBLog();
@@ -46,9 +44,7 @@ function fctSignIn($login, $mdp)
         die("Error occurred:" . $e->getMessage());
     }
 }
-
-function fctSignUp($prenom, $nom, $mail, $tel, $mdp)
-{
+function fctSignUp($prenom, $nom, $mail, $tel, $mdp){
     try
     {
         $conn = DBLog();
@@ -77,9 +73,7 @@ function fctSignUp($prenom, $nom, $mail, $tel, $mdp)
         die("Error occurred:" . $e->getMessage());
     }
 }
-
-function fctEstAdmin($pseudo)
-{
+function fctEstAdmin($pseudo){
 	try
     {
         $conn = DBLog();
@@ -110,7 +104,7 @@ function fctGetUser($pseudo)
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_GET_USER(:pseudo)";
+        $sql = "CALL PRC_GET_USER_BY_LOGIN(:pseudo)";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
@@ -128,7 +122,54 @@ function fctGetUser($pseudo)
         die("Error occurred:" . $e->getMessage());
     }
 }
+function fctGetUserId($idUtilisateur)
+{
+    try
+    {
+        $conn = DBLog();
 
+        // execute the stored procedure
+        $sql = "CALL PRC_GET_USER_BY_ID(:idUtilisateur)";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":idUtilisateur", $idUtilisateur);
+        $query->execute();
+        
+        $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+function fctGetUsers(){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "CALL PRC_GET_USERS()";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->execute();
+        
+        $row = $query->fetchAll();
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
 function fctGetLigue($idUtilisateur)
 {
     try
@@ -154,7 +195,6 @@ function fctGetLigue($idUtilisateur)
         die("Error occurred:" . $e->getMessage());
     }
 }
-
 function fctGetLigues()
 {
     try
@@ -179,7 +219,6 @@ function fctGetLigues()
         die("Error occurred:" . $e->getMessage());
     }
 }
-
 function fctGet_Salles(){
     try
     {
@@ -203,7 +242,6 @@ function fctGet_Salles(){
         die("Error occurred:" . $e->getMessage());
     }
 }
-
 function fctGet_Salles_Reserve($datedebut, $datefin){
     try
     {
@@ -235,7 +273,6 @@ function fctGet_Salles_Reserve($datedebut, $datefin){
         die("Error occurred:" . $e->getMessage());
     }
 }
-
 function fctGetReservation(){
     try
     {
@@ -319,7 +356,6 @@ function fctUpdateRerservation($startTime, $endTime, $nomSalle, $idUser, $idLigu
         die("Error occurred:" . $e->getMessage());
     }
 }
-
 function fctDelRerservation($idReservation){
     try
     {
@@ -337,32 +373,6 @@ function fctDelRerservation($idReservation){
         die("Error occurred:" . $e->getMessage());
     }
 }
-
-function fctGet_Utilisateur($idUtilisateur){
-    try
-    {
-        $conn = DBLog();
-
-        // execute the stored procedure
-        $sql = "CALL PRC_GET_UTILISATEUR(:idUtilisateur)";
-        
-        // call the stored procedure
-        $query = $conn->prepare($sql);
-        $query->bindParam(":idUtilisateur", $idUtilisateur);
-        $query->execute();
-        
-        $row = $query->fetch();
-        
-        $query -> closeCursor();
-        
-        return $row;
-    }
-    catch (PDOException $e)
-    {
-        die("Error occurred:" . $e->getMessage());
-    }
-}
-
 function fctActiveSalle($idSalle){
     try
     {
@@ -448,6 +458,80 @@ function fctNomSalle($idSalle, $nomSalle){
         $query = $conn->prepare($sql);
         $query->bindParam(":idSalle", $idSalle);
         $query->bindParam(":nomSalle", $nomSalle);
+        $query->execute();
+        
+        $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+function fctActiveLigue($idLigue){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "CALL PRC_UPD_ACTIVE_LIGUE(:idLigue)";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":idLigue", $idLigue);
+        $query->execute();
+        
+        $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+function fctNomLigue($idLigue, $nomLigue){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "CALL PRC_UPD_NOM_LIGUE(:idLigue,:nomLigue)";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":idLigue", $idLigue);
+        $query->bindParam(":nomLigue", $nomLigue);
+        $query->execute();
+        
+        $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+function fctNomUserLigue($idLigue, $idUserLigue){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "CALL PRC_UPD_USER_LIGUE(:idLigue,:idUserLigue)";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":idLigue", $idLigue);
+        $query->bindParam(":idUserLigue", $idUserLigue);
         $query->execute();
         
         $row = $query->fetch();
