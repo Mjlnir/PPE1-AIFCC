@@ -296,6 +296,47 @@ function fctGetReservation(){
                 'extendedProps' => array(
                     'nomSalle' => $result["nomSalle"],
                     'nomLigue' => $result['nomLigue'],
+                    'idLigue' => $result['idLigue'],
+                    'idSalle' => $result['idSalle']
+                ),
+                'description' => $result['descriptionR']
+         );
+        }
+        $query -> closeCursor();
+        
+        return json_encode($data);
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+function fctGetReservationByID($idLigue){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "CALL PRC_GET_RESERVATION_BY_ID(:idLigue)";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":idLigue", $idLigue);
+        $query->execute();
+        
+        $row = $query->fetchAll();
+        foreach($row as $result)
+        {
+            $data[] = array(
+                'id'      => $result["id"],
+                'title'   => $result["title"],
+                'start'   => $result["start"],
+                'end'     => $result["end"],
+                'extendedProps' => array(
+                    'nomSalle' => $result["nomSalle"],
+                    'nomLigue' => $result['nomLigue'],
+                    'idLigue' => $result['idLigue'],
+                    'idSalle' => $result['idSalle']
                 ),
                 'description' => $result['descriptionR']
          );

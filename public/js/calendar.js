@@ -4,7 +4,7 @@ $(document).ready(function () {
     var eventUpdateClick; //Permet de savoir si l'utilisateur click sur une réservation pour activer la modification et non l'ajout de réservation
 
     moment.locale('fr');
-//    var calendarEl = document.getElementById('calendar');
+    //    var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
         locale: 'fr',
         plugins: ['dayGrid', 'timeGrid', 'interaction', 'moment'],
@@ -64,22 +64,17 @@ $(document).ready(function () {
                 $(this).removeAttr("selected");
             });
             $('#nomLigue option').each(function () {
-                if($(this).is(':selected')){
-                    $(this).removeAttr("selected");
-                   }
+                $(this).removeAttr("selected");
             });
             $('.nomSalle').hide();
 
-            var optionIdSalle = $('#' + info.event.extendedProps.nomSalle);
+            var optionIdSalle = $('#' + info.event.extendedProps.idSalle);
             optionIdSalle.prop('selected', true);
             var varTypeSalle = optionIdSalle.parent().attr('class').split(' ')[2];
             $('.' + varTypeSalle).show();
             $('#' + varTypeSalle).prop('selected', true);
-            $('#nomLigue option').each(function () {
-                if ($(this).val() == info.event.extendedProps.nomLigue) {
-                    $(this).attr("selected", "true");
-                }
-            });
+            var optionIdLigue = $('#' + info.event.extendedProps.idLigue);
+            optionIdLigue.prop('selected', true);
 
             //TODO20200212: problème le statement, au bout d'un moment les boutons s'affichent alors qu'il ne devraient pas
             alert(userLigue_id.toString() + " " + $("#nomLigue option:selected").attr("id") + " " + info.event.extendedProps.nomLigue);
@@ -123,7 +118,7 @@ $(document).ready(function () {
         }).done(function (data) {
             if (data != null) {
                 for (iCpt = 0; iCpt < data.length; iCpt++) {
-                    $('#' + data[iCpt]).attr('disabled', '');
+                    $('#nomSalle option[id="' + data[iCpt] + '"]').attr('disabled', '');
                 }
             }
         });

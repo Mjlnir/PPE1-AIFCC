@@ -50,7 +50,12 @@
                 include("views/user.php");
                 break;
               case "getReservation":
-                echo fctGetReservation();
+                if($_SESSION['user']['idTypeUtilisateur'] == 1){
+                    echo fctGetReservation();   
+                }
+                else{
+                    echo fctGetReservationByID($_SESSION['ligue']['idLigue']);
+                }
                 break;
               case "estReservable":
                 echo fctGet_Salles_Reserve($_POST['dateDebutFuturReservation'],

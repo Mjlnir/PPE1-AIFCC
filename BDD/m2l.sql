@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  jeu. 13 fév. 2020 à 16:11
+-- Généré le :  ven. 14 fév. 2020 à 16:29
 -- Version du serveur :  10.1.38-MariaDB
 -- Version de PHP :  7.3.2
 
@@ -69,6 +69,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_RESERVATION` ()  BEGIN
 	    ,nomSalle as 'nomSalle'
 	    ,nomLigue as 'nomLigue'
 	    ,descriptionR as 'descriptionR'
+        ,Ligue.idLigue as 'idLigue'
+        ,Salle.idSalle as 'idSalle'
 	    FROM RESERVER JOIN UTILISATEUR ON RESERVER.idUtilisateur = UTILISATEUR.idUtilisateur
 	    JOIN LIGUE ON RESERVER.idLigue = LIGUE.idLigue
 	    JOIN SALLE ON RESERVER.idSalle = SALLE.idSalle;
@@ -79,13 +81,50 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_RESERVATION` ()  BEGIN
 	    ,'' as end
 	    ,'' as nomSalle
 	    ,'' as nomLigue
-	    ,'' as descriptionR;
+	    ,'' as descriptionR
+        ,'' as idLigue
+        ,'' as idSalle;
+        END IF;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_RESERVATION_BY_ID` (IN `_idLigue` INT)  NO SQL
+BEGIN
+        IF((SELECT COUNT(idReservation) FROM reserver) > 0) THEN
+	    SELECT idReservation as 'id'
+	    ,CONCAT(nomSalle, ' - ', nomLigue) as 'title'
+	    ,heureDebut as 'start'
+	    ,heureFin as 'end'
+	    ,nomSalle as 'nomSalle'
+	    ,nomLigue as 'nomLigue'
+	    ,descriptionR as 'descriptionR'
+        ,Ligue.idLigue as 'idLigue'
+        ,Salle.idSalle as 'idSalle'
+	    FROM RESERVER 
+        JOIN UTILISATEUR ON RESERVER.idUtilisateur = UTILISATEUR.idUtilisateur
+	    JOIN LIGUE ON RESERVER.idLigue = LIGUE.idLigue
+	    JOIN SALLE ON RESERVER.idSalle = SALLE.idSalle
+        WHERE Ligue.idLigue = _idLigue;
+        ELSE
+            SELECT '' as id
+	    ,'' as title
+	    ,'' as start
+	    ,'' as end
+	    ,'' as nomSalle
+	    ,'' as nomLigue
+	    ,'' as descriptionR
+        ,'' as idLigue
+        ,'' as idSalle;
         END IF;
 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_SALLES` ()  BEGIN
-	SELECT typeSalle, nbPersonneMax, nomSalle, typesalle.idTypeSalle, salle.idSalle, salle.estActive
+	SELECT typeSalle
+    , nbPersonneMax
+    , nomSalle
+    , salle.idSalle
+    , salle.estActive
 	FROM typesalle
 	JOIN salle ON typesalle.idTypeSalle = salle.idTypeSalle
 	ORDER BY nomSalle;
@@ -311,9 +350,10 @@ CREATE TABLE `reserver` (
 --
 
 INSERT INTO `reserver` (`idReservation`, `idLigue`, `idSalle`, `jourReservation`, `idUtilisateur`, `heureDebut`, `heureFin`, `descriptionR`) VALUES
+(4, 1, 56, '2020-02-10 10:00:00', 4, '2020-02-10 10:00:00', '2020-02-10 11:00:00', ''),
 (0, 1, 56, '2020-02-11 10:00:00', 3, '2020-02-11 10:00:00', '2020-02-11 11:00:00', ''),
 (2, 1, 56, '2020-02-13 10:00:00', 3, '2020-02-13 10:00:00', '2020-02-13 11:00:00', ''),
-(1, 2, 56, '2020-02-12 10:00:00', 3, '2020-02-12 10:00:00', '2020-02-12 11:00:00', '');
+(3, 2, 59, '2020-02-14 10:00:00', 7, '2020-02-14 10:00:00', '2020-02-14 11:00:00', '');
 
 -- --------------------------------------------------------
 
@@ -473,7 +513,7 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT pour la table `ligue`
 --
 ALTER TABLE `ligue`
-  MODIFY `idLigue` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idLigue` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `salle`

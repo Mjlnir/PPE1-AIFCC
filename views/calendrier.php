@@ -72,7 +72,7 @@
                                             $temp = substr($arrSalle['nomSalle'],0,2);
                                             echo "<select class=\"form-control nomSalle ".substr($arrSalle['nomSalle'],0,2)."\" id=\"nomSalle\">";
                                         }
-                                        echo "<option id=\"".$arrSalle['nomSalle']."\">".$arrSalle['nomSalle']."</option>";
+                                        echo "<option id=\"".$arrSalle['idSalle']."\">".$arrSalle['nomSalle']."</option>";
                                         if(substr($arrSalle['nomSalle'],-1) == "5"){
                                             echo "</select>";
                                         }
