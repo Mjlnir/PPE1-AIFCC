@@ -26,7 +26,7 @@
                 </thead>
                 <tbody id="tbSalle">
                     <?php
-                        include("views/admin/afficherSalles.php");
+                        include("views/afficherSalles.php");
                     ?>
                 </tbody>
             </table>

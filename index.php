@@ -94,16 +94,16 @@
                 echo fctDelRerservation($_POST['idReservation']);
                 break;
             case "modifSalles":
-                include("views/admin/modifSalles.php");
+                include("views/modifSalles.php");
                 break;
             case "modifLigues":
-                include("views/admin/modifLigues.php");
+                include("views/modifLigues.php");
                 break;
             case "getSalles":
-                include("views/admin/afficherSalles.php");
+                include("views/afficherSalles.php");
                 break;
             case "getLigues":
-                include("views/admin/afficherLigues.php");
+                include("views/afficherLigues.php");
                 break;
             case "UPD_activeSalle":
                 fctActiveSalle($_POST['idSalle']);

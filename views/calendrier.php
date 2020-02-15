@@ -15,7 +15,6 @@
 <script type="text/javascript" src='./public/fullCalendar/timegrid/main.js'></script>
 <script type="text/javascript" src='./public/fullCalendar/interaction/main.js'></script>
 <script type="text/javascript" src='./public/js/moment-with-locales.js'></script>
-<!--<script src='./public/fullCalendar/moment/main.js'></script>-->
 <script type="text/javascript" src='./public/datetimepicker-master/build/jquery.datetimepicker.full.js'></script>
 <script type="text/javascript">
     var userLigue_id = '<?php echo $_SESSION['ligue']['idLigue'];?>';

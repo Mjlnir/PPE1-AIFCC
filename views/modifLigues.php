@@ -26,7 +26,7 @@
                 </thead>
                 <tbody id="tbLigue">
                     <?php
-                    include("views/admin/afficherLigues.php");
+                    include("views/afficherLigues.php");
                 ?>
                 </tbody>
             </table>

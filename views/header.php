@@ -9,8 +9,8 @@
     <link rel="stylesheet" type="text/css" href="./public/css/footer.css">
     <link rel="stylesheet" type="text/css" href="./public/css/font-awesome.min.css">
     
-    <script src="./public/js/jquery.js"></script>
-    <script src="./public/js/popper.min.js"></script>
-    <script src="./public/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
-    <script src="./public/js/navbar.js"></script>
+    <script type="text/javascript" src="./public/js/jquery.js"></script>
+    <script type="text/javascript" src="./public/js/popper.min.js"></script>
+    <script type="text/javascript" type="text/javascript" src="./public/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="./public/js/navbar.js"></script>
     <title>M2L</title>
