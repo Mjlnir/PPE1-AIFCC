@@ -1,10 +1,11 @@
 <?php
 	include("views/header.php");
 ?>
-<link rel="stylesheet" type="text/css" href="./public/css/modifSalle.css">
+<link rel="stylesheet" type="text/css" href="./public/css/modifSalle_Ligue.css">
 <script src='./public/js/modifLigues.js'></script>
 <script type="text/javascript">
     var userLigue_id = '<?php echo $_SESSION['ligue']['idLigue'];?>';
+
 </script>
 </head>
 
@@ -13,22 +14,24 @@
         include("views/navbar.php");
     ?>
     <div id="page-content">
-        <table class="table scroll">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Ligue</th>
-                    <th scope="col">Utilisateur</th>
-                    <th scope="col">Active</th>
-                </tr>
-            </thead>
-            <tbody id="tbLigue">
-                <?php
+        <div class="scroll">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Ligue</th>
+                        <th scope="col">Utilisateur</th>
+                        <th scope="col">Active</th>
+                    </tr>
+                </thead>
+                <tbody id="tbLigue">
+                    <?php
                     include("views/admin/afficherLigues.php");
                 ?>
-            </tbody>
-        </table>
-    <!-- Modal Nom -->
+                </tbody>
+            </table>
+        </div>
+        <!-- Modal Nom -->
         <div class="modal" id="nomMdl">
             <div class="modal-dialog">
                 <div class="modal-content">

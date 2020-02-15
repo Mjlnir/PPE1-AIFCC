@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  ven. 14 fév. 2020 à 16:29
+-- Généré le :  sam. 15 fév. 2020 à 15:51
 -- Version du serveur :  10.1.38-MariaDB
 -- Version de PHP :  7.3.2
 
@@ -120,7 +120,7 @@ BEGIN
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_SALLES` ()  BEGIN
-	SELECT typeSalle
+	SELECT salle.idTypeSalle
     , nbPersonneMax
     , nomSalle
     , salle.idSalle
@@ -513,7 +513,7 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT pour la table `ligue`
 --
 ALTER TABLE `ligue`
-  MODIFY `idLigue` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idLigue` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT pour la table `salle`

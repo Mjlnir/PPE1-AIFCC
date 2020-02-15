@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var iIdSalle;
     $(document).on('click', '.closeMdl, .btnCancelMdl', function () {
         $('#nbSalleMaxMdl').hide();
         $('#nomMdl').hide();
@@ -36,10 +37,11 @@ $(document).ready(function () {
         }
     });
     /*Changer Nb place Salle*/
-    $(document).on('click', '.btnNbPlaceSalle', function () {
+    $(document).on('click', '.btnNbPlaceSalle', function (event) {
         if (userLigue_id == 0) {
             $('#nbSalleMaxMdl').show();
             $('#nbPlace').val($(this).text());
+            iIdSalle = event.target.id; //Passation de l'id car récupération infructueuse lors de la requête ajax
         }
     });
 
@@ -49,7 +51,7 @@ $(document).ready(function () {
                 url: "index.php?action=UPD_nbPlaceMaxSalle",
                 type: "POST",
                 data: {
-                    idSalle: $('.btnNbPlaceSalle').attr('id'),
+                    idSalle: iIdSalle,
                     nbPlaceMax: $('#nbPlace').val()
                 },
                 dataType: "html"
@@ -62,10 +64,11 @@ $(document).ready(function () {
     });
 
     /*Changer Nom Salle*/
-    $(document).on('click', '.btnNomSalle', function () {
+    $(document).on('click', '.btnNomSalle', function (event) {
         if (userLigue_id == 0) {
             $('#nomMdl').show();
             $('#nomSalle').val($(this).text());
+            iIdSalle = event.target.id; //Passation de l'id car récupération infructueuse lors de la requête ajax
         }
     });
 
@@ -75,12 +78,11 @@ $(document).ready(function () {
                 url: "index.php?action=UPD_nomSalle",
                 type: "POST",
                 data: {
-                    idSalle: $('.btnNbPlaceSalle').attr('id'),
+                    idSalle: iIdSalle,
                     nomSalle: $('#nomSalle').val()
                 },
                 dataType: "html"
             }).done(function (data) {
-                console.log(data);
                 $('#nomMdl').hide();
                 $('#tbSalle').load('index.php?action=getSalles');
             });

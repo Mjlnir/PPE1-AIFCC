@@ -1,11 +1,13 @@
 $(document).ready(function () {
+    var idLigue;
+
     $(document).on('click', '.closeMdl, .btnCancelMdl', function () {
         $('#nomUser').hide();
         $('#nomMdl').hide();
     });
 
     //Obliger de passer par .on car après le load du tableau l'event click ne trigger plus.
-    /*Informatisee Salle*/
+    /*Active Ligue*/
     $(document).on('click', '.btnActiveLigue', function () {
         if (userLigue_id == 0) {
             $.ajax({
@@ -21,11 +23,12 @@ $(document).ready(function () {
         }
     });
 
-    /*Changer Nom Salle*/
-    $(document).on('click', '.btnNomLigue', function () {
+    /*Changer Nom Ligue*/
+    $(document).on('click', '.btnNomLigue', function (event) {
         if (userLigue_id == 0) {
             $('#nomMdl').show();
             $('#nomLigue').val($(this).text());
+            idLigue = event.target.id;
         }
     });
 
@@ -35,7 +38,7 @@ $(document).ready(function () {
                 url: "index.php?action=UPD_nomLigue",
                 type: "POST",
                 data: {
-                    idLigue: $('.btnNomLigue').attr('id'),
+                    idLigue: idLigue,
                     nomLigue: $('#nomLigue').val()
                 },
                 dataType: "html"
@@ -45,12 +48,13 @@ $(document).ready(function () {
             });
         }
     });
-    
+
     /*Changer Utilisateur*/
-    $(document).on('click', '.btnUserLigue', function () {
+    $(document).on('click', '.btnUserLigue', function (event) {
         if (userLigue_id == 0) {
             $('#nomUser').show();
             $('#nomUserLigue').val($(this).text());
+            idLigue = event.target.id;
         }
     });
 
@@ -60,7 +64,7 @@ $(document).ready(function () {
                 url: "index.php?action=UPD_nomUserLigue",
                 type: "POST",
                 data: {
-                    idLigue: $('.btnNomLigue').attr('id'),
+                    idLigue: idLigue,
                     idUserLigue: $('#nomUserLigue :selected').attr('id')
                 },
                 dataType: "html"

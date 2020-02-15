@@ -1,7 +1,7 @@
 <?php
 	include("views/header.php");
 ?>
-<link rel="stylesheet" type="text/css" href="./public/css/modifSalle.css">
+<link rel="stylesheet" type="text/css" href="./public/css/modifSalle_Ligue.css">
 <script src='./public/js/modifSalles.js'></script>
 <script type="text/javascript">
     var userLigue_id = '<?php echo $_SESSION['ligue']['idLigue'];?>';
