@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  sam. 15 fév. 2020 à 15:51
+-- Généré le :  Dim 16 fév. 2020 à 15:34
 -- Version du serveur :  10.1.38-MariaDB
 -- Version de PHP :  7.3.2
 
@@ -121,6 +121,7 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_SALLES` ()  BEGIN
 	SELECT salle.idTypeSalle
+    , typesalle.typeSalle
     , nbPersonneMax
     , nomSalle
     , salle.idSalle
@@ -352,8 +353,7 @@ CREATE TABLE `reserver` (
 INSERT INTO `reserver` (`idReservation`, `idLigue`, `idSalle`, `jourReservation`, `idUtilisateur`, `heureDebut`, `heureFin`, `descriptionR`) VALUES
 (4, 1, 56, '2020-02-10 10:00:00', 4, '2020-02-10 10:00:00', '2020-02-10 11:00:00', ''),
 (0, 1, 56, '2020-02-11 10:00:00', 3, '2020-02-11 10:00:00', '2020-02-11 11:00:00', ''),
-(2, 1, 56, '2020-02-13 10:00:00', 3, '2020-02-13 10:00:00', '2020-02-13 11:00:00', ''),
-(3, 2, 59, '2020-02-14 10:00:00', 7, '2020-02-14 10:00:00', '2020-02-14 11:00:00', '');
+(2, 1, 56, '2020-02-13 10:00:00', 3, '2020-02-13 10:00:00', '2020-02-13 11:00:00', '');
 
 -- --------------------------------------------------------
 
@@ -513,7 +513,7 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT pour la table `ligue`
 --
 ALTER TABLE `ligue`
-  MODIFY `idLigue` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `idLigue` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `salle`
