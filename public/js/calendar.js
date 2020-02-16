@@ -3,6 +3,15 @@ $(document).ready(function () {
     var eventInfoID; //Permet de passer l'id d'une réservation à un event
     var eventUpdateClick; //Permet de savoir si l'utilisateur click sur une réservation pour activer la modification et non l'ajout de réservation
 
+    function toTimestamp(_tDate) {
+        var starTime = _tDate;
+        var starTimeToDate = starTime.match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/);
+        var starTimeToTimestamp = (new Date(starTimeToDate[3], parseInt(starTimeToDate[2], 10) - 1, starTimeToDate[1], starTimeToDate[4], starTimeToDate[5]).getTime() / 1000);
+        return starTimeToTimestamp;
+    }
+
+    //    jQuery.datetimepicker.setLocale('fr');
+
     //    var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
         locale: 'fr',
@@ -21,22 +30,25 @@ $(document).ready(function () {
         minTime: '08:00',
         maxTime: '19:00',
         dateClick: function (info) {
-            if (userLigue_id != 0) {
-                $(".ligueTab").attr('hidden', '');
-            }
+            var dateEvent = new Date(info.dateStr);
+            var date = new Date();
+            //Si la date choisit est inférieur à la date d'aujourd'hui on ne montre pas le modal de réservation
+            if (dateEvent.getTime() >= date.getTime()) {
+                if (userLigue_id != 0) {
+                    $(".ligueTab").attr('hidden', '');
+                }
 
-            $('#createReservation ').show();
-            $('#CU_title').text('Réserver une salle');
-            $('#saveMdl').html('Réserver');
-            var date = new Date(info.dateStr);
-            var dateDebut = date.toLocaleDateString() + " " + date.toLocaleTimeString();
-            var hourFin = date.setHours(date.getHours() + 1);
-            var dateFin = date.toLocaleDateString() + " " + date.toLocaleTimeString();
-            //Passer les dates de début et de fin en timestamp et les reconvertir en date dans sql pour la réservation, ATTENTION le timestamp en JS est en ms /1000 pour les s
-            //            var TAMERE = dateDebut.match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/);
-            //            var TAMERE2 = new Date(TAMERE[3], parseInt(TAMERE[2], 10) - 1, TAMERE[1], TAMERE[4], TAMERE[5]).getTime() / 1000;
-            $('#startTime').val(dateDebut);
-            $('#endTime').val(dateFin);
+                $('#createReservation ').show();
+                $('#CU_title').text('Réserver une salle');
+                $('#saveMdl').html('Réserver');
+                var date = new Date(info.dateStr);
+                var dateDebut = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+                var hourFin = date.setHours(date.getHours() + 1);
+                var dateFin = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+
+                $('#startTime').val(dateDebut);
+                $('#endTime').val(dateFin);
+            }
         },
         events: "index.php?action=getReservation",
         allDaySlot: false,
@@ -48,45 +60,54 @@ $(document).ready(function () {
             }
         },
         eventClick: function (info) {
-            eventInfoID = info.event.id;
-            eventUpdateClick = true;
+            var dateEvent = info.event.end;
+            var date = new Date();
+            //Si la date de fin de la réservation est inférieur à la date d'aujourd'hui on ne montre pas l'event
+            if (dateEvent.getTime() > date.getTime()) {
+                eventInfoID = info.event.id;
+                eventUpdateClick = true;
 
-            $('#createReservation').show();
-            $('#CU_title').text('Modifier une réservation');
+                $('#createReservation').show();
+                $('#CU_title').text('Modifier une réservation');
 
-            $('#deleteMdl').removeAttr('hidden');
-            $('#saveMdl').html('Modifier');
+                $('#deleteMdl').removeAttr('hidden');
+                $('#saveMdl').html('Modifier');
 
-            $('#startTime').val(new Date(info.event.start).toLocaleDateString() + " "+ new Date(info.event.start).toLocaleTimeString());
-            $('#endTime').val(new Date(info.event.end).toLocaleDateString() + " "+ new Date(info.event.end).toLocaleTimeString());
+                $('#startTime').val(new Date(info.event.start).toLocaleDateString() + " " + new Date(info.event.start).toLocaleTimeString());
+                $('#endTime').val(new Date(info.event.end).toLocaleDateString() + " " + new Date(info.event.end).toLocaleTimeString());
 
-            $('#nomSalle option').each(function () {
-                $(this).removeAttr("selected");
-            });
-            $('.typeSalle option').each(function () {
-                $(this).removeAttr("selected");
-            });
-            $('#nomLigue option').each(function () {
-                $(this).removeAttr("selected");
-            });
-            $('.nomSalle').hide();
+                $('#nomSalle option').each(function () {
+                    $(this).removeAttr("selected");
+                });
+                $('.typeSalle option').each(function () {
+                    $(this).removeAttr("selected");
+                });
+                $('#nomLigue option').each(function () {
+                    $(this).removeAttr("selected");
+                });
+                $('.nomSalle').hide();
 
-            var optionIdSalle = $('#' + info.event.extendedProps.idSalle);
-            optionIdSalle.prop('selected', true);
-            var varTypeSalle = optionIdSalle.parent().attr('class').split(' ')[2];
-            $('.' + varTypeSalle).show();
-            $('#' + varTypeSalle).prop('selected', true);
-            var optionIdLigue = $('#' + info.event.extendedProps.idLigue);
-            optionIdLigue.prop('selected', true);
+                var optionIdSalle = $('#' + info.event.extendedProps.idSalle);
+                optionIdSalle.prop('selected', true);
+                var varTypeSalle = optionIdSalle.parent().attr('class').split(' ')[2];
+                $('.' + varTypeSalle).show();
+                $('#' + varTypeSalle).prop('selected', true);
+                var optionIdLigue = $('#' + info.event.extendedProps.idLigue);
+                optionIdLigue.prop('selected', true);
+            }
         }
     });
 
     calendar.render();
 
+    function RefreshSalleLibres() {
+
+    }
+
     //TODO #startTime
     $('#endTime').change(function () {
-        var startTime = moment($('#startTime').val());
-        var endTime = moment($('#endTime').val());
+        var startTime = new Date($('#startTime').val()).toLocaleDateString() + " " + new Date($('#startTime').val()).toLocaleTimeString();
+        var endTime = new Date($('#endTime').val()).toLocaleDateString() + " " + new Date($('#endTime').val()).toLocaleTimeString();
         if (endTime < startTime) {
             $('#endTime').addClass('error');
             $('#dateError').removeAttr("hidden");
@@ -105,8 +126,8 @@ $(document).ready(function () {
             url: "index.php?action=estReservable",
             type: "POST",
             data: {
-                dateDebutFuturReservation: moment($('#startTime').val()).format().slice(0, -6),
-                dateFinFuturReservation: moment($(this).val()).format().slice(0, -6)
+                dateDebutFuturReservation: toTimestamp($('#startTime').val()),
+                dateFinFuturReservation: toTimestamp($(this).val())
             },
             dataType: "json"
         }).done(function (data) {
@@ -126,40 +147,34 @@ $(document).ready(function () {
         }
     });
 
-    function toTimestamp(_tDate) {
-        var starTime = _tDate;
-        var starTimeToDate = starTime.match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/);
-        var starTimeToTimestamp = (new Date(starTimeToDate[3], parseInt(starTimeToDate[2], 10) - 1, starTimeToDate[1], starTimeToDate[4], starTimeToDate[5]).getTime() / 1000);
-        return starTimeToTimestamp;
-    }
     $('#saveMdl').click(function () {
-                if (eventUpdateClick) {
-                    if (userLigue_id == $("#nomLigue :selected").attr("id")) {
-                        $.post("index.php?action=updateReservation", {
-                            idLigue: $("#nomLigue :selected").attr("id"),
-                            startTime: toTimestamp($('#startTime').val()),
-                            endTime: toTimestamp($('#endTime').val()),
-                            nomSalle: $("#nomSalle:visible :selected").text(),
-                            description: "",
-                            idReservation: eventInfoID
-                        }, function () {
-                            eventUpdateClick = false;
-                            $('#createReservation').hide();
-                            calendar.refetchEvents();
-                        });
-                    }
-                } else {
-                    $.post("index.php?action=reserver", {
-                        idLigue: $("#nomLigue :selected").attr("id"),
-                        startTime: toTimestamp($('#startTime').val()),
-                        endTime: toTimestamp($('#endTime').val()),
-                        nomSalle: $("#nomSalle:visible :selected").text(),
-                        description: ""
-                    }, function () {
-                        $('#createReservation').hide();
-                        calendar.refetchEvents();
-                    });
-                }
+        if (eventUpdateClick) {
+            if (userLigue_id == $("#nomLigue :selected").attr("id")) {
+                $.post("index.php?action=updateReservation", {
+                    idLigue: $("#nomLigue :selected").attr("id"),
+                    startTime: toTimestamp($('#startTime').val()),
+                    endTime: toTimestamp($('#endTime').val()),
+                    nomSalle: $("#nomSalle:visible :selected").text(),
+                    description: "",
+                    idReservation: eventInfoID
+                }, function () {
+                    eventUpdateClick = false;
+                    $('#createReservation').hide();
+                    calendar.refetchEvents();
+                });
+            }
+        } else {
+            $.post("index.php?action=reserver", {
+                idLigue: $("#nomLigue :selected").attr("id"),
+                startTime: toTimestamp($('#startTime').val()),
+                endTime: toTimestamp($('#endTime').val()),
+                nomSalle: $("#nomSalle:visible :selected").text(),
+                description: ""
+            }, function () {
+                $('#createReservation').hide();
+                calendar.refetchEvents();
+            });
+        }
     });
 
     $('#deleteMdl').click(function () {
@@ -173,19 +188,21 @@ $(document).ready(function () {
     });
 
     $('#startTime').datetimepicker({
+        setLocale: 'fr',
         datepicker: false,
         allowTimes: [
-            '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
-            '15:00', '16:00', '17:00', '18:00'
-        ]
+                '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
+                '15:00', '16:00', '17:00', '18:00'
+            ]
     });
 
     $('#endTime').datetimepicker({
+        setLocale: 'fr',
         datepicker: true,
         allowTimes: [
-            '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
-            '15:00', '16:00', '17:00', '18:00'
-        ]
+                '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
+                '15:00', '16:00', '17:00', '18:00'
+            ]
     });
 
     $('.I1').hide();

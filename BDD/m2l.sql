@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  Dim 16 fév. 2020 à 15:14
+-- Généré le :  Dim 16 fév. 2020 à 15:57
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.12
 
@@ -70,7 +70,7 @@ DROP PROCEDURE IF EXISTS `PRC_GET_RESERVATION`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_RESERVATION` ()  BEGIN
         IF((SELECT COUNT(idReservation) FROM reserver) > 0) THEN
 	    SELECT idReservation as 'id'
-	    ,CONCAT(nomSalle, ' - ', nomLigue) as 'title'
+	    ,nomSalle as 'title'
 	    ,heureDebut as 'start'
 	    ,heureFin as 'end'
 	    ,nomSalle as 'nomSalle'
@@ -100,7 +100,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_RESERVATION_BY_ID` (IN `_id
 BEGIN
         IF((SELECT COUNT(idReservation) FROM reserver) > 0) THEN
 	    SELECT idReservation as 'id'
-	    ,CONCAT(nomSalle, ' - ', nomLigue) as 'title'
+	    ,nomSalle as 'title'
 	    ,heureDebut as 'start'
 	    ,heureFin as 'end'
 	    ,nomSalle as 'nomSalle'
@@ -385,9 +385,13 @@ CREATE TABLE IF NOT EXISTS `reserver` (
 
 INSERT INTO `reserver` (`idReservation`, `idLigue`, `idSalle`, `jourReservation`, `idUtilisateur`, `heureDebut`, `heureFin`, `descriptionR`) VALUES
 (4, 1, 56, '2020-02-10 10:00:00', 4, '2020-02-10 10:00:00', '2020-02-10 11:00:00', ''),
+(9, 1, 56, '2020-02-10 11:30:00.000000', 4, '2020-02-10 11:30:00.000000', '2020-02-10 12:30:00.000000', ''),
 (0, 1, 56, '2020-02-11 10:00:00', 3, '2020-02-11 10:00:00', '2020-02-11 11:00:00', ''),
+(8, 1, 56, '2020-02-11 11:00:00.000000', 4, '2020-02-11 11:00:00.000000', '2020-02-11 12:00:00.000000', ''),
 (5, 1, 56, '2020-02-12 10:00:00.000000', 3, '2020-02-12 10:00:00.000000', '2020-02-12 11:00:00.000000', ''),
 (2, 1, 56, '2020-02-13 10:00:00', 3, '2020-02-13 10:00:00', '2020-02-13 11:00:00', ''),
+(10, 1, 56, '2020-02-17 09:00:00.000000', 4, '2020-02-17 09:00:00.000000', '2020-02-17 10:00:00.000000', ''),
+(11, 1, 56, '2020-02-18 09:00:00.000000', 4, '2020-02-18 09:00:00.000000', '2020-02-18 10:00:00.000000', ''),
 (7, 1, 57, '2020-02-10 11:00:00.000000', 3, '2020-02-10 11:00:00.000000', '2020-02-10 12:00:00.000000', ''),
 (6, 1, 57, '2020-02-14 10:00:00.000000', 3, '2020-02-14 10:00:00.000000', '2020-02-14 11:00:00.000000', '');
 
