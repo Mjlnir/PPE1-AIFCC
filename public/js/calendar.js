@@ -10,6 +10,25 @@ $(document).ready(function () {
         return starTimeToTimestamp;
     }
 
+    function RefreshSalleLibres(dateDebut, dateFin) {
+        $.ajax({
+            url: "index.php?action=estReservable",
+            type: "POST",
+            data: {
+                dateDebutFuturReservation: toTimestamp(dateDebut),
+                dateFinFuturReservation: toTimestamp(dateFin)
+            },
+            dataType: "json"
+        }).done(function (data) {
+            if (data != null) {
+                for (let iCpt = 0; iCpt < data.length; iCpt++) {
+                    $('#nomSalle option[id="' + data[iCpt] + '"]').attr('disabled', true);
+                }
+                $('#nomSalle option:not([disabled]):first').attr('selected', true);
+            }
+        });
+    }
+
     //    jQuery.datetimepicker.setLocale('fr');
 
     //    var calendarEl = document.getElementById('calendar');
@@ -48,6 +67,7 @@ $(document).ready(function () {
 
                 $('#startTime').val(dateDebut);
                 $('#endTime').val(dateFin);
+                RefreshSalleLibres(dateDebut, dateFin);
             }
         },
         events: "index.php?action=getReservation",
@@ -100,10 +120,6 @@ $(document).ready(function () {
 
     calendar.render();
 
-    function RefreshSalleLibres() {
-
-    }
-
     //TODO #startTime
     $('#endTime').change(function () {
         var startTime = new Date($('#startTime').val()).toLocaleDateString() + " " + new Date($('#startTime').val()).toLocaleTimeString();
@@ -122,21 +138,7 @@ $(document).ready(function () {
                 $(this).removeAttr('disabled');
             }
         });
-        $.ajax({
-            url: "index.php?action=estReservable",
-            type: "POST",
-            data: {
-                dateDebutFuturReservation: toTimestamp($('#startTime').val()),
-                dateFinFuturReservation: toTimestamp($(this).val())
-            },
-            dataType: "json"
-        }).done(function (data) {
-            if (data != null) {
-                for (iCpt = 0; iCpt < data.length; iCpt++) {
-                    $('#nomSalle option[id="' + data[iCpt] + '"]').attr('disabled', '');
-                }
-            }
-        });
+        RefreshSalleLibres($('#startTime').val(), $(this).val());
     });
 
     $('.closeMdl').click(function () {

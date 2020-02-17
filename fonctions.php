@@ -242,27 +242,27 @@ function fctGet_Salles(){
         die("Error occurred:" . $e->getMessage());
     }
 }
-function fctGet_Salles_Reserve($datedebut, $datefin){
+function fctGet_Salles_Reserve($dateDebut, $dateFin){
     try
     {
         $conn = DBLog();
 
         // execute the stored procedure
-        $sql = "CALL PRC_GET_SALLES_RESERVE(:datedebut, :datefin)";
+        $sql = "CALL PRC_GET_SALLES_RESERVE(:dateDebut, :dateFin)";
         
         // call the stored procedure
         $query = $conn->prepare($sql);
-        $query->bindParam(":datedebut", $datedebut);
-        $query->bindParam(":datefin", $datefin);
+        $query->bindParam(":dateDebut", $dateDebut);
+        $query->bindParam(":dateFin", $dateFin);
         $query->execute();
         
         $row = $query->fetchAll();
         
-        $iCpt = 0;
         foreach($row as $result)
         {
-         $data[] = $result["nomSalle"];
-         $iCpt++;
+         $data[] = array(
+             $result["idSalle"]
+         );
         }
         $query -> closeCursor();
         

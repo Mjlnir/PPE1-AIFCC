@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  Dim 16 fév. 2020 à 15:57
+-- Généré le :  lun. 17 fév. 2020 à 17:27
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.12
 
@@ -141,31 +141,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_SALLES` ()  BEGIN
 END$$
 
 DROP PROCEDURE IF EXISTS `PRC_GET_SALLES_RESERVE`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_SALLES_RESERVE` (`dateDebut` DATETIME, `dateFin` DATETIME)  BEGIN
-	SELECT nomSalle
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PRC_GET_SALLES_RESERVE` (IN `dateDebut` VARCHAR(255) CHARSET utf8, IN `dateFin` VARCHAR(255) CHARSET utf8)  BEGIN
+	SELECT SALLE.idSalle
 	FROM SALLE 
 	WHERE SALLE.idSalle 
 	IN 
 	(
 		SELECT RESERVER.idSalle FROM RESERVER
 		WHERE
-		-- Commence avant, termine après
-		(dateDebut <= RESERVER.heureDebut 
-			AND dateFin >= RESERVER.heureFin)
-		OR
-		-- Commence pendant, termine pendant
-		(dateDebut >= RESERVER.heureDebut 
-			AND dateFin <= RESERVER.heureFin)
-		OR
-		-- Commence avant, termine pendant
-		(dateDebut < RESERVER.heureDebut 
-			AND dateFin > RESERVER.heureDebut
-			AND dateFin < RESERVER.heureFin)
-		OR
-		-- Commence pendant, termine après
-		(dateDebut > RESERVER.heureDebut 
-			AND dateDebut < RESERVER.heureFin
-			AND dateFin > RESERVER.heureFin)
+        (FROM_UNIXTIME(dateDebut) BETWEEN reserver.heureDebut AND reserver.heureFin)
+        OR
+        (FROM_UNIXTIME(dateFin) BETWEEN reserver.heureDebut AND reserver.heureFin)
+        OR
+        (FROM_UNIXTIME(dateDebut) < reserver.heureDebut AND FROM_UNIXTIME(dateFin) > reserver.heureFin)
 	);
 END$$
 
@@ -369,10 +357,10 @@ CREATE TABLE IF NOT EXISTS `reserver` (
   `idReservation` int(11) NOT NULL DEFAULT '0',
   `idLigue` int(11) NOT NULL,
   `idSalle` int(11) NOT NULL,
-  `jourReservation` varchar(255) NOT NULL,
+  `jourReservation` datetime NOT NULL,
   `idUtilisateur` int(11) NOT NULL,
-  `heureDebut` varchar(255) NOT NULL,
-  `heureFin` varchar(255) NOT NULL,
+  `heureDebut` datetime NOT NULL,
+  `heureFin` datetime NOT NULL,
   `descriptionR` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idLigue`,`idSalle`,`jourReservation`),
   KEY `RESERVER_SALLE_FK` (`idSalle`),
@@ -385,15 +373,18 @@ CREATE TABLE IF NOT EXISTS `reserver` (
 
 INSERT INTO `reserver` (`idReservation`, `idLigue`, `idSalle`, `jourReservation`, `idUtilisateur`, `heureDebut`, `heureFin`, `descriptionR`) VALUES
 (4, 1, 56, '2020-02-10 10:00:00', 4, '2020-02-10 10:00:00', '2020-02-10 11:00:00', ''),
-(9, 1, 56, '2020-02-10 11:30:00.000000', 4, '2020-02-10 11:30:00.000000', '2020-02-10 12:30:00.000000', ''),
+(9, 1, 56, '2020-02-10 11:30:00', 4, '2020-02-10 11:30:00', '2020-02-10 12:30:00', ''),
 (0, 1, 56, '2020-02-11 10:00:00', 3, '2020-02-11 10:00:00', '2020-02-11 11:00:00', ''),
-(8, 1, 56, '2020-02-11 11:00:00.000000', 4, '2020-02-11 11:00:00.000000', '2020-02-11 12:00:00.000000', ''),
-(5, 1, 56, '2020-02-12 10:00:00.000000', 3, '2020-02-12 10:00:00.000000', '2020-02-12 11:00:00.000000', ''),
+(8, 1, 56, '2020-02-11 11:00:00', 4, '2020-02-11 11:00:00', '2020-02-11 12:00:00', ''),
+(5, 1, 56, '2020-02-12 10:00:00', 3, '2020-02-12 10:00:00', '2020-02-12 11:00:00', ''),
 (2, 1, 56, '2020-02-13 10:00:00', 3, '2020-02-13 10:00:00', '2020-02-13 11:00:00', ''),
-(10, 1, 56, '2020-02-17 09:00:00.000000', 4, '2020-02-17 09:00:00.000000', '2020-02-17 10:00:00.000000', ''),
-(11, 1, 56, '2020-02-18 09:00:00.000000', 4, '2020-02-18 09:00:00.000000', '2020-02-18 10:00:00.000000', ''),
-(7, 1, 57, '2020-02-10 11:00:00.000000', 3, '2020-02-10 11:00:00.000000', '2020-02-10 12:00:00.000000', ''),
-(6, 1, 57, '2020-02-14 10:00:00.000000', 3, '2020-02-14 10:00:00.000000', '2020-02-14 11:00:00.000000', '');
+(10, 1, 56, '2020-02-17 09:00:00', 4, '2020-02-17 09:00:00', '2020-02-17 10:00:00', ''),
+(11, 1, 56, '2020-02-18 09:00:00', 4, '2020-02-18 09:00:00', '2020-02-18 10:00:00', ''),
+(12, 1, 56, '2020-02-19 09:00:00', 3, '2020-02-19 09:00:00', '2020-02-19 10:00:00', ''),
+(7, 1, 57, '2020-02-10 11:00:00', 3, '2020-02-10 11:00:00', '2020-02-10 12:00:00', ''),
+(6, 1, 57, '2020-02-14 10:00:00', 3, '2020-02-14 10:00:00', '2020-02-14 11:00:00', ''),
+(13, 1, 57, '2020-02-18 09:00:00', 3, '2020-02-18 09:00:00', '2020-02-18 10:00:00', ''),
+(14, 1, 58, '2020-02-18 09:00:00', 3, '2020-02-18 09:00:00', '2020-02-18 10:00:00', '');
 
 -- --------------------------------------------------------
 
