@@ -11,6 +11,6 @@
     
     <script type="text/javascript" src="./public/js/jquery.js"></script>
     <script type="text/javascript" src="./public/js/popper.min.js"></script>
-    <script type="text/javascript" type="text/javascript" src="./public/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="./public/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="./public/js/navbar.js"></script>
     <title>M2L</title>

@@ -7,15 +7,14 @@
 <link rel="stylesheet" type="text/css" href='./public/fullCalendar/timegrid/main.css' />
 <link rel="stylesheet" type="text/css" href='./public/datetimepicker-master/build/jquery.datetimepicker.min.css' />
 
-<script src='./public/js/calendar.js'></script>
-
 <script type="text/javascript" src='./public/fullCalendar/core/main.js'></script>
 <script type="text/javascript" src='./public/fullCalendar/core/locales/fr.js'></script>
 <script type="text/javascript" src='./public/fullCalendar/daygrid/main.js'></script>
 <script type="text/javascript" src='./public/fullCalendar/timegrid/main.js'></script>
 <script type="text/javascript" src='./public/fullCalendar/interaction/main.js'></script>
-<script type="text/javascript" src='./public/js/moment-with-locales.js'></script>
 <script type="text/javascript" src='./public/datetimepicker-master/build/jquery.datetimepicker.full.js'></script>
+
+<script src='./public/js/calendar.js'></script>
 <script type="text/javascript">
     var userLigue_id = '<?php echo $_SESSION['ligue']['idLigue'];?>';
 </script>

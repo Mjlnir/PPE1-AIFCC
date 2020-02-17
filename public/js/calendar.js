@@ -29,8 +29,6 @@ $(document).ready(function () {
         });
     }
 
-    //    jQuery.datetimepicker.setLocale('fr');
-
     //    var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
         locale: 'fr',
@@ -67,7 +65,7 @@ $(document).ready(function () {
 
                 $('#startTime').val(dateDebut);
                 $('#endTime').val(dateFin);
-                RefreshSalleLibres(dateDebut, dateFin);
+                RefreshSalleLibres($('#startTime').val(), $('#endTime').val());
             }
         },
         events: "index.php?action=getReservation",
@@ -95,6 +93,7 @@ $(document).ready(function () {
 
                 $('#startTime').val(new Date(info.event.start).toLocaleDateString() + " " + new Date(info.event.start).toLocaleTimeString());
                 $('#endTime').val(new Date(info.event.end).toLocaleDateString() + " " + new Date(info.event.end).toLocaleTimeString());
+                RefreshSalleLibres($('#startTime').val(), $('#endTime').val());
 
                 $('#nomSalle option').each(function () {
                     $(this).removeAttr("selected");
@@ -120,28 +119,40 @@ $(document).ready(function () {
 
     calendar.render();
 
-    //TODO #startTime
-    $('#endTime').change(function () {
-        var startTime = new Date($('#startTime').val()).toLocaleDateString() + " " + new Date($('#startTime').val()).toLocaleTimeString();
-        var endTime = new Date($('#endTime').val()).toLocaleDateString() + " " + new Date($('#endTime').val()).toLocaleTimeString();
-        if (endTime < startTime) {
+    $('#startTime').on('change', function () {
+        if ($('#startTime').val() >= $('#endTime').val()) {
+            $('#startTime').addClass('error');
+            $('#dateError').removeAttr("hidden");
+            $('#saveMdl').attr('disabled', '');
+        } else {
+            $('#startTime').removeClass('error');
+            $('#dateError').attr('hidden', true);
+            $('#saveMdl').removeAttr('disabled');
+        }
+        if (!eventUpdateClick) {
+            RefreshSalleLibres($('#startTime').val(), $('#endTime').val());
+        }
+    });
+    
+    $('#endTime').on('change', function () {
+        if ($('#endTime').val() <= $('#startTime').val()) {
             $('#endTime').addClass('error');
             $('#dateError').removeAttr("hidden");
             $('#saveMdl').attr('disabled', '');
         } else {
             $('#endTime').removeClass('error');
-            $('#dateError').attr('hidden', '');
+            $('#dateError').attr('hidden', true);
             $('#saveMdl').removeAttr('disabled');
         }
-        $('option').each(function () {
-            if ($(this).attr('disabled') == 'disabled') {
-                $(this).removeAttr('disabled');
-            }
-        });
-        RefreshSalleLibres($('#startTime').val(), $(this).val());
+        if (!eventUpdateClick) {
+            RefreshSalleLibres($('#startTime').val(), $('#endTime').val());
+        }
     });
 
     $('.closeMdl').click(function () {
+        $('#endTime').removeClass('error');
+        $('#startTime').removeClass('error');
+        $('#dateError').attr('hidden', true);
         $('#createReservation').hide();
         $('#createReservation').find('input').val('');
         if (eventUpdateClick) {
@@ -190,7 +201,7 @@ $(document).ready(function () {
     });
 
     $('#startTime').datetimepicker({
-        setLocale: 'fr',
+        format: 'd/m/Y H:00:00',
         datepicker: false,
         allowTimes: [
                 '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
@@ -199,7 +210,7 @@ $(document).ready(function () {
     });
 
     $('#endTime').datetimepicker({
-        setLocale: 'fr',
+        format: 'd/m/Y H:00:00',
         datepicker: true,
         allowTimes: [
                 '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
