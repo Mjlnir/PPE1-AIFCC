@@ -126,6 +126,9 @@
             case "UPD_nomUserLigue":
                 fctNomUserLigue($_POST['idLigue'],$_POST['idUserLigue']);
                 break;
+            case "UPD_nomUser":
+                echo "TAMERE";
+                break;
           }
     }
     else

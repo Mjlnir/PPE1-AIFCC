@@ -10,9 +10,11 @@
         <li class="nav-item" id="modifLigues">
             <a class="nav-link" href="index.php?action=modifLigues">Ligues</a>
         </li>
+<!--
         <li class="nav-item" id="user">
             <a href="index.php?action=user" class="nav-link">Paramètres</a>
         </li>
+-->
         <li class="nav-item" id="logOut">
             <a href="index.php?action=logOut" class="nav-link">Déconnexion</a>
         </li>

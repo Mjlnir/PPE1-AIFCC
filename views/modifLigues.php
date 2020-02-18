@@ -5,7 +5,6 @@
 <script src='./public/js/modifLigues.js'></script>
 <script type="text/javascript">
     var userLigue_id = '<?php echo $_SESSION['ligue']['idLigue'];?>';
-
 </script>
 </head>
 
