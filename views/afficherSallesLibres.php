@@ -29,13 +29,15 @@
                                             echo "</select>";
                                         }
                                     }
-                            
-                                    echo "<label class=\"ligueTab\">Nom de la Ligue :</label>";
-                                    echo "<select class=\"form-control ligueTab\" id=\"nomLigue\">";
-                                    foreach($arrNomLigues as $arrNomLigue){
-                                        if($arrNomLigue['idLigue'] != 0){
-                                            echo "<option class=\"ligueTab\" id=\"".$arrNomLigue['idLigue']."\">".$arrNomLigue['nomLigue']."</option>";
+                                    
+                                    if($_SESSION['user']['idTypeUtilisateur'] == 1){
+                                        echo "<label class=\"ligueTab\">Nom de la Ligue :</label>";
+                                        echo "<select class=\"form-control ligueTab\" id=\"nomLigue\">";
+                                        foreach($arrNomLigues as $arrNomLigue){
+                                            if($arrNomLigue['idLigue'] != 0){
+                                                echo "<option class=\"ligueTab\" id=\"".$arrNomLigue['idLigue']."\">".$arrNomLigue['nomLigue']."</option>";
+                                            }
                                         }
+                                        echo "</select>";
                                     }
-                                    echo "</select>";
                                 ?>

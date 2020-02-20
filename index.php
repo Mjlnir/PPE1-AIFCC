@@ -106,28 +106,31 @@
                 include("views/afficherLigues.php");
                 break;
             case "UPD_activeSalle":
-                fctActiveSalle($_POST['idSalle']);
+                echo fctActiveSalle($_POST['idSalle']);
                 break;
             case "UPD_informatiseeSalle":
-                fctInformatiseeSalle($_POST['idSalle']);
+                echo fctInformatiseeSalle($_POST['idSalle']);
                 break;
             case "UPD_nbPlaceMaxSalle":
-                fctNbPlaceMaxSalle($_POST['idSalle'],$_POST['nbPlaceMax']);
+                echo fctNbPlaceMaxSalle($_POST['idSalle'],$_POST['nbPlaceMax']);
                 break;
             case "UPD_nomSalle":
-                fctNomSalle($_POST['idSalle'],$_POST['nomSalle']);
+                echo fctNomSalle($_POST['idSalle'],$_POST['nomSalle']);
+                break;
+            case "ADD_createSalle":
+                echo fctAddSalle($_POST['nbPlaceMax'],$_POST['nomSalle'],$_POST['estActive'],$_POST['informatise']);
                 break;
             case "UPD_activeLigue":
-                fctActiveLigue($_POST['idLigue']);
+                echo fctActiveLigue($_POST['idLigue']);
                 break;
             case "UPD_nomLigue":
-                fctNomLigue($_POST['idLigue'],$_POST['nomLigue']);
+                echo fctNomLigue($_POST['idLigue'],$_POST['nomLigue']);
                 break;
             case "UPD_nomUserLigue":
-                fctNomUserLigue($_POST['idLigue'],$_POST['idUserLigue']);
+                echo fctNomUserLigue($_POST['idLigue'],$_POST['idUserLigue']);
                 break;
-            case "UPD_nomUser":
-                echo "TAMERE";
+            case "ADD_Ligue":
+                echo fctAddLigue($_POST['nomLigue'],$_POST['userLigue'],$_POST['estActive']);
                 break;
           }
     }

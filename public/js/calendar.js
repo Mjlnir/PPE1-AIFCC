@@ -170,7 +170,7 @@ $(document).ready(function () {
                     nomSalle: $("#nomSalle:visible :selected").text(),
                     description: "",
                     idReservation: eventInfoID
-                }, function () {
+                }, function (data) {
                     eventUpdateClick = false;
                     $('#createReservation').hide();
                     calendar.refetchEvents();

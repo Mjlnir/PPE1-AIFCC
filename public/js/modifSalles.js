@@ -3,6 +3,7 @@ $(document).ready(function () {
     $(document).on('click', '.closeMdl, .btnCancelMdl', function () {
         $('#nbSalleMaxMdl').hide();
         $('#nomMdl').hide();
+        $("#createSalleMdl").hide();
     });
 
     //Obliger de passer par .on car après le load du tableau l'event click ne trigger plus.
@@ -84,6 +85,30 @@ $(document).ready(function () {
                 dataType: "html"
             }).done(function (data) {
                 $('#nomMdl').hide();
+                $('#tbSalle').load('index.php?action=getSalles');
+            });
+        }
+    });
+
+    $(document).on('click', '#btnCreateSalle', function () {
+        if (userLigue_id == 0) {
+            $('#createSalleMdl').show();
+        }
+    });
+    $(document).on('click', '#btnCreate', function () {
+        if (userLigue_id == 0) {
+            $.ajax({
+                url: "index.php?action=ADD_createSalle",
+                type: "POST",
+                data: {
+                    nbPlaceMax: $('#createNbPlaceSalle').val(),
+                    nomSalle: $('#createNomSalle').val(),
+                    estActive: $('input[name=estActiveRadio]:checked').val(),
+                    informatise: $('input[name=informatiseRadio]:checked').val()
+                },
+                dataType: "html"
+            }).done(function (data) {
+                $('#createSalleMdl').hide();
                 $('#tbSalle').load('index.php?action=getSalles');
             });
         }

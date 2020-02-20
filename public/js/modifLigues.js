@@ -4,6 +4,7 @@ $(document).ready(function () {
     $(document).on('click', '.closeMdl, .btnCancelMdl', function () {
         $('#nomUser').hide();
         $('#nomMdl').hide();
+        $('#createLigueMdl').hide();
     });
 
     //Obliger de passer par .on car après le load du tableau l'event click ne trigger plus.
@@ -71,6 +72,33 @@ $(document).ready(function () {
             }).done(function (data) {
                 $('#nomUser').hide();
                 $('#tbLigue').load('index.php?action=getSalle');
+            });
+        }
+    });
+    
+    /*Changer Create Ligue*/
+    $(document).on('click', '#btnCreateLigue', function (event) {
+        if (userLigue_id == 0) {
+            $('#createLigueMdl').show();
+        }
+    });
+
+    $(document).on('click', '#btnAddLigueMdl', function () {
+        alert($('#addNomLigue').val()+" "+$('.userLigue option:selected').val()+" "+$('input[name=estActiveRadio]:checked').val());
+        if (userLigue_id == 0) {
+            $.ajax({
+                url: "index.php?action=ADD_Ligue",
+                type: "POST",
+                data: {
+                    nomLigue: $('#addNomLigue').val(),
+                    userLigue: $('.userLigue option:selected').val(),
+                    estActive: $('input[name=estActiveRadio]:checked').val()
+                },
+                dataType: "html"
+            }).done(function (data) {
+                alert(data);
+                $('#createLigueMdl').hide();
+                $('#tbLigue').load('index.php?action=getLigues');
             });
         }
     });

@@ -9,10 +9,13 @@
 </head>
 
 <body class="d-flex flex-column">
+    <div id="page-content">
     <?php
         include("views/navbar.php");
     ?>
-    <div id="page-content">
+    <br>
+    <br>
+    <br>
         <div class="scroll">
             <table class="table">
                 <thead>
@@ -29,6 +32,7 @@
                 ?>
                 </tbody>
             </table>
+            <button class="btn btn-danger" id="btnCreateLigue">Créer Ligue</button>
         </div>
         <!-- Modal Nom -->
         <div class="modal" id="nomMdl">
@@ -80,6 +84,47 @@
             </div>
         </div>
     </div>
+    <!-- Modal Create Ligue -->
+        <div class="modal" id="createLigueMdl">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Nom de la ligue</h4>
+                        <button type="button" class="close closeMdl" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <label>Nom de la ligue :</label>
+                        <input type="text" id="addNomLigue" class="form-control">
+                        <label>Nom de l'utilisateur :</label>
+                        <?php
+                            $usersLibres = fctGetUserLibre();
+                            echo "<select class=\"form-control userLigue\" name=\"userLigue\">";
+                             foreach($usersLibres as $userLibre){
+                                    echo "<option id=\"".$userLibre['idUtilisateur']."\">";
+                                    echo $userLibre['loginUtilisateur'];
+                                    echo "</option>";
+                            }
+                            echo "</select>";
+                        ?>
+                        <label>Active :</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="estActiveRadio" id="estActive" value="1">
+                            <label class="form-check-label" for="estActive">Oui</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="estActiveRadio" id="pasActive" value="0">
+                            <label class="form-check-label" for="pasActive">Non</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" id="btnAddLigueMdl" data-dismiss="modal">Créer</button>
+                        <button class="btn btn-danger btnCancelMdl" data-dismiss="modal">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <?php
     include("views/footer.php");
 ?>

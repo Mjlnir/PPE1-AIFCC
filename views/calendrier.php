@@ -25,6 +25,9 @@
         include("navbar.php");
     ?>
     <div id="page-content">
+        <br>
+        <br>
+    
         <div id="calendar"></div>
         <!-- Modal Create Reservation -->
         <div class="modal" id="createReservation">

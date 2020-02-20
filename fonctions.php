@@ -170,6 +170,29 @@ function fctGetUsers(){
         die("Error occurred:" . $e->getMessage());
     }
 }
+function fctGetUserLibre(){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "CALL PRC_GET_USER_LIBRE()";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->execute();
+        
+        $row = $query->fetchAll();
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
 function fctGetLigue($idUtilisateur)
 {
     try
@@ -512,6 +535,33 @@ function fctNomSalle($idSalle, $nomSalle){
         die("Error occurred:" . $e->getMessage());
     }
 }
+function fctAddSalle($nbPlaceMax,$nomSalle,$estActive,$informatise){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "CALL PRC_ADD_SALLE(:nbPlaceMax,:nomSalle,:estActive,:informatise)";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":nbPlaceMax", $nbPlaceMax);
+        $query->bindParam(":nomSalle", $nomSalle);
+        $query->bindParam(":estActive", $estActive);
+        $query->bindParam(":informatise", $informatise);
+        $query->execute();
+        
+        $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
 function fctActiveLigue($idLigue){
     try
     {
@@ -573,6 +623,32 @@ function fctNomUserLigue($idLigue, $idUserLigue){
         $query = $conn->prepare($sql);
         $query->bindParam(":idLigue", $idLigue);
         $query->bindParam(":idUserLigue", $idUserLigue);
+        $query->execute();
+        
+        $row = $query->fetch();
+        
+        $query -> closeCursor();
+        
+        return $row;
+    }
+    catch (PDOException $e)
+    {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+function fctAddLigue($nomLigue,$userLigue,$estActive){
+    try
+    {
+        $conn = DBLog();
+
+        // execute the stored procedure
+        $sql = "CALL PRC_ADD_LIGUE(:nomLigue,:userLigue,:estActive)";
+        
+        // call the stored procedure
+        $query = $conn->prepare($sql);
+        $query->bindParam(":nomLigue", $nomLigue);
+        $query->bindParam(":userLigue", $userLigue);
+        $query->bindParam(":estActive", $estActive);
         $query->execute();
         
         $row = $query->fetch();
