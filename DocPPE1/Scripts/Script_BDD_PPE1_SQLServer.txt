@@ -1,0 +1,69 @@
+CREATE DATABASE M2L
+CREATE TABLE LIGUE(
+        idLigue  Int  IDENTITY(0,1)  NOT NULL ,
+        nomLigue Nvarchar (50) NOT NULL
+	,CONSTRAINT LIGUE_PK PRIMARY KEY (idLigue)
+);
+
+CREATE TABLE TYPESALLE(
+        idTypeSalle Int  IDENTITY(0,1)  NOT NULL ,
+        typeSalle   Nvarchar (50) NOT NULL
+	,CONSTRAINT TYPESALLE_PK PRIMARY KEY (idTypeSalle)
+);
+
+CREATE TABLE SALLE(
+        idSalle       Int  IDENTITY(0,1)  NOT NULL ,
+        nbPersonneMax Int NOT NULL ,
+        nomSalle      Nvarchar (50) NOT NULL ,
+        estActive     bit NOT NULL ,
+        idTypeSalle   Int NOT NULL
+	,CONSTRAINT SALLE_PK PRIMARY KEY (idSalle)
+
+	,CONSTRAINT SALLE_TYPESALLE_FK FOREIGN KEY (idTypeSalle) REFERENCES TYPESALLE(idTypeSalle)
+);
+
+CREATE TABLE TYPEUTILISATEUR(
+        idTypeUtilisateur Int  IDENTITY(0,1)  NOT NULL ,
+        typeUtilisateur   Nvarchar (10) NOT NULL
+	,CONSTRAINT TYPEUTILISATEUR_PK PRIMARY KEY (idTypeUtilisateur)
+);
+
+CREATE TABLE UTILISATEUR(
+        idUtilisateur        Int  IDENTITY(0,1)  NOT NULL ,
+        nomUtilisateur       Nvarchar (50) NOT NULL ,
+        prenomUtilisateur    Nvarchar (50) NOT NULL ,
+        mailUtilisateur      Nvarchar (50) NOT NULL ,
+        telephoneUtilisateur Nvarchar (10) NOT NULL ,
+        loginUtilisateur     Nvarchar (8) NOT NULL ,
+        passwordUtilisateur  Nvarchar (max) NOT NULL ,
+        idTypeUtilisateur    Int NOT NULL
+	,CONSTRAINT UTILISATEUR_PK PRIMARY KEY (idUtilisateur)
+
+	,CONSTRAINT UTILISATEUR_TYPEUTILISATEUR_FK FOREIGN KEY (idTypeUtilisateur) REFERENCES TYPEUTILISATEUR(idTypeUtilisateur)
+);
+
+CREATE TABLE APPARTENIR(
+        idUtilisateur Int NOT NULL ,
+        idLigue       Int NOT NULL ,
+        dateDebut     Date NOT NULL ,
+        dateFin       Date
+	,CONSTRAINT APPARTENIR_PK PRIMARY KEY (idUtilisateur,idLigue,dateDebut)
+
+	,CONSTRAINT APPARTENIR_UTILISATEUR_FK FOREIGN KEY (idUtilisateur) REFERENCES UTILISATEUR(idUtilisateur)
+	,CONSTRAINT APPARTENIR_LIGUE_FK FOREIGN KEY (idLigue) REFERENCES LIGUE(idLigue)
+);
+
+CREATE TABLE RESERVER(
+        idLigue         Int NOT NULL ,
+        idSalle         Int NOT NULL ,
+        jourReservation Datetime NOT NULL ,
+        idUtilisateur   Int NOT NULL ,
+	heureDebut        Datetime NOT NULL,
+        heureFin        Datetime NOT NULL
+	,CONSTRAINT RESERVER_PK PRIMARY KEY (idLigue,idSalle,jourReservation)
+
+	,CONSTRAINT RESERVER_LIGUE_FK FOREIGN KEY (idLigue) REFERENCES LIGUE(idLigue)
+	,CONSTRAINT RESERVER_SALLE_FK FOREIGN KEY (idSalle) REFERENCES SALLE(idSalle)
+	,CONSTRAINT RESERVER_UTILISATEUR_FK FOREIGN KEY (idUtilisateur) REFERENCES UTILISATEUR(idUtilisateur)
+);
+

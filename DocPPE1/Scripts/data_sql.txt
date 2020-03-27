@@ -1,0 +1,21 @@
+INSERT INTO typeutilisateur(typeUtilisateur) VALUES ('Admin'),('User');
+INSERT INTO typesalle (typeSalle) VALUES ('Banalisé'),('Informatique');
+INSERT INTO salle (nbPersonneMax,nomSalle,estActive,idTypeSalle) VALUES
+(18, 'I181',1,2),
+(18, 'I182',1,2),
+(18, 'I183',1,2),
+(18, 'I184',1,2),
+(18, 'I185',1,2),
+(30, 'B181',1,2),
+(30, 'B181',1,2),
+(30, 'B181',1,2),
+(30, 'B181',1,2),
+(30, 'B181',1,2),
+(18, 'B301,1,1),
+(18, 'B302',1,1),
+(18, 'B303',1,1),
+(18, 'B304',1,1),
+(18, 'B305',1,1);
+INSERT INTO UTILISATEUR(nomUtilisateur,prenomUtilisateur,mailUtilisateur,telephoneUtilisateur,loginUtilisateur,passwordUtilisateur,idTypeUtilisateur)
+VALUES
+('trudelle','florian','ftrudell@aifcc.caen','0666666666','ftrudell',HASHBYTES('MD5', 'root'),1)
